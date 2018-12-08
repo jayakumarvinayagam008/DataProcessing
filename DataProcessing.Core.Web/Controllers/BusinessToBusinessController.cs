@@ -48,7 +48,12 @@ namespace DataProcessing.Core.Web.Controllers
             fileCreation.Wait();
             var filePath = fileCreation.Result;
             var saveSummary = _saveB2B.Save(filePath);
-            return View(new B2BUpload());
+            return View(new B2BUpload()
+            {
+                ErrorMessage = saveSummary.ErrorMessage,
+                TotalCount = saveSummary.TotalCount,
+                UploadCount = saveSummary.UploadCount
+            });
         }
         public IActionResult Summary()
         {
@@ -72,6 +77,25 @@ namespace DataProcessing.Core.Web.Controllers
                 States = searchRequest.States
             });
             return Json("");
+        }
+
+        [HttpGet]
+        public IActionResult DownloadExcel(string searchId)
+        {
+            //Check file exist and call file content
+            if (true)
+                return Json("File still in progress!");
+           //var sampleTempate = _getFileContent.Get(fileName, _appSettings.Value.NumberLookup, "Number LookUp");
+           // return File(sampleTempate.content, "application/vnd.ms-excel", $"{sampleTempate.TemplateType.Name}.xlsx");
+        }
+
+        [HttpGet]
+        public IActionResult DownloadCsv(string searchId)
+        {
+            if (true)
+                return Json("File still in progress!");
+            //var sampleTempate = _getFileContent.Get(fileName, _appSettings.Value.NumberLookup, "Number LookUp");
+            //return File(sampleTempate.content, "application/vnd.ms-excel", $"{sampleTempate.TemplateType.Name}.xlsx");
         }
 
     }

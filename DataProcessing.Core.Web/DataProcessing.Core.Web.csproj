@@ -13,6 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DataProcessing.Application\DataProcessing.Application.csproj" />
     <ProjectReference Include="..\DataProcessing.Persistence\DataProcessing.Persistence.csproj" />
+    <ProjectReference Include="..\DataProcessing.CommonModels\DataProcessing.CommonModels.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,4 +22,8 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\BusinessToCustomer\" />
+    <Folder Include="Views\CustomerData\" />
+  </ItemGroup>
 </Project>

@@ -18,7 +18,13 @@ namespace DataProcessing.Application.B2B.Command
         }
         public B2BSaveSummary Save(string filePath)
         {
-            var response = new B2BSaveSummary();
+            var response = new B2BSaveSummary()
+            {
+                ErrorMessage = "********* **************",
+                TotalCount = 5000,
+                UploadCount = 4500
+            };
+            return response;
             var b2bModel = _readDataFromFile.ReadFileData(filePath);
             // remove dublicate
             var businessToBusiness = b2bModel.Item1.DistinctBy(x => x.PhoneNew);
@@ -27,8 +33,8 @@ namespace DataProcessing.Application.B2B.Command
             var b2bDataSource = _businessToBusinessRepository.GetAllB2BAsync();
             b2bDataSource.Wait();
 
-            var tttt = b2bDataSource.Result;
-            var phoneNew = tttt.Select(x => x.Phone_New).ToList();
+            var b2bDataRepo = b2bDataSource.Result;
+            var phoneNew = b2bDataRepo.Select(x => x.Phone_New).ToList();
             businessToBusiness = businessToBusiness.Except(phoneNew, x => x.PhoneNew, y => y).ToList();
             if(businessToBusiness != null)
             {

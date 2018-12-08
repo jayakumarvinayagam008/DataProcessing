@@ -1,5 +1,7 @@
 ﻿using DataProcessing.Application.B2B.Command;
 using DataProcessing.Application.B2B.Query;
+using DataProcessing.Application.B2C.Command;
+using DataProcessing.Application.B2C.Query;
 using DataProcessing.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -50,7 +52,10 @@ namespace DataProcessing.Core.Web
             services.AddScoped<IB2BSearchBlock, B2BSearchBlock>();
             services.AddScoped<IBusinessCategoryRepository, BusinessCategoryRepository>();
             services.AddScoped<ISearchAction, SearchAction>();
-            
+
+            services.AddScoped<IB2CSearchBlock, B2CSearchBlock>();
+            services.AddScoped<ISaveB2C, SaveB2C>();
+            services.AddScoped<IB2CSearchAction, B2CSearchAction>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

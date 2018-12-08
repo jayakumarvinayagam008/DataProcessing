@@ -1,0 +1,87 @@
+﻿@model DataProcessing.CommonModels.UploadSummary
+
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4>Upload</h4>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card-box">
+            <p class="text-muted m-b-15 font-13">
+                You can upload the Business to Customer data either .xlsx or .csv
+                <code>
+                    Sample Template
+                </code>
+            </p>
+            <form asp-action="Upload" id="frmUserDataForm" method="post" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="p-20">
+                            <div class="form-group">
+                                <label class="control-label">Default file input</label>
+                                <input type="file" class="filestyle" data-placeholder="Excel/CSV"
+                                       id="files" name="files" tabindex="-1"
+                                       style="position: absolute; clip: rect(0px, 0px, 0px, 0px);">
+                                <div class="bootstrap-filestyle input-group">
+                                    <input type="text" class="form-control " placeholder="Excel/CSV" disabled="">
+                                    <span class="group-span-filestyle input-group-btn" tabindex="0">
+                                        <label for="files" class="btn btn-default ">
+                                            <span class="icon-span-filestyle glyphicon glyphicon-folder-open"></span>
+                                            <span class="buttonText">Choose file</span>
+                                        </label>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="p-10">
+                            <div class="form-group m-b-0" style="margin-top:50px;">
+                                <button type="submit" class="btn btn-primary waves-effect waves-light">Upload</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card-box">
+            <div class="row">
+                <div class="col-sm-10">
+                    <div class="card m-b-20 card-inverse card-success text-xs-center">
+                        <div class="card-block">
+                            <blockquote class="card-blockquote">
+                                <div class="form-group row">
+                                    <label class="col-2 col-form-label">Total Upload:</label>
+                                    <div class="col-10">
+                                        @Html.DisplayFor(model => model.TotalCount)
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-2 col-form-label">Successfully Saved:</label>
+                                    <div class="col-10">
+                                        @Html.DisplayFor(model => model.UploadCount)
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-2 col-form-label">Reason:</label>
+                                    <div class="col-10">
+                                        @Html.DisplayFor(model => model.ErrorMessage)
+                                    </div>
+                                </div>
+                            </blockquote>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
