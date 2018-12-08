@@ -1,0 +1,81 @@
+﻿@model DataProcessing.Core.Web.Models.NumberLookup
+
+@{
+    ViewData["Title"] = "AddLookup";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>AddLookup</h2>
+
+<div class="row">
+
+    <div class="col-lg-6">
+        <div class="card-box">
+            <form asp-action="SaveLookup" id="frmLookupDataForm" method="post" enctype="multipart/form-data">
+                <h4 class="header-title m-t-0">Single Entry</h4>
+                <div class="form-group">
+                    <label>Series</label>
+                    <div class="input-group">
+                        <input asp-for="Series" class="form-control" />
+                    </div><!-- input-group -->
+                </div>
+
+                <div class="form-group">
+                    <label>Circle</label>
+                    <div class="input-group">
+                        <input asp-for="Circle" class="form-control" />
+                    </div><!-- input-group -->
+                </div>
+
+                <div class="form-group">
+                    <label>Operator</label>
+                    <div class="input-group">
+                        <input asp-for="Operator" class="form-control" />
+                    </div><!-- input-group -->
+                </div>
+                <button type="submit" class="btn btn-success waves-effect waves-light">Create</button>
+            </form>
+        </div> <!-- end card-box -->
+
+    </div> <!-- end col -->
+
+    <div class="col-lg-6">
+        <div class="card-box">
+            <h4 class="header-title m-t-0">Bulk Entry</h4>
+            <p class="text-muted font-14 m-b-25">
+                Upload excel or csv for bulk, if you wanna sample please download here
+            </p>
+            <form asp-action="BulkLookup" id="frmLookupBulkForm" method="post" enctype="multipart/form-data">
+                <div class="p-20">
+                    <div class="form-group">
+                        <label class="control-label">Default file input</label>
+                        <input type="file" class="filestyle" data-placeholder="Excel/CSV" id="files" name="files" tabindex="-1" style="position: absolute; clip: rect(0px, 0px, 0px, 0px);">
+                        <div class="bootstrap-filestyle input-group">
+                            <input type="text" class="form-control " placeholder="Excel/CSV" disabled="">
+                            <span class="group-span-filestyle input-group-btn" tabindex="0">
+                                <label for="files" class="btn btn-default ">
+                                    <span class="icon-span-filestyle glyphicon glyphicon-folder-open"></span>
+                                    <span class="buttonText">Choose file</span>
+                                </label>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success waves-effect waves-light">Upload</button>
+            </form>
+        </div> <!-- end card-box -->
+    </div> <!-- end col -->
+</div>
+
+<div class="row">
+
+    @{
+        if (Model.IsUploaded)
+        {
+            <div class="alert alert-success alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. <a href="#" class="alert-link">Alert Link</a>.
+            </div>
+        }
+    }
+</div>
