@@ -10,8 +10,27 @@
     <link href="~/assets/css/icons.css" rel="stylesheet" />
 
     <script src="~/assets/js/modernizr.min.js"></script>
+    <style type="text/css">
+        #divLoading {
+            margin: 0px;
+            padding: 0px;
+            position: fixed;
+            right: 0px;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+            background-color: rgb(102, 102, 102);
+            z-index: 30001;
+            opacity: 0.9;
+        }
+    </style>
 </head>
 <body>
+    <div id="divLoading" style="display:block;">
+        <p style="position: absolute; color: White; top: 50%; left: 45%;">
+            <img src="~/assets/images/loader4.gif" />
+        </p>
+    </div>
     <!-- Begin page -->
     <div id="wrapper">
 
@@ -23,7 +42,7 @@
                     <a href="index.html" class="logo">
                         <img src="~/assets/images/download.png" />
                         @*<i class="icon-magnet icon-c-logo"></i>
-        <span>Ub<i class="md md-album"></i>ld</span>*@
+                            <span>Ub<i class="md md-album"></i>ld</span>*@
                     </a>
                     <!-- Image Logo here -->
                     <!--<a href="index.html" class="logo">-->
@@ -99,14 +118,14 @@
                         <li class="has_sub">
                             <a href="javascript:void(0);" class="waves-effect"><i class="ti-home"></i> <span> Dashboard </span> <span class="menu-arrow"></span></a>
                             <ul class="list-unstyled">
-                                <li><a href="index.html">Dashboard</a></li>                               
+                                <li><a href="index.html">Dashboard</a></li>
                             </ul>
                         </li>
 
                         <li class="has_sub">
                             <a href="javascript:void(0);" class="waves-effect"><i class="ti-paint-bucket"></i> <span> B2B</span> <span class="menu-arrow"></span> </a>
                             <ul class="list-unstyled">
-                                <li><a asp-controller="BusinessToBusiness" asp-action="Index">Dashboard</a></li>                                
+                                <li><a asp-controller="BusinessToBusiness" asp-action="Index">Dashboard</a></li>
                                 <li><a asp-controller="BusinessToBusiness" asp-action="Upload">Upload</a></li>
                                 <li><a asp-controller="BusinessToBusiness" asp-action="Search">Search</a></li>
                                 <li><a asp-controller="BusinessToBusiness" asp-action="Summary">Summary</a></li>
@@ -114,8 +133,10 @@
                         </li>
 
                         <li class="has_sub">
-                            <a href="javascript:void(0);" class="waves-effect"><i class="ti-light-bulb"></i>
-                            <span>B2C </span> </a>
+                            <a href="javascript:void(0);" class="waves-effect">
+                                <i class="ti-light-bulb"></i>
+                                <span>B2C </span>
+                            </a>
                             <ul class="list-unstyled">
                                 <li><a asp-controller="BusinessToCustomer" asp-action="Index">Dashboard</a></li>
                                 <li><a asp-controller="BusinessToCustomer" asp-action="Upload">Upload</a></li>
@@ -190,14 +211,14 @@
 
     <!-- jQuery  -->
     @*<script src="assets/plugins/waypoints/lib/jquery.waypoints.js"></script>
-    <script src="assets/plugins/counterup/jquery.counterup.min.js"></script>
+        <script src="assets/plugins/counterup/jquery.counterup.min.js"></script>
 
-    <script src="assets/plugins/morris/morris.min.js"></script>
-    <script src="assets/plugins/raphael/raphael-min.js"></script>
+        <script src="assets/plugins/morris/morris.min.js"></script>
+        <script src="assets/plugins/raphael/raphael-min.js"></script>
 
-    <script src="assets/plugins/jquery-knob/jquery.knob.js"></script>
+        <script src="assets/plugins/jquery-knob/jquery.knob.js"></script>
 
-    <script src="assets/pages/jquery.dashboard.js"></script>*@
+        <script src="assets/pages/jquery.dashboard.js"></script>*@
 
     <script src="~/assets/js/jquery.core.js"></script>
     <script src="~/assets/js/jquery.app.js"></script>

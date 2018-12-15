@@ -9,5 +9,9 @@ namespace DataProcessing.Persistence
     {
         IMongoCollection<BusinessToBusiness> BusinessToBusiness { get; }
         IMongoCollection<BisinessCategory> BisinessCategories { get; }
+        IMongoCollection<BusinessToCustomer> BusinessToCustomers { get; }
+        IMongoCollection<CustomerData> CustomerDatas { get; }
+        IMongoCollection<DownloadRequest> DownloadRequests { get; }
+        IMongoCollection<SearchHistory> SearchHistories { get; }
     }
 }

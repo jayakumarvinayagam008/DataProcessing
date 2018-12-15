@@ -29,16 +29,12 @@ namespace DataProcessing.Persistence
         public string Designation { get; set; }
         public string Contactperson1 { get; set; }
         public string Designation1 { get; set; }
-        [BsonElement("Est_year")]
         public int? EstYear { get; set; }
         public int? CategoryId { get; set; }
         public string LandMark { get; set; }
-        [BsonElement("No_of_Emp")]
         public int? NoOfEmp { get; set; }
         public string Country { get; set; }
         public string CreatedDate { get; set; }
         public string CreatedBy { get; set; }
-        public string ModifiedDate { get; set; }
-        public string ModifiedBy { get; set; }
     }
 }

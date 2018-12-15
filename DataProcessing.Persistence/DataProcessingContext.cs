@@ -21,5 +21,11 @@ namespace DataProcessing.Persistence
         //}
         public IMongoCollection<BusinessToBusiness> BusinessToBusiness => _db.GetCollection<BusinessToBusiness>("BusinessToBusiness");
         public IMongoCollection<BisinessCategory> BisinessCategories => _db.GetCollection<BisinessCategory>("B2BCategory");
+        public IMongoCollection<BusinessToCustomer> BusinessToCustomers => _db.GetCollection<BusinessToCustomer>("BusinessToCustomer");
+        public IMongoCollection<CustomerData> CustomerDatas => _db.GetCollection<CustomerData>("CustomerData");
+
+        public IMongoCollection<DownloadRequest> DownloadRequests => _db.GetCollection<DownloadRequest>("DownloadRequest");
+
+        public IMongoCollection<SearchHistory> SearchHistories => _db.GetCollection<SearchHistory>("SearchHistory");
     }
 }

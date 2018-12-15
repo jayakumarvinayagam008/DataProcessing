@@ -5,6 +5,6 @@ namespace DataProcessing.Application.B2C.Query
 {
     public interface IB2CSearchBlock
     {
-        B2CSearchBlock BindSearchBlock();
+        B2CSearchBlockModel BindSearchBlock();
     }
 }

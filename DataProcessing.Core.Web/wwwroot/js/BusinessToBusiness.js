@@ -1,6 +1,7 @@
 ﻿$(document).ready(function (eve) {
+    //$("#divLoading").show();
+
     $('#btnBusinessToBusinessSearch').on('click', function (eve) {
-        alert(1)
         var cities = $('#b2bCity').val();
         var states = $('#b2bState').val();
         var countries = $('#b2bCountry').val();
@@ -34,6 +35,7 @@
                 },
                 success: function (data) {
                     UpdateB2BDashBoard(data);
+                    $('#divBlock').show();
                 },
                 complete: function () {
                     $("#divLoading").hide();
@@ -43,8 +45,98 @@
             alert('selectedCities');
         }
     });
+    $('#excelDown').on('click', function (eve) {
+        var $fileName = $('#excelDown').attr('title');
+        if ($fileName !== '') {
+            window.location = '/BusinessToBusiness/DownLoadAsExcel/?searchId=' + $fileName;
+
+        } else {
+            alert('file does not exist');
+        }
+    });
+
+    $('#csvDown').on('click', function (eve) {
+        var $fileName = $('#csvDown').attr('title');
+        if ($fileName !== '') {
+            window.location = '/BusinessToBusiness/DownLoadAsCsv/?searchId=' + $fileName;
+
+        } else {
+            alert('file does not exist');
+        }
+    });
+
+    $(window).on('load', function () {
+        $("#divLoading").hide();
+    });
 });
 
 function UpdateB2BDashBoard(data) {
 
+    var b2bJson = data;
+    console.log(data);
+    $("#b2SearchTotal").html(b2bJson.total);
+    $("#b2bTotal").html(b2bJson.searchCount);
+    $("#excelDown, #csvDown").attr('title', b2bJson.searchId);
+    for (var key in b2bJson) {
+        if (b2bJson.hasOwnProperty(key)) {
+
+            if (b2CDashBoardItem[key] !== null
+                && b2CDashBoardItem[key] !== undefined
+                && b2CDashBoardItem[key] !== 'undefined') {
+                $('#b2bDashboard').append( ConstructDashboardItem(b2CDashBoardItem[key], b2bJson[key]))
+            }
+        }
+    }
+    
+    
+    //alert(JSON.stringify(data));
 }
+function ConstructDashboardItem(name, value) {
+    var barCls = barColor[0];
+    if (value > 0 && value < 25)
+        barCls = barColor[1];
+    if (value > 25 && value < 50)
+        barCls = barColor[2];
+    if (value > 50 && value < 75)
+        barCls = barColor[3];
+    if (value > 75 && value <= 100)
+        barCls = barColor[5];
+
+            
+    return '<p class="font-600">' + name + ' <span class="text-primary pull-right">' + value + '%</span></p><div class="progress m-b-30"><div class="progress-bar ' + barCls +' progress-animated wow animated animated" role="progressbar" aria-valuenow=' + value + ' aria-valuemin="0" aria-valuemax="100" style="width: ' + value + '%; visibility: visible; animation-name: animationProgress;"></div>';
+}
+var b2CDashBoardItem = {    
+    'companyName': 'Company Name',
+    'add1': 'Address1',
+    'add2': 'Address2',
+    'city': 'City',
+    'area': 'Area',
+    'pincode': 'Pincode',
+    'state': 'State',
+    'phoneNew': 'Phone New',
+    'mobileNew': 'Mobile New',
+    'phone1': 'Phone1',
+    'phone2': 'Phone2',
+    'mobile1': 'Mobile1',
+    'mobile2': 'Mobile2',
+    'fax': 'Fax',
+    'email': 'Email',
+    'email1': 'Email1',
+    'web': 'Web',
+    'contactPerson': 'Contact Person',
+    'designation': 'Designation',
+    'designation1': 'Designation1',
+    'contactperson1': 'Contact Person1',
+    'estYear': 'Est Year',
+    'categoryId': 'Category Id',
+    'landMark': 'Land Mark',
+    'noOfEmp': 'Number Of Employee',
+    'country': 'Country'
+};
+var barColor = ['progress-bar-danger', //0
+    'progress-bar-pink', // 1
+    'progress-bar-primary', // 2
+    'progress-bar-info', // 3
+    'progress-bar-warning', // 4
+    'progress-bar-success' //5
+]; 

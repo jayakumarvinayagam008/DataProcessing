@@ -1,4 +1,4 @@
-﻿@model DataProcessing.CommonModels.CustomerSearchBlock
+﻿@model DataProcessing.CommonModels.CustomerDataSearchModel
 
 @{
     ViewData["Title"] = "Index";
@@ -53,9 +53,9 @@
 
                             <div class="form-group">
                                 <label>Desigination</label>
-                                <select asp-for="DesiginationId" id="b2bDesigination"
+                                <select asp-for="NetWorkId" id="b2bDesigination"
                                         class=form-control multiple placeholder="Please select"
-                                        asp-items="@Model.Desigination"></select>
+                                        asp-items="@Model.NetWork"></select>
                             </div>
                         </form>
                     </div>

@@ -4,6 +4,7 @@ using System.Linq;
 using MoreLinq;
 using System.Text;
 using DataProcessing.Persistence;
+using DataProcessing.Application.Common;
 
 namespace DataProcessing.Application.B2B.Command
 {
@@ -18,13 +19,14 @@ namespace DataProcessing.Application.B2B.Command
         }
         public B2BSaveSummary Save(string filePath)
         {
-            var response = new B2BSaveSummary()
-            {
-                ErrorMessage = "********* **************",
-                TotalCount = 5000,
-                UploadCount = 4500
-            };
-            return response;
+            //var response = new B2BSaveSummary()
+            //{
+            //    ErrorMessage = "********* **************",
+            //    TotalCount = 5000,
+            //    UploadCount = 4500
+            //};
+            //return response;
+            var response = new B2BSaveSummary();
             var b2bModel = _readDataFromFile.ReadFileData(filePath);
             // remove dublicate
             var businessToBusiness = b2bModel.Item1.DistinctBy(x => x.PhoneNew);
@@ -60,9 +62,7 @@ namespace DataProcessing.Application.B2B.Command
                     LandMark = x.LandMark,
                     Mobile1 = x.Mobile1,
                     Mobile2 = x.Mobile2,
-                    Mobile_New = x.Mobile2,
-                    ModifiedBy = x.ModifiedBy,
-                    ModifiedDate = $"{x.ModifiedDate}",
+                    Mobile_New = x.Mobile2,                   
                     NoOfEmp = x.NoOfEmp,
                     Phone1 = x.Phone1,
                     Phone2 = x.Phone2,
@@ -84,66 +84,5 @@ namespace DataProcessing.Application.B2B.Command
 
     }
 
-    public static class LinqExtensions
-    {
-        public static IEnumerable<TSource> Except<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TSource, bool> comparer)
-        {
-            return first.Where(x => second.Count(y => comparer(x, y)) == 0);
-        }
-
-        public static IEnumerable<TSource> Intersect<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TSource, bool> comparer)
-        {
-            return first.Where(x => second.Count(y => comparer(x, y)) == 1);
-        }
-
-        public static IEnumerable<TSource> Except<TSource, TThat, TKey>(
-            this IEnumerable<TSource> first,
-            IEnumerable<TThat> second,
-            Func<TSource, TKey> firstKey,
-            Func<TThat, TKey> secondKey)
-        {
-            if (first == null) throw new ArgumentNullException("first");
-            if (second == null) throw new ArgumentNullException("second");
-
-            var set = new HashSet<TKey>();
-            foreach (var element in second)
-            {
-                set.Add(secondKey(element));
-            }
-
-            foreach (var element in first)
-            {
-                if (set.Add(firstKey(element)))
-                {
-                    set.Remove(firstKey(element));
-                    yield return element;
-                }
-            }
-        }
-
-        public static IEnumerable<TSource> Intersect<TSource, TThat, TKey>(
-            this IEnumerable<TSource> first,
-            IEnumerable<TThat> second,
-            Func<TSource, TKey> firstKey,
-            Func<TThat, TKey> secondKey)
-        {
-            if (first == null) throw new ArgumentNullException("first");
-            if (second == null) throw new ArgumentNullException("second");
-
-            var set = new HashSet<TKey>();
-            foreach (var element in second)
-            {
-                set.Add(secondKey(element));
-            }
-
-            foreach (var element in first)
-            {
-                if (!set.Add(firstKey(element)))
-                {
-                    set.Remove(firstKey(element));
-                    yield return element;
-                }
-            }
-        }
-    }
+    
 }

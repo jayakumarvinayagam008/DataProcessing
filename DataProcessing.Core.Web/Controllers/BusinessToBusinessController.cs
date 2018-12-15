@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using DataProcessing.Application.B2B.Command;
 using DataProcessing.Application.B2B.Query;
+using DataProcessing.Application.Common;
 using DataProcessing.Core.Web.Actions;
 using DataProcessing.Core.Web.Models;
 using Microsoft.AspNetCore.Http;
@@ -19,16 +20,18 @@ namespace DataProcessing.Core.Web.Controllers
         private readonly IOptions<DataProcessingSetting> _appSettings;
         private readonly IB2BSearchBlock _searchBlock;
         private readonly ISearchAction _searchAction;
-        
+        private readonly IGetSearchedFileStatuscs _getSearchedFileStatuscs; 
         private readonly ISaveB2B _saveB2B;
 
         public BusinessToBusinessController(IOptions<DataProcessingSetting> appSettings,
-            ISaveB2B saveB2B, IB2BSearchBlock searchBlock, ISearchAction searchAction)
+            ISaveB2B saveB2B, IB2BSearchBlock searchBlock, ISearchAction searchAction,
+            IGetSearchedFileStatuscs getSearchedFileStatuscs)
         {
             _appSettings = appSettings;
             _saveB2B = saveB2B;
             _searchBlock = searchBlock;
             _searchAction = searchAction;
+            _getSearchedFileStatuscs = getSearchedFileStatuscs;
         }
         public IActionResult Index()
         {
@@ -67,7 +70,7 @@ namespace DataProcessing.Core.Web.Controllers
         [HttpPost]
         public IActionResult Search(SearchRequest searchRequest)
         {
-            _searchAction.Filter(new SearchFilter
+           var searchSummary = _searchAction.Filter(new SearchFilter
             {
                 Area = searchRequest.Area,
                 BusinessCategoryId = searchRequest.BusinessCategoryId,
@@ -75,27 +78,41 @@ namespace DataProcessing.Core.Web.Controllers
                 Contries = searchRequest.Contries,
                 Designation = searchRequest.Designation,
                 States = searchRequest.States
-            });
-            return Json("");
+            }, _appSettings.Value.SearchExport, _appSettings.Value.RowRange);
+            return Json(searchSummary);
         }
 
-        [HttpGet]
-        public IActionResult DownloadExcel(string searchId)
-        {
-            //Check file exist and call file content
-            if (true)
-                return Json("File still in progress!");
-           //var sampleTempate = _getFileContent.Get(fileName, _appSettings.Value.NumberLookup, "Number LookUp");
-           // return File(sampleTempate.content, "application/vnd.ms-excel", $"{sampleTempate.TemplateType.Name}.xlsx");
+        public ActionResult DownLoadAsExcel(string searchId)
+        {            
+            var fileName = $"{searchId}";
+            var rootPath = _appSettings.Value.SearchExport;
+            var filePath = $"{rootPath}{fileName}.xlsx";
+            if(_getSearchedFileStatuscs.FileExist(searchId, 0, filePath))
+            {
+                var sampleTempate = new GetFileContent().GetFile(filePath);
+                var templateName = "B2B";
+                return File(sampleTempate, "application/vnd.ms-excel", $"{templateName}.xlsx");
+            }else
+            {
+                return Json("Download request in progress!");
+            }
+           
         }
-
-        [HttpGet]
-        public IActionResult DownloadCsv(string searchId)
+        public ActionResult DownLoadAsCsv(string searchId)
         {
-            if (true)
-                return Json("File still in progress!");
-            //var sampleTempate = _getFileContent.Get(fileName, _appSettings.Value.NumberLookup, "Number LookUp");
-            //return File(sampleTempate.content, "application/vnd.ms-excel", $"{sampleTempate.TemplateType.Name}.xlsx");
+            var fileName = $"{searchId}";
+            var rootPath = _appSettings.Value.SearchExport;
+            var filePath = $"{rootPath}{fileName}.csv";
+            if (_getSearchedFileStatuscs.FileExist(searchId, 1, filePath))
+            {
+                var sampleTempate = new GetFileContent().GetFile(filePath);
+                var templateName = "B2B";
+                return File(sampleTempate, "application/vnd.ms-excel", $"{templateName}.xlsx");
+            }
+            else
+            {
+                return Json("Download request in progress!");
+            }
         }
 
     }

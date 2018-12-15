@@ -1,5 +1,7 @@
-﻿using MongoDB.Driver;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -20,7 +22,7 @@ namespace DataProcessing.Persistence
 
         Task<SearchBlock> GetFilterBlocks();
 
-        Task<List<BusinessToBusiness>> GetB2BSearch(B2BFilter b2BFilter);
+        (List<BusinessToBusiness> BusinessToBusinesses, long Total) GetB2BSearch(B2BFilter b2BFilter);
     }
 
     public class BusinessToBusinessRepository : IBusinessToBusinessRepository
@@ -59,48 +61,38 @@ namespace DataProcessing.Persistence
                         .ToListAsync();
         }
 
-        public async Task<List<BusinessToBusiness>> GetB2BSearch(B2BFilter b2BFilter)
+        public (List<BusinessToBusiness> BusinessToBusinesses, long Total) GetB2BSearch(B2BFilter b2BFilter)
         {
 
-            IQueryable<BusinessToBusiness> filter1 = null;
+            var filter = Builders<BusinessToBusiness>.Filter.Empty;
 
-            filter1 = _context
-                   .BusinessToBusiness.AsQueryable();
-            if(b2BFilter.Contries.Where(x=> !string.IsNullOrWhiteSpace(x)).Any())
-                filter1.Where(x => b2BFilter.Contries.Contains(x.Country));
+            var totalDocuments = _context.BusinessToBusiness.Find(_ => true).CountDocuments();
+
+            if (b2BFilter.Contries.Where(x=> !string.IsNullOrWhiteSpace(x)).Any())
+                filter = filter & Builders<BusinessToBusiness>.Filter.In("Country", b2BFilter.Contries);
 
             if (b2BFilter.States.Where(x => !string.IsNullOrWhiteSpace(x)).Any())
-                filter1.Where(x => b2BFilter.States.Contains(x.State));
+                filter = filter & Builders<BusinessToBusiness>.Filter.In("State", b2BFilter.States);
 
             if (b2BFilter.Cities.Where(x => !string.IsNullOrWhiteSpace(x)).Any())
-                filter1.Where(x => b2BFilter.Cities.Contains(x.City));
+                filter = filter & Builders<BusinessToBusiness>.Filter.In("City", b2BFilter.Cities);
 
             if (b2BFilter.Area.Where(x => !string.IsNullOrWhiteSpace(x)).Any())
-                filter1.Where(x => b2BFilter.Area.Contains(x.Area));
+                filter = filter & Builders<BusinessToBusiness>.Filter.In("Area", b2BFilter.Area);
 
             if (b2BFilter.Designation.Where(x => !string.IsNullOrWhiteSpace(x)).Any())
-                filter1.Where(x => b2BFilter.Designation.Contains(x.Designation));
+                filter = filter & Builders<BusinessToBusiness>.Filter.In("Designation", b2BFilter.Designation);
 
             if (b2BFilter.BusinessCategoryId.Where(x => x.HasValue).Any())
-                filter1.Where(x => b2BFilter.BusinessCategoryId.Contains(x.CategoryId));
+                filter = filter & Builders<BusinessToBusiness>.Filter.In("CategoryId", b2BFilter.BusinessCategoryId);
 
-
-            var filter = filter1.ToList();
-
-
-            //var filter = _context
-            //        .BusinessToBusiness                    
-            //        .Find(x => b2BFilter.Contries.Contains(x.Country) 
-            //        && b2BFilter.Cities.Contains(x.City)
-            //        && b2BFilter.Area.Contains(x.Area)
-            //        && b2BFilter.States.Contains(x.State)
-            //        && b2BFilter.Designation.Contains(x.Designation)
-            //        && b2BFilter.BusinessCategoryId.Contains(x.CategoryId))
-            //        .ToList();
-            return await Task.FromResult(filter);
+            var searchResult = _context.BusinessToBusiness.Find(filter).ToList();
+            
+            return (searchResult, totalDocuments);
             
         }
 
+      
         public Task<SearchBlock> GetFilterBlocks()
         {
             SearchBlock searchBlock = new SearchBlock();
@@ -154,5 +146,7 @@ namespace DataProcessing.Persistence
 
             return Task.FromResult(searchBlock);
         }
+
+       
     }
 }

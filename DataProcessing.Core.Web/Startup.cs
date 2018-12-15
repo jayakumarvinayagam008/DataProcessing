@@ -2,6 +2,9 @@
 using DataProcessing.Application.B2B.Query;
 using DataProcessing.Application.B2C.Command;
 using DataProcessing.Application.B2C.Query;
+using DataProcessing.Application.Common;
+using DataProcessing.Application.CustomerDate.Command;
+using DataProcessing.Application.CustomerDate.Query;
 using DataProcessing.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -56,7 +59,21 @@ namespace DataProcessing.Core.Web
             services.AddScoped<IB2CSearchBlock, B2CSearchBlock>();
             services.AddScoped<ISaveB2C, SaveB2C>();
             services.AddScoped<IB2CSearchAction, B2CSearchAction>();
+            services.AddScoped<IB2CReadDataFromFile, B2CReadDataFromFile>();
+            services.AddScoped<IBusinessToCustomerRepository, BusinessToCustomerRepository>();
 
+            services.AddScoped<ISaveCustomerData, SaveCustomerData>();
+            services.AddScoped<ICustomerReadDataFromFile, CustomerReadDataFromFile>();
+            services.AddScoped<ICustomerDataRepository, CustomerDataRepository>();
+            services.AddScoped<ICustomerDataSearchBlock, CustomerDataSearchBlock>();
+
+            services.AddScoped<IPrepareSearchSummaryBoard, PrepareSearchSummaryBoard>();
+            services.AddScoped<IBusinessToBusinessExport, BusinessToBusinessExport>();
+            services.AddScoped<ICreateExcel, CreateExcel>();
+            services.AddScoped<IDownloadRequestRepository, DownloadRequestRepository>();
+            services.AddScoped<ICreateCsv, CreateCsv>();
+            services.AddScoped<IGetSearchedFileStatuscs, GetSearchedFileStatuscs>();
+            
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 

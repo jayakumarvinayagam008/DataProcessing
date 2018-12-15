@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace DataProcessing.Persistence
 {
@@ -10,5 +11,12 @@ namespace DataProcessing.Persistence
         public IEnumerable<string> Area { get; set; }
         public IEnumerable<BusinessCategoryItem> BusinessCategory { get; set; }
         public IEnumerable<string> Desigination { get; set; }
+        public IEnumerable<string> BusinessVertical { get; internal set; }
+        public IEnumerable<string> Salary { get; internal set; }
+        public IEnumerable<string> Expercinse { get; internal set; }
+        public IEnumerable<DateTime?> Age { get; internal set; }
+        public List<string> Dbquality { get; internal set; }
+        public List<string> ClientName { get; internal set; }
+        public List<string> NetWork { get; internal set; }
     }
 }

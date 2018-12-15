@@ -50,7 +50,7 @@ namespace DataProcessing.Core.Web.Controllers
             fileCreation.Wait();
             var filePath = fileCreation.Result;
             var saveSummary = _saveB2C.Save(filePath);
-            return View(new B2BUpload()
+            return View(new UploadSummary()
             {
                 ErrorMessage = saveSummary.ErrorMessage,
                 TotalCount = saveSummary.TotalCount,
@@ -63,9 +63,10 @@ namespace DataProcessing.Core.Web.Controllers
         }
         public IActionResult Search()
         {
-            //var searchFilterOption = _b2CSearchBlock.BindSearchBlock();
-            //new B2BSearchModel() {  }
-            return View(new CommonModels.B2CSearchBlock());
+            var searchFilterOption = _b2CSearchBlock.BindSearchBlock();
+            
+
+            return View(searchFilterOption);
         }
         [HttpPost]
         public IActionResult Search(SearchRequest searchRequest)
@@ -81,6 +82,18 @@ namespace DataProcessing.Core.Web.Controllers
             return Json("");
         }
 
-
+        public ActionResult DownLoadAsExcel(int searchId)
+        {
+            //fileName = $"{fileName}";
+            //var rootPath = _appSettings.Value.SearchExport;
+            //var templateName = DownloadTemplateType.GetTemplateName(templateType);
+            //var sampleTempate = _getFileContent.Get(fileName, rootPath, templateName);
+            //return File(sampleTempate.content, "application/vnd.ms-excel", $"{sampleTempate.TemplateType.Name}.xlsx");
+            return Json("***");
+        }
+        public ActionResult DownLoadAsCsv(int searchId)
+        {
+            return Json("***");
+        }
     }
 }

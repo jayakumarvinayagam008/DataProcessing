@@ -1,4 +1,5 @@
 ﻿using DataProcessing.Application.B2B.Common;
+using DataProcessing.Application.Common;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
@@ -59,9 +60,9 @@ namespace DataProcessing.Application.B2B.Command
                 columnArray = columnHeader;
                 for (int row = 2; row <= rowCount.Value; row++)
                 {
-                    int.TryParse($"{worksheet.Cells[row, GetColumnIndex("Category ID")].Value}", out int categoryId);
-                    int.TryParse($"{worksheet.Cells[row, GetColumnIndex("Est_year")].Value}", out int estYear);
-                    int.TryParse($"{worksheet.Cells[row, GetColumnIndex("No_of_Emp")].Value}", out int noOfEmp);
+                    int.TryParse($"{worksheet.Cells[row, GetColumnIndex("CategoryId")].Value}", out int categoryId);
+                    int.TryParse($"{worksheet.Cells[row, GetColumnIndex("EstYear")].Value}", out int estYear);
+                    int.TryParse($"{worksheet.Cells[row, GetColumnIndex("NoOfEmp")].Value}", out int noOfEmp);
                     businessToBusinesModels.Add(new BusinessToBusinesModel
                     {
                         Add1 = $"{worksheet.Cells[row, GetColumnIndex("Add1")].Value}".Trim(),
