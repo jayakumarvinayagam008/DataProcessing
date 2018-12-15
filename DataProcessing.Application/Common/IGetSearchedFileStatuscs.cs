@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataProcessing.CommonModels;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,6 +7,6 @@ namespace DataProcessing.Application.Common
 {
     public interface IGetSearchedFileStatuscs
     {
-        bool FileExist(string searchRequistId, int fileType, string filePath);
+        FileAvailable FileExist(string searchRequistId, int fileType, string filePath);
     }
 }

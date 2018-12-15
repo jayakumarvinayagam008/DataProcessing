@@ -45,23 +45,32 @@
             alert('selectedCities');
         }
     });
+
+    //IsAvailable
+    //Message
     $('#excelDown').on('click', function (eve) {
+        $('#searchRequestMessage').hide();
         var $fileName = $('#excelDown').attr('title');
-        if ($fileName !== '') {
-            window.location = '/BusinessToBusiness/DownLoadAsExcel/?searchId=' + $fileName;
-
+        var $fileStatus = FileCheck($fileName, 'xlsx');
+        console.log(JSON.stringify($fileStatus.message));       
+        if ($fileStatus.isAvailable === true) {
+            DownloadFile($fileName, 'xlsx');
         } else {
-            alert('file does not exist');
+            $('#searchRequestMessage').show();
+            $('#searchRequestMessage').html($fileStatus.message);
         }
+        
     });
-
+    
     $('#csvDown').on('click', function (eve) {
-        var $fileName = $('#csvDown').attr('title');
-        if ($fileName !== '') {
-            window.location = '/BusinessToBusiness/DownLoadAsCsv/?searchId=' + $fileName;
-
+        $('#searchRequestMessage').hide();
+        var $fileName = $('#csvDown').attr('title');   
+        var $fileStatus = FileCheck($fileName, 'csv');
+        if ($fileStatus.isAvailable === true) {
+            DownloadFile($fileName, 'csv');
         } else {
-            alert('file does not exist');
+            $('#searchRequestMessage').show();
+            $('#searchRequestMessage').html($fileStatus.message);
         }
     });
 
@@ -70,12 +79,46 @@
     });
 });
 
+function FileCheck($searchId, $type) {
+    var $searchRequestCheck = {
+        'SearchId': $searchId,
+        'Type': $type
+    };
+    $fileResponse = {};
+    $.ajax({
+        url: '/BusinessToBusiness/CheckSearchFileAvailable/',
+        type: 'POST',
+        dataType: 'json',
+        async: false,
+        data: { searchRequestCheck: $searchRequestCheck },
+        beforeSend: function (eve) {
+            $("#divLoading").show();
+        },
+        success: function (data) {
+            $fileResponse = data;
+            $('#divBlock').show();
+        },
+        complete: function () {
+            $("#divLoading").hide();
+        }
+    });
+    return $fileResponse;
+}
+
+function DownloadFile($searchId, $type) {
+    if ($type === 'xlsx') {
+        window.location = '/BusinessToBusiness/DownLoadAsExcel/?searchId=' + $searchId;
+    } else {
+        window.location = '/BusinessToBusiness/DownLoadAsCsv/?searchId=' + $searchId;
+    }
+}
+
 function UpdateB2BDashBoard(data) {
 
     var b2bJson = data;
     console.log(data);
-    $("#b2SearchTotal").html(b2bJson.total);
-    $("#b2bTotal").html(b2bJson.searchCount);
+    $("#b2SearchTotal").html(b2bJson.searchCount);
+    $("#b2bTotal").html(b2bJson.total);
     $("#excelDown, #csvDown").attr('title', b2bJson.searchId);
     for (var key in b2bJson) {
         if (b2bJson.hasOwnProperty(key)) {

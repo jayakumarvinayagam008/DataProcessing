@@ -1,4 +1,5 @@
 ﻿using DataProcessing.Application.B2B.Command;
+using DataProcessing.CommonModels;
 using DataProcessing.Persistence;
 using System;
 using System.Collections.Generic;
@@ -14,13 +15,16 @@ namespace DataProcessing.Application.Common
         {
             _downloadRequestRepository = downloadRequestRepository;
         }
-        public bool FileExist(string searchRequistId, int fileType, string filePath)
+        public FileAvailable FileExist(string searchRequistId, int fileType, string filePath)
         {
+            var fileExist = new FileAvailable() {
+
+            };
             var status = _downloadRequestRepository.GetDownloadRequestDetail(searchRequistId, fileType);
             status.Wait();
             if (status.Result != null && status.Result.StatusCode == (int)FileCreateStatus.Completed && File.Exists(filePath))
-                return true;
-            return false;
+                return new FileAvailable() { IsAvailable = true, Message = string.Empty };
+            return new FileAvailable() { IsAvailable = false, Message = MessageContainer.SearchFile };
 
         }
     }

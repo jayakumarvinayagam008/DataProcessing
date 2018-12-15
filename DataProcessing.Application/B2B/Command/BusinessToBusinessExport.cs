@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DataProcessing.CommonModels;
 using DataProcessing.Persistence;
 
 namespace DataProcessing.Application.B2B.Command
@@ -11,6 +13,10 @@ namespace DataProcessing.Application.B2B.Command
         Started = 0,
         InProgress = 1,
         Completed = 2
+    }
+    public static class MessageContainer
+    {
+        public static string SearchFile = "Download request in progress, please try again.";
     }
     public class BusinessToBusinessExport : IBusinessToBusinessExport
     {
@@ -51,11 +57,24 @@ namespace DataProcessing.Application.B2B.Command
                     FileType = 1 // csv
                 }
             };
-            _downloadRequestRepository.CreateAsync(searchRequest).Wait();
-            
-            //_createExcel.Create(businessToBusinesses, filePath, range);
-            Task.Run(() => _createExcel.Create(businessToBusinesses, filePath, range, searchRequest[0]));
-            Task.Run(() => _createCsv.Create(businessToBusinesses, fileCsvPath, searchRequest[1]));
+            // get category 
+            List<BusinessToBusinessModel> businessToBusinessModels = businessToBusinesses.Select(
+                x => new BusinessToBusinessModel
+                {
+                    Add1 = x.Add1, Add2 = x.Add2, Area = x.Area, City = x.City, CompanyName = x.CompanyName,
+                    ContactPerson = x.ContactPerson, Contactperson1 = x.Contactperson1, Country = x.Country,
+                    Designation = x.Designation, Designation1 = x.Designation1, Email = x.Email,
+                    Email1 = x.Email1, EstYear = x.EstYear, Fax = x.Fax,
+                    LandMark = x.LandMark, Mobile1 = x.Mobile1, Mobile2 = x.Mobile2,
+                    MobileNew = x.Mobile_New, NoOfEmp = x.NoOfEmp, Phone1 = x.Phone1,
+                    Phone2 = x.Phone2, PhoneNew = x.Phone_New, Pincode = x.Pincode, State = x.State, Web = x.Web
+                }
+                ).ToList();
+
+
+            _downloadRequestRepository.CreateAsync(searchRequest).Wait();            
+            Task.Run(() => _createExcel.Create(businessToBusinessModels, filePath, range, searchRequest[0]));
+            Task.Run(() => _createCsv.Create(businessToBusinessModels, fileCsvPath, searchRequest[1]));
 
             return fileName;
         }

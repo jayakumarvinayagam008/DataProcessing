@@ -9,6 +9,7 @@ using DataProcessing.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,7 +29,7 @@ namespace DataProcessing.Core.Web
         public void ConfigureServices(IServiceCollection services)
         {
             var noSqlConnection = Configuration["CustomerData:NoSqlSource"];
-
+            services.Configure<FormOptions>(x => x.ValueCountLimit = 100000);
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -37,7 +38,7 @@ namespace DataProcessing.Core.Web
             });
 
 
-           
+            //feros@cltech.in
             services.Configure<NoSqlSettings>(
             options =>
             {

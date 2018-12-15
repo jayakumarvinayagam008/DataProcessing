@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using DataProcessing.Application.B2B.Command;
 using DataProcessing.Application.B2B.Query;
 using DataProcessing.Application.Common;
+using DataProcessing.CommonModels;
 using DataProcessing.Core.Web.Actions;
 using DataProcessing.Core.Web.Models;
 using Microsoft.AspNetCore.Http;
@@ -20,7 +21,7 @@ namespace DataProcessing.Core.Web.Controllers
         private readonly IOptions<DataProcessingSetting> _appSettings;
         private readonly IB2BSearchBlock _searchBlock;
         private readonly ISearchAction _searchAction;
-        private readonly IGetSearchedFileStatuscs _getSearchedFileStatuscs; 
+        private readonly IGetSearchedFileStatuscs _getSearchedFileStatuscs;
         private readonly ISaveB2B _saveB2B;
 
         public BusinessToBusinessController(IOptions<DataProcessingSetting> appSettings,
@@ -70,7 +71,7 @@ namespace DataProcessing.Core.Web.Controllers
         [HttpPost]
         public IActionResult Search(SearchRequest searchRequest)
         {
-           var searchSummary = _searchAction.Filter(new SearchFilter
+            var searchSummary = _searchAction.Filter(new SearchFilter
             {
                 Area = searchRequest.Area,
                 BusinessCategoryId = searchRequest.BusinessCategoryId,
@@ -83,36 +84,31 @@ namespace DataProcessing.Core.Web.Controllers
         }
 
         public ActionResult DownLoadAsExcel(string searchId)
-        {            
+        {
             var fileName = $"{searchId}";
             var rootPath = _appSettings.Value.SearchExport;
             var filePath = $"{rootPath}{fileName}.xlsx";
-            if(_getSearchedFileStatuscs.FileExist(searchId, 0, filePath))
-            {
-                var sampleTempate = new GetFileContent().GetFile(filePath);
-                var templateName = "B2B";
-                return File(sampleTempate, "application/vnd.ms-excel", $"{templateName}.xlsx");
-            }else
-            {
-                return Json("Download request in progress!");
-            }
-           
+            var sampleTempate = new GetFileContent().GetFile(filePath);
+            var templateName = "B2B";
+            return File(sampleTempate, "application/vnd.ms-excel", $"{templateName}.xlsx");
         }
         public ActionResult DownLoadAsCsv(string searchId)
         {
             var fileName = $"{searchId}";
             var rootPath = _appSettings.Value.SearchExport;
             var filePath = $"{rootPath}{fileName}.csv";
-            if (_getSearchedFileStatuscs.FileExist(searchId, 1, filePath))
-            {
-                var sampleTempate = new GetFileContent().GetFile(filePath);
-                var templateName = "B2B";
-                return File(sampleTempate, "application/vnd.ms-excel", $"{templateName}.xlsx");
-            }
-            else
-            {
-                return Json("Download request in progress!");
-            }
+            var sampleTempate = new GetFileContent().GetFile(filePath);
+            var templateName = "B2B";
+            return File(sampleTempate, "application/x-csv", $"{templateName}.csv");
+        }
+
+        public ActionResult CheckSearchFileAvailable(SearchRequestCheck searchRequestCheck )
+        {
+            var fileName = $"{searchRequestCheck.SearchId}";
+            var rootPath = _appSettings.Value.SearchExport;
+            var filePath = $"{rootPath}{fileName}.{ searchRequestCheck.Type} ";
+            var fileStatus = _getSearchedFileStatuscs.FileExist(searchRequestCheck.SearchId, 1, filePath);
+            return Json(fileStatus);
         }
 
     }

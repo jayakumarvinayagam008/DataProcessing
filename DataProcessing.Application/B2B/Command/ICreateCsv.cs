@@ -1,4 +1,5 @@
-﻿using DataProcessing.Persistence;
+﻿using DataProcessing.CommonModels;
+using DataProcessing.Persistence;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,7 +9,7 @@ namespace DataProcessing.Application.B2B.Command
 {
     public interface ICreateCsv
     {
-        void Create(List<BusinessToBusiness> businessToBusinesses, string filePath, DownloadRequest downloadRequest);
+        void Create(List<BusinessToBusinessModel> businessToBusinesses, string filePath, DownloadRequest downloadRequest);
     }
 
     public class CreateCsv : ICreateCsv
@@ -47,7 +48,7 @@ namespace DataProcessing.Application.B2B.Command
             _downloadRequestRepository = downloadRequestRepository;
         }
 
-        public void Create(List<BusinessToBusiness> businessToBusinesses, string filePath, DownloadRequest downloadRequest)
+        public void Create(List<BusinessToBusinessModel> businessToBusinesses, string filePath, DownloadRequest downloadRequest)
         {
             StringBuilder sb = new StringBuilder();
             //Title of the table
@@ -61,7 +62,7 @@ namespace DataProcessing.Application.B2B.Command
                 sb.AppendLine($"{item.Add1},{item.Add2},{item.City},{item.Area},{item.Pincode},{item.State}" +
                     $",{item.Phone1},{item.Phone2},{item.Mobile1},{item.Mobile2},{item.Fax},{item.Email}" +
                     $",{item.Email1},{item.Web},{item.ContactPerson},{item.Contactperson1},{item.Designation},{item.Designation1}" +
-                    $",{item.EstYear},{item.CategoryId},{item.LandMark},{item.NoOfEmp},{item.Country},{item.CompanyName}");
+                    $",{item.EstYear},{item.CategoryName},{item.LandMark},{item.NoOfEmp},{item.Country},{item.CompanyName}");
             }
             // This text is added only once to the file.
             if (!File.Exists(filePath))

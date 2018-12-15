@@ -1,22 +1,25 @@
 ﻿using DataProcessing.Application.Common;
+using DataProcessing.CommonModels;
 using DataProcessing.Persistence;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace DataProcessing.Application.B2B.Command
 {
     public interface ICreateExcel
     {
-        void Create(List<BusinessToBusiness> businessToBusinesses, string filePath, int range, DownloadRequest downloadRequest);
+        void Create(List<BusinessToBusinessModel> businessToBusinesses, string filePath, int range, DownloadRequest downloadRequest);
     }
 
     public class CreateExcel : ICreateExcel
     {
         private string[] columns = new string[] {
+                                        "CompanyName",
                                         "Add1",
                                         "Add2",
                                         "City",
@@ -38,22 +41,21 @@ namespace DataProcessing.Application.B2B.Command
                                         "Designation",
                                         "Designation1",
                                         "EstYear",
-                                        "CategoryId",
                                         "LandMark",
                                         "NoOfEmp",
                                         "Country",
-                                        "CompanyName",
-                                        "CategoryName"};
+                                        "CategoryName",
+                                        };
         private readonly IDownloadRequestRepository _downloadRequestRepository;
         public CreateExcel(IDownloadRequestRepository downloadRequestRepository)
         {
             _downloadRequestRepository = downloadRequestRepository;
         }
-        public void Create(List<BusinessToBusiness> businessToBusinesses, string filePath, int range, DownloadRequest downloadRequest)
+        public void Create(List<BusinessToBusinessModel> businessToBusinesses, string filePath, int range, DownloadRequest downloadRequest)
         {
-            var sheetContainer = businessToBusinesses.Batch(range);          
+            var sheetContainer = businessToBusinesses.Batch(range);
             FileInfo fileInfo = new FileInfo(filePath);
-            
+
             downloadRequest.StatusCode = (int)FileCreateStatus.InProgress;
             _downloadRequestRepository.UpdateAsync(downloadRequest);
 
