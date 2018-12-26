@@ -13,7 +13,7 @@ namespace DataProcessing.Persistence
     {
         Task<IEnumerable<BusinessToBusiness>> GetAllB2BAsync();
         //Task<BusinessToBusiness> GetGame(string name);
-        Task CreateAsync(BusinessToBusiness game);
+        Task<bool> CreateAsync(BusinessToBusiness game);
         //Task<bool> Update(BusinessToBusiness game);
         //Task<bool> Delete(string name);
         Task<bool> CreateManyAsync(List<BusinessToBusiness> games);
@@ -35,10 +35,11 @@ namespace DataProcessing.Persistence
             _businessCategoryRepository = businessCategoryRepository;
         }
 
-        public async Task CreateAsync(BusinessToBusiness game)
+        public async Task<bool> CreateAsync(BusinessToBusiness game)
         {
-            _context
+             _context
                 .BusinessToBusiness.InsertOne(game);
+            return await Task.FromResult(true);
         }
 
         public async Task<bool> CreateManyAsync(List<BusinessToBusiness> games)

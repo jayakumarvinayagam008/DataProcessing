@@ -13,5 +13,6 @@ namespace DataProcessing.Persistence
         IMongoCollection<CustomerData> CustomerDatas { get; }
         IMongoCollection<DownloadRequest> DownloadRequests { get; }
         IMongoCollection<SearchHistory> SearchHistories { get; }
+        IMongoCollection<NumberLookup> NumberLookups { get; }
     }
 }
