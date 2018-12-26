@@ -1,5 +1,4 @@
-﻿@model DataProcessing.Core.Web.Models.NumberLookup
-
+﻿@model DataProcessing.Core.Web.Models.NumberLookUpDownload
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -14,7 +13,7 @@
             <p class="text-muted font-14 m-b-25">
                 Upload excel or csv for to get lookup detail
             </p>
-            <form asp-action="Index">
+            <form asp-action="Index" id="frmNumberLookUp" method="post" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-md-8">
                         <div class="p-20">
@@ -44,7 +43,20 @@
                 </div>
             </form>
         </div>
-           
-        </div>
-    </div>
 
+    </div>
+    <div class="uploadSummary">
+        @{
+            if (Model.Status)
+            {
+                <input type="hidden" id="hndLookupId" value="@Model.FileName" />
+                <button class="btn btn-link" type="button" id="btnNumberLookUp">
+                    Download Number Lookup Response
+                </button>
+            }
+        }
+    </div>
+</div>
+
+<script src="~/assets/js/jquery.min.js"></script>
+<script src="~/js/NumberLookup.js"></script>

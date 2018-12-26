@@ -5,6 +5,8 @@ using DataProcessing.Application.B2C.Query;
 using DataProcessing.Application.Common;
 using DataProcessing.Application.CustomerDate.Command;
 using DataProcessing.Application.CustomerDate.Query;
+using DataProcessing.Application.NumberLookup.Command;
+using DataProcessing.Application.NumberLookup.Query;
 using DataProcessing.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -74,7 +76,11 @@ namespace DataProcessing.Core.Web
             services.AddScoped<IDownloadRequestRepository, DownloadRequestRepository>();
             services.AddScoped<ICreateCsv, CreateCsv>();
             services.AddScoped<IGetSearchedFileStatuscs, GetSearchedFileStatuscs>();
-            
+            services.AddScoped<ILoopupProcess, LoopupProcess>();
+            services.AddScoped<IReadNumberLookup, ReadNumberLookup>();
+            services.AddScoped<IGetNumberLoopUpData, GetNumberLoopUpData>();
+            services.AddScoped<INumberLookupRepository, NumberLookupRepository>();
+            services.AddScoped<ISaveNumberLookUp, SaveNumberLookUp>(); 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
