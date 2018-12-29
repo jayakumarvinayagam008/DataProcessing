@@ -23,6 +23,7 @@ namespace DataProcessing.Persistence
         Task<SearchBlock> GetFilterBlocks();
 
         (List<BusinessToBusiness> BusinessToBusinesses, long Total) GetB2BSearch(B2BFilter b2BFilter);
+        Task<long> GetTotalDocument();
     }
 
     public class BusinessToBusinessRepository : IBusinessToBusinessRepository
@@ -148,6 +149,10 @@ namespace DataProcessing.Persistence
             return Task.FromResult(searchBlock);
         }
 
-       
+        public async Task<long> GetTotalDocument()
+        {
+            var totalDocument = _context.BusinessToBusiness.Find(_ => true).CountDocuments();
+            return await Task.FromResult(totalDocument);
+        }
     }
 }

@@ -12,7 +12,7 @@ namespace DataProcessing.CommonModels
         public string ClientName { get; set; }
         public string ClientBusinessVertical { get; set; }
         public string Dbquality { get; set; }
-        public DateTime? DateOfUse { get; set; }
+        public DateTime DateOfUse { get; set; }
         public string ClientCity { get; set; }
         public DateTime? CreatedDate { get; set; }
         public string CreatedBy { get; set; }

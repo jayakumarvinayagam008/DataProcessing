@@ -44,7 +44,7 @@ namespace DataProcessing.Application.CustomerDate.Command
                     Country = x.Country,
                     CreatedBy = createdBy,
                     CreatedDate = createdOn,
-                    DateOfUse = x.DateOfUse,
+                    DateOfUse = x.DateOfUse.ToString(),
                     Dbquality = x.Dbquality,
                     Numbers = x.Numbers,
                     Operator = x.Operator,

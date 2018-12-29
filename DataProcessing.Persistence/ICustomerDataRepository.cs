@@ -12,6 +12,8 @@ namespace DataProcessing.Persistence
         Task<IEnumerable<string>> GetPhoneNewAsync();
         Task<bool> CreateManyAsync(IEnumerable<CustomerData> saveToSource);
         Task<SearchBlock> GetFilterBlocks();
+        (List<CustomerData> customerDatas, long Total) GetCustomerDataSearch(SearchFilterBlock searchFilterBlock);
+        Task<long> GetTotalDocument();
     }
 
     public class CustomerDataRepository : ICustomerDataRepository
@@ -29,36 +31,68 @@ namespace DataProcessing.Persistence
             return await Task.FromResult(true);
         }
 
+        public (List<CustomerData> customerDatas, long Total) GetCustomerDataSearch(SearchFilterBlock searchFilterBlock)
+        {
+            var filter = Builders<CustomerData>.Filter.Empty;
+
+            var totalDocuments = _context.CustomerDatas.Find(_ => true).CountDocuments();
+
+            if (searchFilterBlock.Contries.Where(x => !string.IsNullOrWhiteSpace(x)).Any())
+                filter = filter & Builders<CustomerData>.Filter.In("Country", searchFilterBlock.Contries);
+
+            if (searchFilterBlock.States.Where(x => !string.IsNullOrWhiteSpace(x)).Any())
+                filter = filter & Builders<CustomerData>.Filter.In("State", searchFilterBlock.States);
+
+            if (searchFilterBlock.Cities.Where(x => !string.IsNullOrWhiteSpace(x)).Any())
+                filter = filter & Builders<CustomerData>.Filter.In("ClientCity", searchFilterBlock.Cities);
+
+            if (searchFilterBlock.BusinessVertical.Where(x => !string.IsNullOrWhiteSpace(x)).Any())
+                filter = filter & Builders<CustomerData>.Filter.In("ClientBusinessVertical", searchFilterBlock.BusinessVertical);
+
+            if (searchFilterBlock.DataQuality.Where(x => !string.IsNullOrWhiteSpace(x)).Any())
+                filter = filter & Builders<CustomerData>.Filter.In("Dbquality", searchFilterBlock.DataQuality);
+
+            if (searchFilterBlock.Network.Where(x => !string.IsNullOrWhiteSpace(x)).Any())
+                filter = filter & Builders<CustomerData>.Filter.In("Operator", searchFilterBlock.Network);
+
+            if (searchFilterBlock.ClientName.Where(x => !string.IsNullOrWhiteSpace(x)).Any())
+                filter = filter & Builders<CustomerData>.Filter.In("ClientName", searchFilterBlock.ClientName);
+
+            var searchResult = _context.CustomerDatas.Find(filter).ToList();
+
+            return (searchResult, totalDocuments);
+        }
+
         public Task<SearchBlock> GetFilterBlocks()
         {
             SearchBlock searchBlock = new SearchBlock();
             var country = _context.CustomerDatas
                 .AsQueryable()
-                .Select(x => x.Country).Where(x => x != "")
+                .Select(x => x.Country).Where(x => x != "" && x != null)
                 .Distinct().ToList();
             var city = _context.CustomerDatas
                 .AsQueryable()
-                .Select(x => x.ClientCity).Where(x => x != "")
+                .Select(x => x.ClientCity).Where(x => x != "" && x != null)
                 .Distinct().ToList();
             var state = _context.CustomerDatas
                 .AsQueryable()
-                .Select(x => x.State).Where(x => x != "")
+                .Select(x => x.State).Where(x => x != "" && x != null)
                 .Distinct().ToList();
             var network = _context.CustomerDatas
                 .AsQueryable()
-                .Select(x => x.Operator).Where(x => x != "")
+                .Select(x => x.Operator).Where(x => x != "" && x != null)
                 .Distinct().ToList();
             var businessVertical = _context.CustomerDatas
                 .AsQueryable()
-                .Select(x => x.ClientBusinessVertical).Where(x => x != "")
+                .Select(x => x.ClientBusinessVertical).Where(x => x != "" && x != null)
                 .Distinct().ToList();
             var clientName = _context.CustomerDatas
                 .AsQueryable()
-                .Select(x => x.ClientName).Where(x => x != "")
+                .Select(x => x.ClientName).Where(x => x != "" && x != null)
                 .Distinct().ToList();
             var dbQuality = _context.CustomerDatas
                .AsQueryable()
-               .Select(x => x.Dbquality).Where(x => x != "")
+               .Select(x => x.Dbquality).Where(x => x != "" && x != null)
                .Distinct().ToList();
 
             searchBlock.Country = country;
@@ -82,6 +116,12 @@ namespace DataProcessing.Persistence
                     .Project(u => u.Numbers).ToListAsync();
 
             return result;
+        }
+
+        public async Task<long> GetTotalDocument()
+        {
+            var totalDocument = _context.CustomerDatas.Find(_ => true).CountDocuments();
+            return await Task.FromResult(totalDocument);
         }
     }
 }

@@ -5,25 +5,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div>
-    <h4>B2BDashboard</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Total)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Total)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.AddressCount)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AddressCount)
-        </dd>
-    </dl>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card-box">
+            <h4 class="m-t-0 header-title"><b>Business to Business Upload summary</b></h4>
+            <p class="text-muted font-13">
+                Here we can see the history of upload detail
+            </p>
+        </div>
+    </div>
 </div>
-@*<div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
-</div>*@

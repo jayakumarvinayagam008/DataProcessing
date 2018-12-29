@@ -1,18 +1,11 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization;
-using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Bson.Serialization.Serializers;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Text;
 
-namespace DataProcessing.Persistence
+namespace DataProcessing.CommonModels
 {
-    public class CustomerData
+    public class CustomerDataExportModel
     {
-        [BsonId]
-        public ObjectId Id { get; set; }
         public string Numbers { get; set; }
         public string Operator { get; set; }
         public string Circle { get; set; }
@@ -21,10 +14,7 @@ namespace DataProcessing.Persistence
         public string Dbquality { get; set; }
         public string DateOfUse { get; set; }
         public string ClientCity { get; set; }
-        public DateTime? CreatedDate { get; set; }
-        public string CreatedBy { get; set; }
         public string State { get; set; }
         public string Country { get; set; }
     }
-
 }

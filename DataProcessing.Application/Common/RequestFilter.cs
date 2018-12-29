@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace DataProcessing.Core.Web.Models
+namespace DataProcessing.Application.Common
 {
-    public class SearchRequest
+    public class RequestFilter
     {
         public IEnumerable<string> Contries { get; set; }
         public IEnumerable<string> States { get; set; }
@@ -14,11 +13,13 @@ namespace DataProcessing.Core.Web.Models
         public IEnumerable<string> Designation { get; set; }
         public IEnumerable<int?> BusinessCategoryId { get; set; }
 
+        // Customer Data
         public IEnumerable<string> BusinessVertical { get; set; }
         public IEnumerable<string> DataQuality { get; set; }
         public IEnumerable<string> Network { get; set; }
         public IEnumerable<string> CustomerName { get; set; }
-        public IEnumerable<string> Tags { get; set; }
 
+        // Common
+        public IEnumerable<string> Tags { get; set; }
     }
 }

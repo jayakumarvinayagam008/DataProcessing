@@ -23,12 +23,12 @@ namespace DataProcessing.Application.B2B.Command
         {            
             var tempResult = _businessToBusinessRepository.GetB2BSearch(new B2BFilter
             {
-                Area = searchFilter.Area,
-                BusinessCategoryId = searchFilter.BusinessCategoryId,
-                Cities = searchFilter.Cities,
-                Contries = searchFilter.Contries,
-                Designation = searchFilter.Designation,
-                States = searchFilter.States
+                Area = (searchFilter.Cities != null) ? searchFilter.Cities : new List<string>(),
+                BusinessCategoryId = (searchFilter.BusinessCategoryId != null) ? searchFilter.BusinessCategoryId : new List<int?>(),
+                Cities = (searchFilter.Cities != null) ? searchFilter.Cities : new List<string>(),
+                Contries = (searchFilter.Contries != null) ? searchFilter.Contries : new List<string>(),
+                Designation = (searchFilter.Designation != null) ? searchFilter.Designation : new List<string>(),
+                States = (searchFilter.States !=null)?searchFilter.States:new List<string>()
             });
             var response = tempResult;
             var dashBoard = _prepareSearchSummaryBoard.GenerateSummary(response.BusinessToBusinesses, response.Total);

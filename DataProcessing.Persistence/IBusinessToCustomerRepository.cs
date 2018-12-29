@@ -12,6 +12,7 @@ namespace DataProcessing.Persistence
         Task<IEnumerable<string>> GetPhoneNewAsync();
         Task<bool> CreateManyAsync(IEnumerable<BusinessToCustomer> saveToSource);
         Task<SearchBlock> GetFilterBlocks();
+        Task<long> GetTotalDocument();
     }
 
     public class BusinessToCustomerRepository : IBusinessToCustomerRepository
@@ -87,6 +88,12 @@ namespace DataProcessing.Persistence
                     .Project(u =>  u.PhoneNew ).ToListAsync();
 
             return result;
+        }
+
+        public async Task<long> GetTotalDocument()
+        {
+            var totalDocument = _context.BusinessToCustomers.Find(_ => true).CountDocuments();
+            return await Task.FromResult(totalDocument);
         }
     }
 }

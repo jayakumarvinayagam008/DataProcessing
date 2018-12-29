@@ -10,6 +10,7 @@ namespace DataProcessing.Persistence
         Task<bool> CreateAsync(NumberLookup numberLookup);
         Task<bool> CreateManyAsync(List<NumberLookup> numberLookups);
         Task<IEnumerable<NumberLookup>> GetNumberLookup();
+        Task<long> GetTotalDocument();
     }
 
     public class NumberLookupRepository : INumberLookupRepository
@@ -40,6 +41,12 @@ namespace DataProcessing.Persistence
                         .NumberLookups
                         .Find(_ => true)
                         .ToListAsync();
+        }
+
+        public async Task<long> GetTotalDocument()
+        {
+            var totalDocument = _context.NumberLookups.Find(_ => true).CountDocuments();
+            return await Task.FromResult(totalDocument);
         }
     }
 }

@@ -36,7 +36,6 @@ namespace DataProcessing.Application.B2B.Command
                                         "Designation",
                                         "Designation1",
                                         "EstYear",
-                                        "CategoryId",
                                         "LandMark",
                                         "NoOfEmp",
                                         "Country",
@@ -52,7 +51,8 @@ namespace DataProcessing.Application.B2B.Command
         {
             StringBuilder sb = new StringBuilder();
             //Title of the table
-            sb.AppendLine("Add1,Add2,City,Area,Pincode,State,PhoneNew,MobileNew,Phone1,Phone2,Mobile1,Mobile2,Fax,Email,Email1,Web,ContactPerson,Contactperson1,Designation,Designation1,EstYear,CategoryId,LandMark,NoOfEmp,Country,CompanyName");
+            sb.AppendLine("Add1,Add2,City,Area,Pincode,State,PhoneNew,MobileNew,Phone1,Phone2,Mobile1,Mobile2,Fax,Email,Email1,Web," +
+                "ContactPerson,Contactperson1,Designation,Designation1,EstYear,LandMark,NoOfEmp,Country,CompanyName");
 
             downloadRequest.StatusCode = (int)FileCreateStatus.InProgress;
             _downloadRequestRepository.UpdateAsync(downloadRequest);
@@ -60,9 +60,9 @@ namespace DataProcessing.Application.B2B.Command
             foreach (var item in businessToBusinesses)
             {
                 sb.AppendLine($"{item.Add1},{item.Add2},{item.City},{item.Area},{item.Pincode},{item.State}" +
-                    $",{item.Phone1},{item.Phone2},{item.Mobile1},{item.Mobile2},{item.Fax},{item.Email}" +
+                    $",{item.PhoneNew},{item.MobileNew},{item.Phone1},{item.Phone2},{item.Mobile1},{item.Mobile2},{item.Fax},{item.Email}" +
                     $",{item.Email1},{item.Web},{item.ContactPerson},{item.Contactperson1},{item.Designation},{item.Designation1}" +
-                    $",{item.EstYear},{item.CategoryName},{item.LandMark},{item.NoOfEmp},{item.Country},{item.CompanyName}");
+                    $",{item.EstYear},{item.LandMark},{item.NoOfEmp},{item.Country},{item.CompanyName}");
             }
             // This text is added only once to the file.
             if (!File.Exists(filePath))

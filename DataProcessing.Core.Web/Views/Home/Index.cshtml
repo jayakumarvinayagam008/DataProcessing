@@ -1,49 +1,75 @@
-﻿@{
+﻿@model DataProcessing.Core.Web.Models.DashBoardModel
+@{
     ViewData["Title"] = "Home Page";
 }
 
 
 <div class="container">
 
-    <!-- Page-Title -->    
+    <!-- Page-Title -->
+
 
     <div class="row">
-        <div class="col-lg-12 col-xl-3">
-            <div class="card-box widget-box-1 bg-white">
-                <i class="fa fa-info-circle text-muted pull-right inform" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Last 24 Hours"></i>
-                <h4 class="text-dark font-18">Business to Business</h4>
-                <h2 class="text-primary text-center">$<span data-plugin="counterup">5623</span></h2>
-                <p class="text-muted">Total: 22506 <span class="pull-right"><i class="fa fa-caret-up text-primary m-r-5"></i>10.25%</span></p>
-            </div>
+        <div class="col-md-12 col-lg-6">
+            <a asp-controller="BusinessToBusiness" asp-action="Index">
+                <div class="widget-bg-color-icon card-box fadeInDown animated">
+                    <div class="bg-icon bg-icon-info pull-left">
+                        <i class="md md-attach-money text-info"></i>
+                    </div>
+                    <div class="text-right">
+                        <h3 class="text-dark"><b class="counter">@Model.BusinessToBusiness</b></h3>
+                        <p class="text-muted">Business to Business</p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
         </div>
 
-        <div class="col-lg-12 col-xl-3">
-            <div class="card-box widget-box-1 bg-white">
-                <i class="fa fa-info-circle text-muted pull-right inform" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Last 24 Hours"></i>
-                <h4 class="text-dark font-18">Business to Customer</h4>
-                <h2 class="text-pink text-center"><span data-plugin="counterup">185</span></h2>
-                <p class="text-muted">Total: 2398 <span class="pull-right"><i class="fa fa-caret-down text-danger m-r-5"></i>7.85%</span></p>
-            </div>
+        <div class="col-md-12 col-lg-6">
+            <a asp-controller="BusinessToCustomer" asp-action="Index">
+                <div class="widget-bg-color-icon card-box">
+                    <div class="bg-icon bg-icon-pink pull-left">
+                        <i class="md md-add-shopping-cart text-pink"></i>
+                    </div>
+                    <div class="text-right">
+                        <h3 class="text-dark"><b class="counter">@Model.BusinessToCustomer</b></h3>
+                        <p class="text-muted">Business to Customer</p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
         </div>
 
-        <div class="col-lg-12 col-xl-3">
-            <div class="card-box widget-box-1 bg-white">
-                <i class="fa fa-info-circle text-muted pull-right inform" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Last 24 Hours"></i>
-                <h4 class="text-dark font-18">Customer Data</h4>
-                <h2 class="text-success text-center">$<span data-plugin="counterup">9562</span></h2>
-                <p class="text-muted">Total: 22506 <span class="pull-right"><i class="fa fa-caret-up text-primary m-r-5"></i>10.25%</span></p>
-            </div>
+
+        <div class="col-md-12 col-lg-6">
+            <a asp-controller="CustomerData" asp-action="Index">
+                <div class="widget-bg-color-icon card-box">
+                    <div class="bg-icon bg-icon-purple pull-left">
+                        <i class="md md-equalizer text-purple"></i>
+                    </div>
+                    <div class="text-right">
+                        <h3 class="text-dark"><b class="counter">@Model.CustomerData</b></h3>
+                        <p class="text-muted">Customer Data</p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
         </div>
 
-      
-
+        <div class="col-md-12 col-lg-6">
+            <a asp-controller="NumberLookup" asp-action="Index">
+                <div class="widget-bg-color-icon card-box">
+                    <div class="bg-icon bg-icon-success pull-left">
+                        <i class="md md-remove-red-eye text-success"></i>
+                    </div>
+                    <div class="text-right">
+                        <h3 class="text-dark"><b class="counter">@Model.NumberLookup</b></h3>
+                        <p class="text-muted">NumberLookup</p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
     </div>
-
-  
-    <!-- End row-->
-
-
-
-    <!-- end row -->
 
 </div>

@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DataProcessing.Application.Common;
 using DataProcessing.Application.CustomerDate.Command;
 using DataProcessing.Application.CustomerDate.Query;
 using DataProcessing.CommonModels;
 using DataProcessing.Core.Web.Actions;
+using DataProcessing.Core.Web.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -19,13 +21,17 @@ namespace DataProcessing.Core.Web.Controllers
         private readonly IOptions<DataProcessingSetting> _appSettings;
         private readonly ISaveCustomerData _saveCustomerData;
         private readonly ICustomerDataSearchBlock _customerDataSearchBlock;
-        
+        private readonly ICustomerDataSearchAction _customerDataSearchAction;
+        private readonly IGetSearchedFileStatuscs _getSearchedFileStatuscs;
         public CustomerDataController(IOptions<DataProcessingSetting> appSettings,
-            ISaveCustomerData saveCustomerData, ICustomerDataSearchBlock customerDataSearchBlock)        
+            ISaveCustomerData saveCustomerData, ICustomerDataSearchBlock customerDataSearchBlock,
+            ICustomerDataSearchAction customerDataSearchAction, IGetSearchedFileStatuscs getSearchedFileStatuscs)
         {
             _appSettings = appSettings;
             _saveCustomerData = saveCustomerData;
             _customerDataSearchBlock = customerDataSearchBlock;
+            _customerDataSearchAction = customerDataSearchAction;
+            _getSearchedFileStatuscs = getSearchedFileStatuscs;
         }
         // GET: /<controller>/
         public IActionResult Index()
@@ -37,6 +43,26 @@ namespace DataProcessing.Core.Web.Controllers
         {
             var bindResult = _customerDataSearchBlock.BindSearchBlock();
             return View(bindResult);
+        }
+
+        [HttpPost]
+        public IActionResult Search(SearchRequest searchRequest)
+        {
+            //Cities| Contrie |States| Network|BusinessVertical| CustomerName|DataQuality
+            var searchSummary = _customerDataSearchAction.Filter(new RequestFilter()
+            {
+                BusinessVertical = searchRequest.BusinessVertical,
+                Cities = searchRequest.Cities,
+                Contries = searchRequest.Contries,
+                DataQuality = searchRequest.DataQuality,
+                CustomerName = searchRequest.CustomerName,
+                Network = searchRequest.Network,
+                States = searchRequest.States,
+                Tags = searchRequest.Tags
+            },
+                _appSettings.Value.SearchExport,
+                _appSettings.Value.RowRange);
+            return Json(searchSummary);
         }
 
         public IActionResult Summary()
@@ -65,18 +91,32 @@ namespace DataProcessing.Core.Web.Controllers
             });
         }
 
-        public ActionResult DownLoadAsExcel(int searchId)
+        public ActionResult DownLoadAsExcel(string searchId)
         {
-            //fileName = $"{fileName}";
-            //var rootPath = _appSettings.Value.SearchExport;
-            //var templateName = DownloadTemplateType.GetTemplateName(templateType);
-            //var sampleTempate = _getFileContent.Get(fileName, rootPath, templateName);
-            //return File(sampleTempate.content, "application/vnd.ms-excel", $"{sampleTempate.TemplateType.Name}.xlsx");
-            return Json("***");
+            var fileName = $"{searchId}";
+            var rootPath = _appSettings.Value.SearchExport;
+            var filePath = $"{rootPath}{fileName}.xlsx";
+            var sampleTempate = new GetFileContent().GetFile(filePath);
+            var templateName = "CustomerData";
+            return File(sampleTempate, "application/vnd.ms-excel", $"{templateName}.xlsx");
         }
-        public ActionResult DownLoadAsCsv(int searchId)
+        public ActionResult DownLoadAsCsv(string searchId)
         {
-            return Json("***");
+            var fileName = $"{searchId}";
+            var rootPath = _appSettings.Value.SearchExport;
+            var filePath = $"{rootPath}{fileName}.csv";
+            var sampleTempate = new GetFileContent().GetFile(filePath);
+            var templateName = "CustomerData";
+            return File(sampleTempate, "application/x-csv", $"{templateName}.csv");
+        }
+
+        public ActionResult CheckSearchFileAvailable(SearchRequestCheck searchRequestCheck)
+        {
+            var fileName = $"{searchRequestCheck.SearchId}";
+            var rootPath = _appSettings.Value.SearchExport;
+            var filePath = $"{rootPath}{fileName}.{ searchRequestCheck.Type} ";
+            var fileStatus = _getSearchedFileStatuscs.FileExist(searchRequestCheck.SearchId, 1, filePath);
+            return Json(fileStatus);
         }
     }
 }
