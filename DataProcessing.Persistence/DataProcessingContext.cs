@@ -26,5 +26,7 @@ namespace DataProcessing.Persistence
         public IMongoCollection<DownloadRequest> DownloadRequests => _db.GetCollection<DownloadRequest>("DownloadRequest");
         public IMongoCollection<SearchHistory> SearchHistories => _db.GetCollection<SearchHistory>("SearchHistory");
         public IMongoCollection<NumberLookup> NumberLookups => _db.GetCollection<NumberLookup>("NumberLookup");
+
+        public IMongoCollection<DataProcessingUser> DataProcessingUsers => _db.GetCollection<DataProcessingUser>("DataProcessingUser");
     }
 }
