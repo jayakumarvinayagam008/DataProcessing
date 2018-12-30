@@ -1,10 +1,10 @@
-﻿using System;
+﻿using DataProcessing.Application.Common;
+using DataProcessing.CommonModels;
+using DataProcessing.Persistence;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DataProcessing.Application.Common;
-using DataProcessing.CommonModels;
-using DataProcessing.Persistence;
 
 namespace DataProcessing.Application.CustomerDate.Command
 {
@@ -13,6 +13,7 @@ namespace DataProcessing.Application.CustomerDate.Command
         private readonly ICreateCustomerDataExcel _createExcel;
         private readonly IDownloadRequestRepository _downloadRequestRepository;
         private readonly ICreateCustomerDataCsv _createCsv;
+
         public CustomerDataExport(ICreateCustomerDataExcel createExcel, IDownloadRequestRepository downloadRequestRepository
             , ICreateCustomerDataCsv createCsv)
         {
@@ -20,6 +21,7 @@ namespace DataProcessing.Application.CustomerDate.Command
             _downloadRequestRepository = downloadRequestRepository;
             _createCsv = createCsv;
         }
+
         public string Export(List<CustomerData> customerData, string fileRootPath, int range)
         {
             var fileName = GetGuid.Get();
@@ -61,7 +63,6 @@ namespace DataProcessing.Application.CustomerDate.Command
                 State = x.State
             }).ToList();
 
-               
             _downloadRequestRepository.CreateAsync(searchRequest).Wait();
             Task.Run(() => _createExcel.Create(downLoad, filePath, range, searchRequest[0]));
             Task.Run(() => _createCsv.Create(downLoad, fileCsvPath, searchRequest[1]));

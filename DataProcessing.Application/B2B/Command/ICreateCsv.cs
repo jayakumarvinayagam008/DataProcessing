@@ -1,6 +1,5 @@
 ﻿using DataProcessing.CommonModels;
 using DataProcessing.Persistence;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -41,7 +40,9 @@ namespace DataProcessing.Application.B2B.Command
                                         "Country",
                                         "CompanyName",
                                         "CategoryName"};
+
         private readonly IDownloadRequestRepository _downloadRequestRepository;
+
         public CreateCsv(IDownloadRequestRepository downloadRequestRepository)
         {
             _downloadRequestRepository = downloadRequestRepository;
@@ -68,11 +69,10 @@ namespace DataProcessing.Application.B2B.Command
             if (!File.Exists(filePath))
             {
                 // Create a file to write to.
-                File.WriteAllText(filePath,sb.ToString());
+                File.WriteAllText(filePath, sb.ToString());
             }
             downloadRequest.StatusCode = (int)FileCreateStatus.Completed;
             _downloadRequestRepository.UpdateAsync(downloadRequest);
-           
         }
     }
 }

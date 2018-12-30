@@ -1,25 +1,21 @@
 ﻿using DataProcessing.Persistence;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using RestSharp;
-using RestSharp.Deserializers;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Net;
-using System.Text;
 
 namespace DataProcessing.Application.B2B.Query
 {
     public class B2BSearchBlock : IB2BSearchBlock
     {
         public readonly IBusinessToBusinessRepository _businessToBusinessRepository;
+
         public B2BSearchBlock(IBusinessToBusinessRepository businessToBusinessRepository)
         {
             _businessToBusinessRepository = businessToBusinessRepository;
         }
+
         public SearchBlock BindSearchBlock()
-        {            
+        {
             var result = _businessToBusinessRepository.GetFilterBlocks();
             result.Wait();
             var filterOptions = result.Result;
@@ -119,6 +115,7 @@ namespace DataProcessing.Application.B2B.Query
         public List<string> Designation { get; set; }
         public List<string> State { get; set; }
     }
+
     public class Category
     {
         public int Id { get; set; }

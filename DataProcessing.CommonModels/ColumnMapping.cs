@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace DataProcessing.CommonModels
 {
@@ -13,6 +11,7 @@ namespace DataProcessing.CommonModels
             BusinessToCustomerColumnMapping();
             CustomerDataColumnMapping();
         }
+
         public void BusinessToCustomerColumnMapping()
         {
             B2CColumnName = new Dictionary<string, int>();

@@ -1,16 +1,16 @@
-﻿using System;
-using System.Linq;
-using DataProcessing.Application.Common;
+﻿using DataProcessing.Application.Common;
 using DataProcessing.CommonModels;
 using DataProcessing.Persistence;
 using MoreLinq;
+using System.Linq;
 
 namespace DataProcessing.Application.B2C.Command
 {
-    public class SaveB2C:ISaveB2C
+    public class SaveB2C : ISaveB2C
     {
         private readonly IB2CReadDataFromFile _readDataFromFile;
         private readonly IBusinessToCustomerRepository _businessToCustomerRepository;
+
         public SaveB2C(IB2CReadDataFromFile readDataFromFile, IBusinessToCustomerRepository businessToCustomerRepository)
         {
             _readDataFromFile = readDataFromFile;
@@ -30,9 +30,10 @@ namespace DataProcessing.Application.B2C.Command
             b2bDataSource.Wait();
             var mobileNewRepo = b2bDataSource.Result;
             var businessToCustomer = mobileNews.Except(mobileNewRepo, x => x.PhoneNew, y => y).ToList();
-            if(businessToCustomer != null )
+            if (businessToCustomer != null)
             {
-                var saveToSource = businessToCustomer.Select(x => new BusinessToCustomer {
+                var saveToSource = businessToCustomer.Select(x => new BusinessToCustomer
+                {
                     Address = x.Address,
                     Address2 = x.Address2,
                     AnnualSalary = x.AnnualSalary,

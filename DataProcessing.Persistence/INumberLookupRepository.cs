@@ -1,15 +1,17 @@
-﻿using System;
+﻿using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MongoDB.Driver;
 
 namespace DataProcessing.Persistence
 {
     public interface INumberLookupRepository
     {
         Task<bool> CreateAsync(NumberLookup numberLookup);
+
         Task<bool> CreateManyAsync(List<NumberLookup> numberLookups);
+
         Task<IEnumerable<NumberLookup>> GetNumberLookup();
+
         Task<long> GetTotalDocument();
     }
 
@@ -21,6 +23,7 @@ namespace DataProcessing.Persistence
         {
             _context = context;
         }
+
         public async Task<bool> CreateAsync(NumberLookup numberLookup)
         {
             _context

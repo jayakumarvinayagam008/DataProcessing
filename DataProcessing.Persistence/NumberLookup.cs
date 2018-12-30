@@ -1,6 +1,6 @@
-﻿using System;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using System;
 
 namespace DataProcessing.Persistence
 {
@@ -9,8 +9,10 @@ namespace DataProcessing.Persistence
         public NumberLookup()
         {
         }
+
         [BsonId]
         public ObjectId Id { get; set; }
+
         public string Operator { get; set; }
         public string Circle { get; set; }
         public string Series { get; set; }

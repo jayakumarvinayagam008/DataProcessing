@@ -1,26 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DataProcessing.Application.NumberLookup.Command;
+﻿using DataProcessing.Application.NumberLookup.Command;
 using DataProcessing.Core.Web.Actions;
 using DataProcessing.Core.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using System.Collections.Generic;
 
 namespace DataProcessing.Core.Web.Controllers
 {
+    [Authorize]
     public class NumberLookupController : Controller
     {
         private readonly IOptions<DataProcessingSetting> _appSettings;
         private readonly ILoopupProcess _loopupProcess = null;
+
         public NumberLookupController(IOptions<DataProcessingSetting> appSettings,
-            ILoopupProcess loopupProcess )
+            ILoopupProcess loopupProcess)
         {
             _appSettings = appSettings;
             _loopupProcess = loopupProcess;
         }
+
         public IActionResult Index()
         {
             NumberLookUpDownload numberLookUpDownload = new NumberLookUpDownload()
@@ -34,6 +35,7 @@ namespace DataProcessing.Core.Web.Controllers
             NumberLookup numberLookup = new NumberLookup();
             return View(numberLookup);
         }
+
         [HttpPost]
         public IActionResult SaveLookup(NumberLookup numberLookup)
         {
@@ -41,10 +43,11 @@ namespace DataProcessing.Core.Web.Controllers
             numberLookup.UploadMessage = "Succesfully uploaded";
             return View("AddLookup", numberLookup);
         }
+
         [HttpPost]
         public IActionResult BulkLookup(IList<IFormFile> files)
         {
-            NumberLookup numberLookup = new NumberLookup() { IsUploaded = true, UploadMessage = "Succesfully uploaded" };            
+            NumberLookup numberLookup = new NumberLookup() { IsUploaded = true, UploadMessage = "Succesfully uploaded" };
             return View("AddLookup", numberLookup);
         }
 
@@ -57,7 +60,8 @@ namespace DataProcessing.Core.Web.Controllers
             var filePath = fileCreation.Result;
             var fileName = _loopupProcess.Process(filePath, _appSettings.Value.NumberLookup);
 
-            NumberLookUpDownload numberLookUpDownload = new NumberLookUpDownload() {
+            NumberLookUpDownload numberLookUpDownload = new NumberLookUpDownload()
+            {
                 FileName = fileName,
                 Status = !string.IsNullOrWhiteSpace(fileName)
             };

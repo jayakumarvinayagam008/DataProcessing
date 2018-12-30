@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using MoreLinq;
-using System.Text;
+﻿using DataProcessing.Application.Common;
 using DataProcessing.Persistence;
-using DataProcessing.Application.Common;
+using MoreLinq;
+using System.Linq;
 
 namespace DataProcessing.Application.B2B.Command
 {
@@ -12,11 +9,13 @@ namespace DataProcessing.Application.B2B.Command
     {
         private readonly IReadDataFromFile _readDataFromFile;
         public readonly IBusinessToBusinessRepository _businessToBusinessRepository;
+
         public SaveB2B(IReadDataFromFile readDataFromFile, IBusinessToBusinessRepository businessToBusinessRepository)
         {
             _readDataFromFile = readDataFromFile;
             _businessToBusinessRepository = businessToBusinessRepository;
         }
+
         public B2BSaveSummary Save(string filePath)
         {
             //var response = new B2BSaveSummary()
@@ -38,7 +37,7 @@ namespace DataProcessing.Application.B2B.Command
             var b2bDataRepo = b2bDataSource.Result;
             var phoneNew = b2bDataRepo.Select(x => x.Phone_New).ToList();
             businessToBusiness = businessToBusiness.Except(phoneNew, x => x.PhoneNew, y => y).ToList();
-            if(businessToBusiness != null)
+            if (businessToBusiness != null)
             {
                 var saveToSource = businessToBusiness.Select(x => new BusinessToBusiness
                 {
@@ -62,7 +61,7 @@ namespace DataProcessing.Application.B2B.Command
                     LandMark = x.LandMark,
                     Mobile1 = x.Mobile1,
                     Mobile2 = x.Mobile2,
-                    Mobile_New = x.Mobile2,                   
+                    Mobile_New = x.Mobile2,
                     NoOfEmp = x.NoOfEmp,
                     Phone1 = x.Phone1,
                     Phone2 = x.Phone2,
@@ -73,16 +72,13 @@ namespace DataProcessing.Application.B2B.Command
                 }).ToList();
                 _businessToBusinessRepository.CreateManyAsync(saveToSource);
                 response.TotalCount = saveToSource.Count();
-            }else
+            }
+            else
             {
                 response.ErrorMessage = "Unable to save the upload data due to validation error";
             }
 
             return response;
         }
-
-
     }
-
-    
 }

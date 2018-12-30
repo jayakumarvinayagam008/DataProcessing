@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace DataProcessing.Application.Common
 {
@@ -15,6 +13,7 @@ namespace DataProcessing.Application.Common
 
         // Customer Data
         public IEnumerable<string> BusinessVertical { get; set; }
+
         public IEnumerable<string> DataQuality { get; set; }
         public IEnumerable<string> Network { get; set; }
         public IEnumerable<string> CustomerName { get; set; }

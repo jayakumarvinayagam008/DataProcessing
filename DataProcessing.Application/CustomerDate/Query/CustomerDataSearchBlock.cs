@@ -1,20 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using DataProcessing.CommonModels;
+﻿using DataProcessing.CommonModels;
 using DataProcessing.Persistence;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Linq;
 
 namespace DataProcessing.Application.CustomerDate.Query
 {
     public class CustomerDataSearchBlock : ICustomerDataSearchBlock
     {
         public readonly ICustomerDataRepository _customerDataRepository;
+
         public CustomerDataSearchBlock(ICustomerDataRepository customerDataRepository)
         {
             _customerDataRepository = customerDataRepository;
         }
+
         public CustomerDataSearchModel BindSearchBlock()
         {
             var result = _customerDataRepository.GetFilterBlocks();
@@ -52,7 +51,7 @@ namespace DataProcessing.Application.CustomerDate.Query
                 {
                     Value = x,
                     Text = x
-                }).AsEnumerable(),                
+                }).AsEnumerable(),
                 DataQuality = filterOptions.Dbquality.Select(x => new SelectListItem()
                 {
                     Value = x,

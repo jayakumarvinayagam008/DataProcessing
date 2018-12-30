@@ -1,20 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DataProcessing.Application.B2C.Command;
+﻿using DataProcessing.Application.B2C.Command;
 using DataProcessing.Application.B2C.Query;
 using DataProcessing.CommonModels;
 using DataProcessing.Core.Web.Actions;
 using DataProcessing.Core.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using System.Collections.Generic;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace DataProcessing.Core.Web.Controllers
 {
+    [Authorize]
     public class BusinessToCustomerController : Controller
     {
         private readonly IOptions<DataProcessingSetting> _appSettings;
@@ -31,11 +30,13 @@ namespace DataProcessing.Core.Web.Controllers
             _b2CSearchBlock = b2CSearchBlock;
             _b2CSearchAction = b2CSearchAction;
         }
+
         // GET: /<controller>/
         public IActionResult Index()
         {
             return View();
         }
+
         [HttpGet]
         public IActionResult Upload()
         {
@@ -57,17 +58,19 @@ namespace DataProcessing.Core.Web.Controllers
                 UploadCount = saveSummary.UploadCount
             });
         }
+
         public IActionResult Summary()
         {
             return View();
         }
+
         public IActionResult Search()
         {
             var searchFilterOption = _b2CSearchBlock.BindSearchBlock();
-            
 
             return View(searchFilterOption);
         }
+
         [HttpPost]
         public IActionResult Search(SearchRequest searchRequest)
         {
@@ -91,6 +94,7 @@ namespace DataProcessing.Core.Web.Controllers
             //return File(sampleTempate.content, "application/vnd.ms-excel", $"{sampleTempate.TemplateType.Name}.xlsx");
             return Json("***");
         }
+
         public ActionResult DownLoadAsCsv(int searchId)
         {
             return Json("***");

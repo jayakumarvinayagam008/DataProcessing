@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DataProcessing.CommonModels
+﻿namespace DataProcessing.CommonModels
 {
     public class BusinessToBusinessModel
     {

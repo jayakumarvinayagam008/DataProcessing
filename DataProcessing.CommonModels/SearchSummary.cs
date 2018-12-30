@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DataProcessing.CommonModels
+﻿namespace DataProcessing.CommonModels
 {
     public class SearchSummaryBoard
     {
@@ -40,6 +36,4 @@ namespace DataProcessing.CommonModels
         public int B2BTotal { get; set; }
         public string SearchId { get; set; }
     }
-
-   
 }

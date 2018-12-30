@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DataProcessing.CommonModels
+﻿namespace DataProcessing.CommonModels
 {
     public class UploadSummary
     {

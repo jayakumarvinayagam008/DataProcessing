@@ -1,9 +1,6 @@
-﻿using MongoDB.Bson;
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,8 +9,10 @@ namespace DataProcessing.Persistence
     public interface IBusinessToBusinessRepository
     {
         Task<IEnumerable<BusinessToBusiness>> GetAllB2BAsync();
+
         //Task<BusinessToBusiness> GetGame(string name);
         Task<bool> CreateAsync(BusinessToBusiness game);
+
         //Task<bool> Update(BusinessToBusiness game);
         //Task<bool> Delete(string name);
         Task<bool> CreateManyAsync(List<BusinessToBusiness> games);
@@ -23,6 +22,7 @@ namespace DataProcessing.Persistence
         Task<SearchBlock> GetFilterBlocks();
 
         (List<BusinessToBusiness> BusinessToBusinesses, long Total) GetB2BSearch(B2BFilter b2BFilter);
+
         Task<long> GetTotalDocument();
     }
 
@@ -30,6 +30,7 @@ namespace DataProcessing.Persistence
     {
         private readonly IDataProcessingContext _context;
         private readonly IBusinessCategoryRepository _businessCategoryRepository;
+
         public BusinessToBusinessRepository(IDataProcessingContext context, IBusinessCategoryRepository businessCategoryRepository)
         {
             _context = context;
@@ -38,8 +39,8 @@ namespace DataProcessing.Persistence
 
         public async Task<bool> CreateAsync(BusinessToBusiness game)
         {
-             _context
-                .BusinessToBusiness.InsertOne(game);
+            _context
+               .BusinessToBusiness.InsertOne(game);
             return await Task.FromResult(true);
         }
 
@@ -65,12 +66,11 @@ namespace DataProcessing.Persistence
 
         public (List<BusinessToBusiness> BusinessToBusinesses, long Total) GetB2BSearch(B2BFilter b2BFilter)
         {
-
             var filter = Builders<BusinessToBusiness>.Filter.Empty;
 
             var totalDocuments = _context.BusinessToBusiness.Find(_ => true).CountDocuments();
 
-            if (b2BFilter.Contries.Where(x=> !string.IsNullOrWhiteSpace(x)).Any())
+            if (b2BFilter.Contries.Where(x => !string.IsNullOrWhiteSpace(x)).Any())
                 filter = filter & Builders<BusinessToBusiness>.Filter.In("Country", b2BFilter.Contries);
 
             if (b2BFilter.States.Where(x => !string.IsNullOrWhiteSpace(x)).Any())
@@ -89,12 +89,10 @@ namespace DataProcessing.Persistence
                 filter = filter & Builders<BusinessToBusiness>.Filter.In("CategoryId", b2BFilter.BusinessCategoryId);
 
             var searchResult = _context.BusinessToBusiness.Find(filter).ToList();
-            
+
             return (searchResult, totalDocuments);
-            
         }
 
-      
         public Task<SearchBlock> GetFilterBlocks()
         {
             SearchBlock searchBlock = new SearchBlock();
@@ -120,7 +118,7 @@ namespace DataProcessing.Persistence
                 .Distinct().ToList();
             var categories = _context.BusinessToBusiness
                 .AsQueryable()
-                .Where(x=>x.CategoryId != null)
+                .Where(x => x.CategoryId != null)
                 .Select(x => x.CategoryId.Value)
                 .Distinct().ToList();
             IEnumerable<BusinessCategoryItem> searchCategory = new List<BusinessCategoryItem>();
@@ -136,7 +134,7 @@ namespace DataProcessing.Persistence
                         Id = y,
                         Name = x.Name
                     });
-            }           
+            }
 
             searchBlock.Country = country;
             searchBlock.State = state;
@@ -144,7 +142,6 @@ namespace DataProcessing.Persistence
             searchBlock.Area = area;
             searchBlock.Desigination = destination;
             searchBlock.BusinessCategory = searchCategory;
-
 
             return Task.FromResult(searchBlock);
         }

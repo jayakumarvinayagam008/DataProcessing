@@ -1,11 +1,6 @@
 ﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Bson.Serialization.Serializers;
 using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
 
 namespace DataProcessing.Persistence
 {
@@ -13,6 +8,7 @@ namespace DataProcessing.Persistence
     {
         [BsonId]
         public ObjectId Id { get; set; }
+
         public string Numbers { get; set; }
         public string Operator { get; set; }
         public string Circle { get; set; }
@@ -26,5 +22,4 @@ namespace DataProcessing.Persistence
         public string State { get; set; }
         public string Country { get; set; }
     }
-
 }

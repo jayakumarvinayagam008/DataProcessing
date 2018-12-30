@@ -1,8 +1,6 @@
 ﻿using MongoDB.Driver;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DataProcessing.Persistence
@@ -10,15 +8,20 @@ namespace DataProcessing.Persistence
     public interface ICustomerDataRepository
     {
         Task<IEnumerable<string>> GetPhoneNewAsync();
+
         Task<bool> CreateManyAsync(IEnumerable<CustomerData> saveToSource);
+
         Task<SearchBlock> GetFilterBlocks();
+
         (List<CustomerData> customerDatas, long Total) GetCustomerDataSearch(SearchFilterBlock searchFilterBlock);
+
         Task<long> GetTotalDocument();
     }
 
     public class CustomerDataRepository : ICustomerDataRepository
     {
         private readonly IDataProcessingContext _context;
+
         public CustomerDataRepository(IDataProcessingContext context)
         {
             _context = context;

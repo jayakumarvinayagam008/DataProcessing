@@ -1,21 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DataProcessing.Application.Common;
+﻿using DataProcessing.Application.Common;
 using DataProcessing.Application.CustomerDate.Command;
 using DataProcessing.Application.CustomerDate.Query;
 using DataProcessing.CommonModels;
 using DataProcessing.Core.Web.Actions;
 using DataProcessing.Core.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using System.Collections.Generic;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace DataProcessing.Core.Web.Controllers
 {
+    [Authorize]
     public class CustomerDataController : Controller
     {
         private readonly IOptions<DataProcessingSetting> _appSettings;
@@ -23,6 +22,7 @@ namespace DataProcessing.Core.Web.Controllers
         private readonly ICustomerDataSearchBlock _customerDataSearchBlock;
         private readonly ICustomerDataSearchAction _customerDataSearchAction;
         private readonly IGetSearchedFileStatuscs _getSearchedFileStatuscs;
+
         public CustomerDataController(IOptions<DataProcessingSetting> appSettings,
             ISaveCustomerData saveCustomerData, ICustomerDataSearchBlock customerDataSearchBlock,
             ICustomerDataSearchAction customerDataSearchAction, IGetSearchedFileStatuscs getSearchedFileStatuscs)
@@ -33,6 +33,7 @@ namespace DataProcessing.Core.Web.Controllers
             _customerDataSearchAction = customerDataSearchAction;
             _getSearchedFileStatuscs = getSearchedFileStatuscs;
         }
+
         // GET: /<controller>/
         public IActionResult Index()
         {
@@ -100,6 +101,7 @@ namespace DataProcessing.Core.Web.Controllers
             var templateName = "CustomerData";
             return File(sampleTempate, "application/vnd.ms-excel", $"{templateName}.xlsx");
         }
+
         public ActionResult DownLoadAsCsv(string searchId)
         {
             var fileName = $"{searchId}";

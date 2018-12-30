@@ -1,9 +1,9 @@
-﻿using System;
-using DataProcessing.CommonModels;
+﻿using DataProcessing.CommonModels;
+using System;
 
 namespace DataProcessing.Application.B2C.Command
 {
-    public class B2CSearchAction: IB2CSearchAction
+    public class B2CSearchAction : IB2CSearchAction
     {
         public B2CSearchAction()
         {

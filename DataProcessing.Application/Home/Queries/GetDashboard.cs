@@ -1,18 +1,14 @@
 ﻿using DataProcessing.Persistence;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DataProcessing.Application.Home.Queries
 {
-
-    public class GetDashboard: IGetDashboard
+    public class GetDashboard : IGetDashboard
     {
         private readonly IBusinessToBusinessRepository _businessToBusinessRepository;
         private readonly IBusinessToCustomerRepository _businessToCustomerRepository;
         private readonly ICustomerDataRepository _customerDataRepository;
         private readonly INumberLookupRepository _numberLookupRepository;
-        
+
         public GetDashboard(IBusinessToBusinessRepository businessToBusinessRepository,
             IBusinessToCustomerRepository businessToCustomerRepository,
             ICustomerDataRepository customerDataRepository,
@@ -23,6 +19,7 @@ namespace DataProcessing.Application.Home.Queries
             _customerDataRepository = customerDataRepository;
             _numberLookupRepository = numberLookupRepository;
         }
+
         public Dashboard Get()
         {
             Dashboard dashboard = new Dashboard()

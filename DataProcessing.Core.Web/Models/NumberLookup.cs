@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace DataProcessing.Core.Web.Models
+﻿namespace DataProcessing.Core.Web.Models
 {
     public class NumberLookup
     {
@@ -12,6 +7,5 @@ namespace DataProcessing.Core.Web.Models
         public string Series { get; set; }
         public bool IsUploaded { get; set; }
         public string UploadMessage { get; set; }
-
     }
 }

@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace DataProcessing.CommonModels
 {
-    public class CustomerDataSearchModel:CommonSearchModel
+    public class CustomerDataSearchModel : CommonSearchModel
     {
         public int NetWorkId { get; set; }
         public IEnumerable<SelectListItem> NetWork { get; set; }

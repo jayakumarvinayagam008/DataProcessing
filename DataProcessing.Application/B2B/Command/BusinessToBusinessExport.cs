@@ -1,19 +1,19 @@
-﻿using System;
+﻿using DataProcessing.CommonModels;
+using DataProcessing.Persistence;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using DataProcessing.CommonModels;
-using DataProcessing.Persistence;
 
 namespace DataProcessing.Application.B2B.Command
-{   
+{
     public class BusinessToBusinessExport : IBusinessToBusinessExport
     {
         private readonly ICreateExcel _createExcel;
         private readonly IDownloadRequestRepository _downloadRequestRepository;
         private readonly ICreateCsv _createCsv;
         private readonly IBusinessCategoryRepository _businessCategoryRepository;
+
         public BusinessToBusinessExport(ICreateExcel createExcel, IDownloadRequestRepository downloadRequestRepository
             , ICreateCsv createCsv, IBusinessCategoryRepository businessCategoryRepository)
         {
@@ -22,6 +22,7 @@ namespace DataProcessing.Application.B2B.Command
             _createCsv = createCsv;
             _businessCategoryRepository = businessCategoryRepository;
         }
+
         public string Export(List<BusinessToBusiness> businessToBusinesses, string fileRootPath, int range)
         {
             var fileName = GetGUID();
@@ -49,7 +50,7 @@ namespace DataProcessing.Application.B2B.Command
                     FileType = 1 // csv
                 }
             };
-            // get category 
+            // get category
             var businessCategoryCall = _businessCategoryRepository.Get();
             businessCategoryCall.Wait();
             var businessCategory = businessCategoryCall.Result;
@@ -111,8 +112,7 @@ namespace DataProcessing.Application.B2B.Command
             //    }
             //    ).ToList();
 
-
-            _downloadRequestRepository.CreateAsync(searchRequest).Wait();            
+            _downloadRequestRepository.CreateAsync(searchRequest).Wait();
             Task.Run(() => _createExcel.Create(businessToBusinessModels, filePath, range, searchRequest[0]));
             Task.Run(() => _createCsv.Create(businessToBusinessModels, fileCsvPath, searchRequest[1]));
 
@@ -125,6 +125,4 @@ namespace DataProcessing.Application.B2B.Command
             return $"{guid.ToString()}{DateTime.Now.ToString("yyyyMMddhhmmss")}";
         }
     }
-
-
 }

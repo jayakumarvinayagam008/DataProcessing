@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using DataProcessing.Application.Common;
+﻿using DataProcessing.Application.Common;
 using DataProcessing.CommonModels;
 using DataProcessing.Persistence;
 using OfficeOpenXml;
+using System.Collections.Generic;
+using System.IO;
 
 namespace DataProcessing.Application.CustomerDate.Command
 {
@@ -23,11 +21,14 @@ namespace DataProcessing.Application.CustomerDate.Command
                                         "State",
                                         "Country"
                                         };
+
         private readonly IDownloadRequestRepository _downloadRequestRepository;
+
         public CreateCustomerDataExcel(IDownloadRequestRepository downloadRequestRepository)
         {
             _downloadRequestRepository = downloadRequestRepository;
         }
+
         public void Create(List<CustomerDataExportModel> customerData, string filePath, int range, DownloadRequest downloadRequest)
         {
             var sheetContainer = customerData.Batch(range);
@@ -49,7 +50,6 @@ namespace DataProcessing.Application.CustomerDate.Command
             }
             downloadRequest.StatusCode = (int)FileCreateStatus.Completed;
             _downloadRequestRepository.UpdateAsync(downloadRequest);
-
         }
 
         private ExcelWorksheet AddHeader(ExcelWorksheet excelWorksheet)

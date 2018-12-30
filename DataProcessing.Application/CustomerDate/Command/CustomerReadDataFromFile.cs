@@ -1,11 +1,10 @@
-﻿using System;
+﻿using DataProcessing.Application.Common;
+using DataProcessing.CommonModels;
+using OfficeOpenXml;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using DataProcessing.Application.Common;
-using DataProcessing.CommonModels;
-using OfficeOpenXml;
 
 namespace DataProcessing.Application.CustomerDate.Command
 {
@@ -14,6 +13,7 @@ namespace DataProcessing.Application.CustomerDate.Command
         private Dictionary<string, int> columnIndex;
         private int totalRows = 0;
         private IDictionary<string, int> columnArray;
+
         public (IEnumerable<CustomerDataModel>, int) ReadFileData(string filePath)
         {
             FileInfo fileInfo = new FileInfo(filePath);
@@ -29,6 +29,7 @@ namespace DataProcessing.Application.CustomerDate.Command
             }
             return (customerDataModels, totalRows);
         }
+
         private IEnumerable<CustomerDataModel> ReadExcelPackageToString(ExcelPackage package, ExcelWorksheet worksheet)
         {
             var rowCount = worksheet.Dimension?.Rows;
@@ -72,7 +73,7 @@ namespace DataProcessing.Application.CustomerDate.Command
                         Country = $"{worksheet.Cells[row, GetColumnIndex("Country")].Value}"
                     });
                 }
-            }         
+            }
             return customerDataModel.AsEnumerable<CustomerDataModel>();
         }
 

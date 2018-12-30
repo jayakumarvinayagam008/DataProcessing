@@ -1,15 +1,14 @@
-﻿using DataProcessing.Application.B2B.Query;
-using DataProcessing.CommonModels;
+﻿using DataProcessing.CommonModels;
 using DataProcessing.Persistence;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
 using System.Linq;
 
 namespace DataProcessing.Application.B2C.Query
 {
-    public class B2CSearchBlock: IB2CSearchBlock
+    public class B2CSearchBlock : IB2CSearchBlock
     {
         public readonly IBusinessToCustomerRepository _businessToCustomerRepository;
+
         public B2CSearchBlock(IBusinessToCustomerRepository businessToCustomerRepository)
         {
             _businessToCustomerRepository = businessToCustomerRepository;
@@ -26,7 +25,7 @@ namespace DataProcessing.Application.B2C.Query
                 {
                     Value = x,
                     Text = x
-                }).AsEnumerable(),                
+                }).AsEnumerable(),
                 City = filterOptions.City.Select(x => new SelectListItem()
                 {
                     Value = x,

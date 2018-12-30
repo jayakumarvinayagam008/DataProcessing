@@ -1,21 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
-using DataProcessing.Application.B2B.Command;
+﻿using DataProcessing.Application.B2B.Command;
 using DataProcessing.Application.B2B.Query;
 using DataProcessing.Application.Common;
 using DataProcessing.CommonModels;
 using DataProcessing.Core.Web.Actions;
 using DataProcessing.Core.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using System.Collections.Generic;
 
 namespace DataProcessing.Core.Web.Controllers
 {
+    [Authorize]
     public class BusinessToBusinessController : Controller
     {
         private readonly IOptions<DataProcessingSetting> _appSettings;
@@ -34,10 +31,12 @@ namespace DataProcessing.Core.Web.Controllers
             _searchAction = searchAction;
             _getSearchedFileStatuscs = getSearchedFileStatuscs;
         }
+
         public IActionResult Index()
         {
             return View(new B2BDashboard());
         }
+
         [HttpGet]
         public IActionResult Upload()
         {
@@ -59,15 +58,18 @@ namespace DataProcessing.Core.Web.Controllers
                 UploadCount = saveSummary.UploadCount
             });
         }
+
         public IActionResult Summary()
         {
             return View();
         }
+
         public IActionResult Search()
         {
             var searchFilterOption = _searchBlock.BindSearchBlock();
             return View(new B2BSearchModel() { SearchBlock = searchFilterOption });
         }
+
         [HttpPost]
         public IActionResult Search(SearchRequest searchRequest)
         {
@@ -92,6 +94,7 @@ namespace DataProcessing.Core.Web.Controllers
             var templateName = "B2B";
             return File(sampleTempate, "application/vnd.ms-excel", $"{templateName}.xlsx");
         }
+
         public ActionResult DownLoadAsCsv(string searchId)
         {
             var fileName = $"{searchId}";
@@ -102,7 +105,7 @@ namespace DataProcessing.Core.Web.Controllers
             return File(sampleTempate, "application/x-csv", $"{templateName}.csv");
         }
 
-        public ActionResult CheckSearchFileAvailable(SearchRequestCheck searchRequestCheck )
+        public ActionResult CheckSearchFileAvailable(SearchRequestCheck searchRequestCheck)
         {
             var fileName = $"{searchRequestCheck.SearchId}";
             var rootPath = _appSettings.Value.SearchExport;
@@ -110,6 +113,5 @@ namespace DataProcessing.Core.Web.Controllers
             var fileStatus = _getSearchedFileStatuscs.FileExist(searchRequestCheck.SearchId, 1, filePath);
             return Json(fileStatus);
         }
-
     }
 }

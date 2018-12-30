@@ -1,19 +1,19 @@
-﻿using System;
+﻿using DataProcessing.Application.NumberLookup.Command;
+using DataProcessing.Persistence;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using DataProcessing.Application.NumberLookup.Command;
-using DataProcessing.Persistence;
 
 namespace DataProcessing.Application.NumberLookup.Query
 {
     public class GetNumberLoopUpData : IGetNumberLoopUpData
     {
         public readonly INumberLookupRepository _numberLookupRepository;
+
         public GetNumberLoopUpData(INumberLookupRepository numberLookupRepository)
         {
             _numberLookupRepository = numberLookupRepository;
         }
+
         public IEnumerable<NumberLookUpDetail> FilterNumberLookUp(IEnumerable<Numbers> numberLookups)
         {
             var lookup = _numberLookupRepository.GetNumberLookup();

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace DataProcessing.Core.Web.Models
 {
@@ -19,6 +16,5 @@ namespace DataProcessing.Core.Web.Models
         public IEnumerable<string> Network { get; set; }
         public IEnumerable<string> CustomerName { get; set; }
         public IEnumerable<string> Tags { get; set; }
-
     }
 }

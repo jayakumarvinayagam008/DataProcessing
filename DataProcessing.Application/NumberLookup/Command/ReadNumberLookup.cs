@@ -1,8 +1,6 @@
 ﻿using OfficeOpenXml;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace DataProcessing.Application.NumberLookup.Command
 {
@@ -31,7 +29,7 @@ namespace DataProcessing.Application.NumberLookup.Command
             var startRow = CheckTheHeaderHasColumnOrNot($"{worksheet.Cells[1, 1].Value}");
             IList<Numbers> numberLookups = new List<Numbers>();
 
-            var rowCountValue = (rowCount != null && rowCount.Value != null) ? rowCount.Value : 0; 
+            var rowCountValue = (rowCount != null && rowCount.Value != null) ? rowCount.Value : 0;
 
             for (int row = startRow; row <= rowCountValue; row++)
             {

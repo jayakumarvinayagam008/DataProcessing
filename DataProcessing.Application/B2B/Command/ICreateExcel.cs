@@ -2,12 +2,8 @@
 using DataProcessing.CommonModels;
 using DataProcessing.Persistence;
 using OfficeOpenXml;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
 
 namespace DataProcessing.Application.B2B.Command
 {
@@ -46,11 +42,14 @@ namespace DataProcessing.Application.B2B.Command
                                         "Country",
                                         "CategoryName",
                                         };
+
         private readonly IDownloadRequestRepository _downloadRequestRepository;
+
         public CreateExcel(IDownloadRequestRepository downloadRequestRepository)
         {
             _downloadRequestRepository = downloadRequestRepository;
         }
+
         public void Create(List<BusinessToBusinessModel> businessToBusinesses, string filePath, int range, DownloadRequest downloadRequest)
         {
             var sheetContainer = businessToBusinesses.Batch(range);
@@ -73,6 +72,7 @@ namespace DataProcessing.Application.B2B.Command
             downloadRequest.StatusCode = (int)FileCreateStatus.Completed;
             _downloadRequestRepository.UpdateAsync(downloadRequest);
         }
+
         private ExcelWorksheet AddHeader(ExcelWorksheet excelWorksheet)
         {
             int rowIndex = 1;

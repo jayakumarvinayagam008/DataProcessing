@@ -1,8 +1,6 @@
 ﻿using MongoDB.Driver;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DataProcessing.Persistence
@@ -10,14 +8,18 @@ namespace DataProcessing.Persistence
     public interface IBusinessToCustomerRepository
     {
         Task<IEnumerable<string>> GetPhoneNewAsync();
+
         Task<bool> CreateManyAsync(IEnumerable<BusinessToCustomer> saveToSource);
+
         Task<SearchBlock> GetFilterBlocks();
+
         Task<long> GetTotalDocument();
     }
 
     public class BusinessToCustomerRepository : IBusinessToCustomerRepository
     {
         private readonly IDataProcessingContext _context;
+
         public BusinessToCustomerRepository(IDataProcessingContext context)
         {
             _context = context;
@@ -61,7 +63,7 @@ namespace DataProcessing.Persistence
                .AsQueryable()
                .Select(x => x.Dob).Where(x => x.HasValue)
                .Distinct().ToList();
-            var experience  = _context.BusinessToCustomers
+            var experience = _context.BusinessToCustomers
                .AsQueryable()
                .Select(x => x.Experience).Where(x => x != "")
                .Distinct().ToList();
@@ -85,7 +87,7 @@ namespace DataProcessing.Persistence
             var result = await _context
                     .BusinessToCustomers
                     .Find(filter)
-                    .Project(u =>  u.PhoneNew ).ToListAsync();
+                    .Project(u => u.PhoneNew).ToListAsync();
 
             return result;
         }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DataProcessing.CommonModels
+﻿namespace DataProcessing.CommonModels
 {
     public class CustomerDataSearchSummary
     {
@@ -23,8 +19,8 @@ namespace DataProcessing.CommonModels
         public long Total { get; set; }
     }
 }
+
 /*
  * searchSummaryBoard.Add1 = (response.Select(x => !string.IsNullOrWhiteSpace(x.Add1)).Count() / (decimal)searchTotoal) * 100;
-    
-  
+
      */

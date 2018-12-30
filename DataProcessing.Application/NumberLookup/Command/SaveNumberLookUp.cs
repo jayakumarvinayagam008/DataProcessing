@@ -1,9 +1,8 @@
-﻿using System;
+﻿using DataProcessing.Application.NumberLookup.Query;
+using OfficeOpenXml;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
-using DataProcessing.Application.NumberLookup.Query;
-using OfficeOpenXml;
 
 namespace DataProcessing.Application.NumberLookup.Command
 {
@@ -37,6 +36,7 @@ namespace DataProcessing.Application.NumberLookup.Command
             }
             return fileName;
         }
+
         private string GetGUID()
         {
             Guid guid = Guid.NewGuid();

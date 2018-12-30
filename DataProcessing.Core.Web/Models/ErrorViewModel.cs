@@ -1,5 +1,3 @@
-using System;
-
 namespace DataProcessing.Core.Web.Models
 {
     public class ErrorViewModel

@@ -1,9 +1,8 @@
-﻿using System;
+﻿using DataProcessing.CommonModels;
+using DataProcessing.Persistence;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using DataProcessing.CommonModels;
-using DataProcessing.Persistence;
 
 namespace DataProcessing.Application.CustomerDate.Command
 {
@@ -21,11 +20,14 @@ namespace DataProcessing.Application.CustomerDate.Command
                                         "State",
                                         "Country"
                                         };
+
         private readonly IDownloadRequestRepository _downloadRequestRepository;
+
         public CreateCustomerDataCsv(IDownloadRequestRepository downloadRequestRepository)
         {
             _downloadRequestRepository = downloadRequestRepository;
         }
+
         public void Create(List<CustomerDataExportModel> customerData, string filePath, DownloadRequest downloadRequest)
         {
             StringBuilder sb = new StringBuilder();

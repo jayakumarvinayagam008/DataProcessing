@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
@@ -32,10 +31,10 @@ namespace DataProcessing.Core.Web.Actions
                         }
                     }
                 }
-                
             }
             return filePath;
         }
+
         private string GetGUID()
         {
             Guid guid = Guid.NewGuid();

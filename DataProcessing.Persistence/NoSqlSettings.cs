@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DataProcessing.Persistence
+﻿namespace DataProcessing.Persistence
 {
     public class NoSqlSettings
     {

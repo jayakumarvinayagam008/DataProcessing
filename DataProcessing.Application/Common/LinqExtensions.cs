@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace DataProcessing.Application.Common
 {
@@ -66,6 +65,7 @@ namespace DataProcessing.Application.Common
                 }
             }
         }
+
         public static IEnumerable<IEnumerable<T>> Batch<T>(this IEnumerable<T> collection, int batchSize)
         {
             var nextbatch = new List<T>(batchSize);

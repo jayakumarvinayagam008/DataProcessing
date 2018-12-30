@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DataProcessing.Application.B2B.Common
 {
@@ -34,7 +32,7 @@ namespace DataProcessing.Application.B2B.Common
         public int? NoOfEmp { get; set; }
         public string Country { get; set; }
         public DateTime? CreatedDate { get; set; }
-        public string CreatedBy { get; set; }       
+        public string CreatedBy { get; set; }
         public string CategoryName { get; set; }
     }
 }

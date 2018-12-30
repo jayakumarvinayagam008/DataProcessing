@@ -1,7 +1,5 @@
 ﻿using DataProcessing.Application.NumberLookup.Query;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace DataProcessing.Application.NumberLookup.Command
 {

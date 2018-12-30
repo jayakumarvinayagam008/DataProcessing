@@ -8,6 +8,7 @@ namespace DataProcessing.Persistence
     {
         [BsonId]
         public ObjectId Id { get; set; }
+
         public string Name { get; set; }
         public DateTime? Dob { get; set; }
         public string Qualification { get; set; }

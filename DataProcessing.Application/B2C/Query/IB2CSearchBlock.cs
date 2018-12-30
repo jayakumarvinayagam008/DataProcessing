@@ -1,5 +1,4 @@
-﻿using System;
-using DataProcessing.CommonModels;
+﻿using DataProcessing.CommonModels;
 
 namespace DataProcessing.Application.B2C.Query
 {

@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace DataProcessing.Application.B2B.Command
 {
-    public  class BusinessToBusinessColumnMapping
+    public class BusinessToBusinessColumnMapping
     {
         private Dictionary<string, int> ColumnName { get; set; }
 

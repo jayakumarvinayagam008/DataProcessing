@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using DataProcessing.Application.Common;
+﻿using DataProcessing.Application.Common;
 using DataProcessing.CommonModels;
 using DataProcessing.Persistence;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DataProcessing.Application.CustomerDate.Command
 {
@@ -13,6 +11,7 @@ namespace DataProcessing.Application.CustomerDate.Command
         private readonly ICustomerDataRepository _customerDataRepository;
         private readonly IPrepareCustomerSearchSummaryBoard _prepareSearchSummaryBoard;
         private readonly ICustomerDataExport _customerDataExport;
+
         public CustomerDataSearchAction(ICustomerDataRepository customerDataRepository,
             IPrepareCustomerSearchSummaryBoard prepareSearchSummaryBoard,
             ICustomerDataExport customerDataExport)
@@ -21,6 +20,7 @@ namespace DataProcessing.Application.CustomerDate.Command
             _prepareSearchSummaryBoard = prepareSearchSummaryBoard;
             _customerDataExport = customerDataExport;
         }
+
         public CustomerDataSearchSummary Filter(RequestFilter requestFilter, string rootPath, int range)
         {
             //SearchFilterBlock

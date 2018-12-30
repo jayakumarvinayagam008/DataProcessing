@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace DataProcessing.CommonModels
 {
@@ -8,6 +7,7 @@ namespace DataProcessing.CommonModels
         public B2CSearchFilter()
         {
         }
+
         public IEnumerable<string> Contries { get; set; }
         public IEnumerable<string> States { get; set; }
         public IEnumerable<string> Cities { get; set; }

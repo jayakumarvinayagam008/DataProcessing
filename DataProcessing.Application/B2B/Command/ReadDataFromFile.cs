@@ -1,15 +1,13 @@
 ﻿using DataProcessing.Application.B2B.Common;
 using DataProcessing.Application.Common;
 using OfficeOpenXml;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace DataProcessing.Application.B2B.Command
 {
-    public class ReadDataFromFile: IReadDataFromFile
+    public class ReadDataFromFile : IReadDataFromFile
     {
         private Dictionary<string, int> columnIndex;
         private int totalRows = 0;

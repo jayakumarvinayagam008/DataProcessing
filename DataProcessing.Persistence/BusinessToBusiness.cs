@@ -1,6 +1,5 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using System;
 
 namespace DataProcessing.Persistence
 {
@@ -8,6 +7,7 @@ namespace DataProcessing.Persistence
     {
         [BsonId]
         public ObjectId Id { get; set; }
+
         public string CompanyName { get; set; }
         public string Add1 { get; set; }
         public string Add2 { get; set; }

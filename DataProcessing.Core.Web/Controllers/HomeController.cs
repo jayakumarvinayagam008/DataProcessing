@@ -1,21 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using DataProcessing.Application.Home.Queries;
 using DataProcessing.Core.Web.Models;
-using DataProcessing.Application.Home.Queries;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace DataProcessing.Core.Web.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly IGetDashboard _getDashboard;
+
         public HomeController(IGetDashboard getDashboard)
         {
             _getDashboard = getDashboard;
         }
+
         public IActionResult Index()
         {
             var dashboard = _getDashboard.Get();

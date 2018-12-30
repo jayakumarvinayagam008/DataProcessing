@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DataProcessing.Application.Home.Queries
+﻿namespace DataProcessing.Application.Home.Queries
 {
     public class Dashboard
     {

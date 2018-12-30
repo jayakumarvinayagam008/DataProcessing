@@ -1,6 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace DataProcessing.CommonModels
 {
@@ -9,6 +8,7 @@ namespace DataProcessing.CommonModels
         public B2CSearchBlockModel()
         {
         }
+
         public int CountryId { get; set; }
         public IEnumerable<SelectListItem> Country { get; set; }
         public int StateId { get; set; }

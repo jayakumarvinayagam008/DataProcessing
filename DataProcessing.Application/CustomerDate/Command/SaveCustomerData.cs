@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using DataProcessing.Application.Common;
+﻿using DataProcessing.Application.Common;
 using DataProcessing.CommonModels;
 using DataProcessing.Persistence;
 using MoreLinq;
+using System;
+using System.Linq;
 
 namespace DataProcessing.Application.CustomerDate.Command
 {
@@ -15,12 +13,14 @@ namespace DataProcessing.Application.CustomerDate.Command
         private readonly ICustomerDataRepository _businessToCustomerRepository;
         private string createdBy = "Admin";
         private readonly DateTime createdOn;
+
         public SaveCustomerData(ICustomerReadDataFromFile readDataFromFile, ICustomerDataRepository businessToCustomerRepository)
         {
             _readDataFromFile = readDataFromFile;
             _businessToCustomerRepository = businessToCustomerRepository;
             createdOn = DateTime.Now;
         }
+
         public UploadSummary Save(string filePath)
         {
             var uploadSummary = new UploadSummary();
@@ -34,9 +34,10 @@ namespace DataProcessing.Application.CustomerDate.Command
             b2bDataSource.Wait();
             var mobileNewRepo = b2bDataSource.Result;
             var customerDate = numbers.Except(mobileNewRepo, x => x.Numbers, y => y).ToList();
-            if(customerDate != null)
+            if (customerDate != null)
             {
-                var saveToSource = customerDate.Select( x=> new CustomerData {
+                var saveToSource = customerDate.Select(x => new CustomerData
+                {
                     Circle = x.Circle,
                     ClientBusinessVertical = x.ClientBusinessVertical,
                     ClientCity = x.ClientCity,
@@ -48,11 +49,12 @@ namespace DataProcessing.Application.CustomerDate.Command
                     Dbquality = x.Dbquality,
                     Numbers = x.Numbers,
                     Operator = x.Operator,
-                    State = x.State                    
+                    State = x.State
                 });
                 _businessToCustomerRepository.CreateManyAsync(saveToSource);
                 uploadSummary.UploadCount = saveToSource.Count();
-            }else
+            }
+            else
             {
                 uploadSummary.ErrorMessage = "Unable to save the upload data due to validation error";
             }

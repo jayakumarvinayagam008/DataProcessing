@@ -1,9 +1,7 @@
-﻿using System;
+﻿using DataProcessing.CommonModels;
+using DataProcessing.Persistence;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using DataProcessing.CommonModels;
-using DataProcessing.Persistence;
 
 namespace DataProcessing.Application.B2B.Command
 {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DataProcessing.Application.B2B.Query
+﻿namespace DataProcessing.Application.B2B.Query
 {
     public class BusinessCategory
     {

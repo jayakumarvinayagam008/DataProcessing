@@ -1,9 +1,7 @@
 ﻿using DataProcessing.CommonModels;
 using DataProcessing.Persistence;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace DataProcessing.Application.B2B.Command
 {
@@ -12,6 +10,7 @@ namespace DataProcessing.Application.B2B.Command
         private readonly IBusinessToBusinessRepository _businessToBusinessRepository;
         private readonly IPrepareSearchSummaryBoard _prepareSearchSummaryBoard;
         private readonly IBusinessToBusinessExport _businessToBusinessExport;
+
         public SearchAction(IBusinessToBusinessRepository businessToBusinessRepository,
             IPrepareSearchSummaryBoard prepareSearchSummaryBoard, IBusinessToBusinessExport businessToBusinessExport)
         {
@@ -19,8 +18,9 @@ namespace DataProcessing.Application.B2B.Command
             _prepareSearchSummaryBoard = prepareSearchSummaryBoard;
             _businessToBusinessExport = businessToBusinessExport;
         }
+
         public SearchSummaryBoard Filter(SearchFilter searchFilter, string rootPath, int range)
-        {            
+        {
             var tempResult = _businessToBusinessRepository.GetB2BSearch(new B2BFilter
             {
                 Area = (searchFilter.Cities != null) ? searchFilter.Cities : new List<string>(),
@@ -28,15 +28,15 @@ namespace DataProcessing.Application.B2B.Command
                 Cities = (searchFilter.Cities != null) ? searchFilter.Cities : new List<string>(),
                 Contries = (searchFilter.Contries != null) ? searchFilter.Contries : new List<string>(),
                 Designation = (searchFilter.Designation != null) ? searchFilter.Designation : new List<string>(),
-                States = (searchFilter.States !=null)?searchFilter.States:new List<string>()
+                States = (searchFilter.States != null) ? searchFilter.States : new List<string>()
             });
             var response = tempResult;
             var dashBoard = _prepareSearchSummaryBoard.GenerateSummary(response.BusinessToBusinesses, response.Total);
             string fileId = string.Empty;
-            if (tempResult.BusinessToBusinesses.Count()>0)
+            if (tempResult.BusinessToBusinesses.Count() > 0)
             {
                 fileId = _businessToBusinessExport.Export(tempResult.BusinessToBusinesses, rootPath, range);
-            }           
+            }
             dashBoard.SearchId = fileId;
             dashBoard.Total = tempResult.Total;
             dashBoard.SearchCount = tempResult.BusinessToBusinesses.Count();

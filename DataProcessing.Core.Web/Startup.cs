@@ -9,10 +9,12 @@ using DataProcessing.Application.Home.Queries;
 using DataProcessing.Application.NumberLookup.Command;
 using DataProcessing.Application.NumberLookup.Query;
 using DataProcessing.Persistence;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -48,6 +50,18 @@ namespace DataProcessing.Core.Web
                 options.ConnectionString = Configuration.GetSection("NoSql:Server").Value;
                 options.Database = Configuration.GetSection("NoSql:Database").Value;
             });
+
+            //services.AddIdentity<ApplicationUser, IdentityRole>()
+            //        .AddEntityFrameworkStores<ApplicationDbContext>()
+            //        .AddDefaultTokenProviders();
+
+            //services.ConfigureApplicationCookie(options => options.LoginPath = "/DataProcessAuthentication/Login");
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                    .AddCookie(options =>
+                    {
+                        options.LoginPath = "/DataProcessAuthentication/Login";
+                        options.LogoutPath = "/DataProcessAuthentication/LogOff";
+                    });
 
             services.Configure<DataProcessingSetting>(Configuration.GetSection("DataProcessingSetting"));
 
@@ -108,7 +122,7 @@ namespace DataProcessing.Core.Web
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
+            app.UseAuthentication();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
