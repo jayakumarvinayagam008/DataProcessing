@@ -72,16 +72,19 @@ namespace DataProcessing.Core.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Search(SearchRequest searchRequest)
+        public IActionResult Search(BusinessToCustomerSearchRequest searchRequest)
         {
             _b2CSearchAction.Filter(new B2CSearchFilter
             {
                 Area = searchRequest.Area,
                 Cities = searchRequest.Cities,
                 Contries = searchRequest.Contries,
-                Designation = searchRequest.Designation,
-                States = searchRequest.States
-            });
+                States = searchRequest.States,
+                Age = searchRequest.Age,
+                Experience = searchRequest.Experience,
+                Roles = searchRequest.Roles,
+                Salary = searchRequest.Salary
+            }, "", 100);
             return Json("");
         }
 

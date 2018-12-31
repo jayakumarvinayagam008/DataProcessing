@@ -12,6 +12,9 @@ namespace DataProcessing.CommonModels
         public IEnumerable<string> States { get; set; }
         public IEnumerable<string> Cities { get; set; }
         public IEnumerable<string> Area { get; set; }
-        public IEnumerable<string> Designation { get; set; }
+        public IEnumerable<string> Roles { get; set; }
+        public IEnumerable<string> Salary { get; set; }
+        public IEnumerable<string> Experience { get; set; }
+        public IEnumerable<int> Age { get; set; }
     }
 }

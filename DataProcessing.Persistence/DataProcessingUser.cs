@@ -17,5 +17,6 @@ namespace DataProcessing.Persistence
         public DateTime? CreatedDate { get; set; }
         public string CreatedBy { get; set; }
         public string Role { get; set; }
+        public bool IsActive { get; set; }
     }
 }

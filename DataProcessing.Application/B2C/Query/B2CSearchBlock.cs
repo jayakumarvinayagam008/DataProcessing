@@ -1,6 +1,8 @@
 ﻿using DataProcessing.CommonModels;
 using DataProcessing.Persistence;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DataProcessing.Application.B2C.Query
@@ -19,6 +21,13 @@ namespace DataProcessing.Application.B2C.Query
             var result = _businessToCustomerRepository.GetFilterBlocks();
             result.Wait();
             var filterOptions = result.Result;
+            IList<int> ages = new List<int>();
+            var today = DateTime.Now;
+            foreach (var item in filterOptions.Age)
+            {
+                ages.Add(item.Value.Age(today));
+            }
+
             B2CSearchBlockModel searchBlock = new B2CSearchBlockModel()
             {
                 Area = filterOptions.Area.Select(x => new SelectListItem()
@@ -51,11 +60,11 @@ namespace DataProcessing.Application.B2C.Query
                     Value = x,
                     Text = x
                 }).AsEnumerable(),
-                //Ages = filterOptions.Age.Select(x => new SelectListItem()
-                //{
-                //    Value = x,
-                //    Text = x
-                //}).AsEnumerable(),
+                Ages = ages.Select(x => new SelectListItem()
+                {
+                    Value = $"{x}",
+                    Text = $"{x}"
+                }).AsEnumerable(),
                 Expercinse = filterOptions.Expercinse.Select(x => new SelectListItem()
                 {
                     Value = x,

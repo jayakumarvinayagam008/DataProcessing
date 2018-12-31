@@ -18,6 +18,5 @@
 
   <ItemGroup>
     <Folder Include="B2C\Query\" />
-    <Folder Include="Authendication\" />
   </ItemGroup>
 </Project>

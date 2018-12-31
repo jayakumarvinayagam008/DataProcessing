@@ -4,6 +4,6 @@ namespace DataProcessing.Application.B2C.Command
 {
     public interface IB2CSearchAction
     {
-        void Filter(B2CSearchFilter searchFilter);
+        BusinessToCustomerSearchSumary Filter(B2CSearchFilter searchFilter, string rootPath, int range);
     }
 }

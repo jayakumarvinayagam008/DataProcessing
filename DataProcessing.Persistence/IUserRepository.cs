@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
+using System;
 using System.Threading.Tasks;
 
 namespace DataProcessing.Persistence
@@ -6,7 +8,7 @@ namespace DataProcessing.Persistence
     public interface IUserRepository
     {
         Task<bool> CreateAsync(DataProcessingUser user);
-        Task<(string userName, bool status)> Validate(string userName, string password);
+        Task<bool> ValidateAsync(string userName, string password);
     }
 
     public class UserRepository : IUserRepository
@@ -18,14 +20,29 @@ namespace DataProcessing.Persistence
             _context = context;
         }
 
-        public Task<bool> CreateAsync(DataProcessingUser user)
+        public async Task<bool> CreateAsync(DataProcessingUser user)
         {
-            throw new NotImplementedException();
+            user.IsActive = true;
+            user.Role = "Administrator";
+            user.CreatedBy = "Admin";
+            user.CreatedDate = DateTime.Now;
+            _context
+              .DataProcessingUsers.InsertOne(user);
+            return await Task.FromResult(true);
         }
 
-        public Task<(string userName, bool status)> Validate(string userName, string password)
+        public async Task<bool> ValidateAsync(string userName, string password)
         {
-            throw new NotImplementedException();
+            FilterDefinition<DataProcessingUser> filter = Builders<DataProcessingUser>
+                .Filter.Eq(m => m.IsActive, true)
+                & Builders<DataProcessingUser>.Filter.Eq(m => m.UserName, userName)
+                & Builders<DataProcessingUser>.Filter.Eq(m => m.Password, password);
+           
+            var result = await _context
+                    .DataProcessingUsers
+                    .Find(filter)
+                    .FirstOrDefaultAsync();
+            return result!= null && !string.IsNullOrWhiteSpace(result.UserName);
         }
     }
 }

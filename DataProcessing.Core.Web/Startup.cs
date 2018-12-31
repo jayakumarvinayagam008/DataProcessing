@@ -1,4 +1,5 @@
-﻿using DataProcessing.Application.B2B.Command;
+﻿using DataProcessing.Application.Authendication;
+using DataProcessing.Application.B2B.Command;
 using DataProcessing.Application.B2B.Query;
 using DataProcessing.Application.B2C.Command;
 using DataProcessing.Application.B2C.Query;
@@ -103,6 +104,15 @@ namespace DataProcessing.Core.Web
             services.AddScoped<ICreateCustomerDataExcel, CreateCustomerDataExcel>();
             services.AddScoped<ICreateCustomerDataCsv, CreateCustomerDataCsv>();
             services.AddScoped<IGetDashboard, GetDashboard>();
+            services.AddScoped<IValidateUser, ValidateUser>();
+            services.AddScoped<ICreateUser, CreateUser>();
+            services.AddScoped<IUserRepository, UserRepository>();
+
+            services.AddScoped<IB2CSearchAction, B2CSearchAction>();
+            services.AddScoped<IPrepareBusinessToCustomerSummaryDashBoard, PrepareBusinessToCustomerSummaryDashBoard>();
+            services.AddScoped<IB2CDataExport, B2CDataExport>();
+
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 

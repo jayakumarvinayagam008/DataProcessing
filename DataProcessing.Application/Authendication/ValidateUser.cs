@@ -1,15 +1,22 @@
-﻿using System;
+﻿using DataProcessing.Persistence;
+using System;
 namespace DataProcessing.Application.Authendication
 {
     public class ValidateUser: IValidateUser
     {
-        public ValidateUser()
+        private readonly IUserRepository _userRepository;
+        public ValidateUser(IUserRepository userRepository)
         {
+            _userRepository = userRepository;
         }
 
-        public (string userName, bool status) Validate(string userName, string password)
+        public (string userName, bool status, string error) Validate(string userName, string password)
         {
-            throw new NotImplementedException();
+            var userDetail = _userRepository.ValidateAsync(userName, password).Result;
+            if (userDetail)
+                return (userName, userDetail, string.Empty);
+            else
+                return (userName, userDetail, "Login Failed.Please enter correct credentials");
         }
     }
 }

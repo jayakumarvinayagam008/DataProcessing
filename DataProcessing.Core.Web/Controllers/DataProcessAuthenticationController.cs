@@ -1,4 +1,5 @@
-﻿using DataProcessing.Core.Web.Models;
+﻿using DataProcessing.Application.Authendication;
+using DataProcessing.Core.Web.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,14 @@ namespace DataProcessing.Core.Web.Controllers
     [AllowAnonymous]
     public class DataProcessAuthenticationController : Controller
     {
+        private readonly IValidateUser _validateUser;
+        private readonly ICreateUser _createUser;
+
+        public DataProcessAuthenticationController(IValidateUser validateUser, ICreateUser createUser)
+        {
+            _validateUser = validateUser;
+            _createUser = createUser;
+        }
         public IActionResult Login()
         {
             return View();
@@ -21,9 +30,9 @@ namespace DataProcessing.Core.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                bool LoginStatus = true; // objUser.ValidateLogin(user);
+                var loginStatus = _validateUser.Validate(login.UserName, login.Password); // objUser.ValidateLogin(user);
 
-                if (LoginStatus)
+                if (loginStatus.status)
                 {
                     var claims = new List<Claim>
                     {
@@ -31,13 +40,13 @@ namespace DataProcessing.Core.Web.Controllers
                     };
                     ClaimsIdentity userIdentity = new ClaimsIdentity(claims, "login");
                     ClaimsPrincipal principal = new ClaimsPrincipal(userIdentity);
-
+                    TempData["User"] = loginStatus.userName;
                     HttpContext.SignInAsync(principal);
                     return RedirectToAction("Index", "Home");
                 }
                 else
                 {
-                    TempData["UserLoginFailed"] = "Login Failed.Please enter correct credentials";
+                    TempData["UserLoginFailed"] = loginStatus.error;
                     return View();
                 }
             }
@@ -52,6 +61,14 @@ namespace DataProcessing.Core.Web.Controllers
 
         public IActionResult Register()
         {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Register(Login login)
+        {
+            var status = _createUser.Create(login.UserName, login.Password, login.Email).Result;
+            if (status)
+                return View("Login");
             return View();
         }
 

@@ -19,21 +19,27 @@
                         <form action="#">
                             <div class="form-group">
                                 <label>Country</label>
-                                <select asp-for="CountryId" id="b2bCountry"
+                                <select asp-for="CountryId" id="b2cCountry"
                                         class=form-control multiple placeholder="Please select"
                                         asp-items="@Model.Country"></select>
                             </div>
                             <div class="form-group">
-                                <label>State</label>
-                                <select asp-for="StateId" id="b2bState"
+                                <label>City</label>
+                                <select asp-for="CityId" id="b2cCity"
                                         class=form-control multiple placeholder="Please select"
-                                        asp-items="@Model.State"></select>
+                                        asp-items="@Model.City"></select>
                             </div>
                             <div class="form-group">
-                                <label>Area</label>
-                                <select asp-for="AreaId" id="b2bArea"
+                                <label>Role</label>
+                                <select asp-for="RoleId" id="b2cRole"
                                         class=form-control multiple placeholder="Please select"
-                                        asp-items="@Model.Area"></select>
+                                        asp-items="@Model.Roles"></select>
+                            </div>
+                            <div class="form-group">
+                                <label>Age</label>
+                                <select asp-for="AgeId" id="b2cAge"
+                                        class=form-control multiple placeholder="Please select"
+                                        asp-items="@Model.Ages"></select>
                             </div>
                         </form>
                     </div>
@@ -44,17 +50,29 @@
                         <form action="#">
 
                             <div class="form-group">
-                                <label>City</label>
-                                <select asp-for="CityId" id="b2bCity"
+                                <label>State</label>
+                                <select asp-for="StateId" id="b2cState"
                                         class=form-control multiple placeholder="Please select"
-                                        asp-items="@Model.City"></select>
+                                        asp-items="@Model.State"></select>
                             </div>
 
                             <div class="form-group">
-                                <label>Desigination</label>
-                                <select asp-for="DesiginationId" id="b2bDesigination"
+                                <label>Area</label>
+                                <select asp-for="AreaId" id="b2cArea"
                                         class=form-control multiple placeholder="Please select"
-                                        asp-items="@Model.Desigination"></select>
+                                        asp-items="@Model.Area"></select>
+                            </div>
+                            <div class="form-group">
+                                <label>Salary</label>
+                                <select asp-for="SalaryId" id="b2cSalary"
+                                        class=form-control multiple placeholder="Please select"
+                                        asp-items="@Model.Salaries"></select>
+                            </div>
+                            <div class="form-group">
+                                <label>Experience</label>
+                                <select asp-for="ExpercinseId" id="b2cExperience"
+                                        class=form-control multiple placeholder="Please select"
+                                        asp-items="@Model.Expercinse"></select>
                             </div>
                         </form>
                     </div>
@@ -64,7 +82,7 @@
                 <div>
                     <div>
                         <div class="form-group m-b-0" style="margin-top:50px;">
-                            <button type="button" id="btnBusinessToBusinessSearch" class="btn btn-primary waves-effect waves-light">Search</button>
+                            <button type="button" id="btnBusinessToCustomerSearch" class="btn btn-primary waves-effect waves-light">Search</button>
                         </div>
                     </div>
 
@@ -72,8 +90,8 @@
             </div>
         </div>
     </div>
-    </div>
-<div class= "row">
+</div>
+<div class="row">
     <div class="col-sm-12">
         <div class="card-box">
             <p class="text-muted m-b-30 font-13">
@@ -170,3 +188,5 @@
         </div>
     </div>
 </div>
+<script src="~/assets/js/jquery.min.js"></script>
+<script src="~/js/BusinessToCustomer.js"></script>
