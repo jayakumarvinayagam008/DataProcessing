@@ -111,8 +111,8 @@ namespace DataProcessing.Core.Web
             services.AddScoped<IB2CSearchAction, B2CSearchAction>();
             services.AddScoped<IPrepareBusinessToCustomerSummaryDashBoard, PrepareBusinessToCustomerSummaryDashBoard>();
             services.AddScoped<IB2CDataExport, B2CDataExport>();
-
-
+            services.AddScoped<IB2CCsvExport, B2CCsvExport>();
+            services.AddScoped<IB2CExcelExport, B2CExcelExport>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 

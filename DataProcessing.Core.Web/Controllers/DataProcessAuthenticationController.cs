@@ -22,7 +22,7 @@ namespace DataProcessing.Core.Web.Controllers
         }
         public IActionResult Login()
         {
-            return View();
+            return View(new Login());
         }
 
         [HttpPost]
@@ -46,12 +46,13 @@ namespace DataProcessing.Core.Web.Controllers
                 }
                 else
                 {
-                    TempData["UserLoginFailed"] = loginStatus.error;
-                    return View();
+                    login.Status = loginStatus.status;
+                    login.Message = loginStatus.error;
+                    return View(login);
                 }
             }
             else
-                return View();
+                return View(login);
         }
 
         public IActionResult ForgotPassword()

@@ -44,7 +44,7 @@
                     $("#divLoading").show();
                 },
                 success: function (data) {
-                    //UpdateCustomerDashBoard(data);
+                    UpdateCustomerDashBoard(data);
                     $('#divBlock').show();
                 },
                 complete: function () {
@@ -140,9 +140,6 @@ function UpdateCustomerDashBoard(data) {
             }
         }
     }
-
-
-    //alert(JSON.stringify(data));
 }
 function ConstructDashboardItem(name, value) {
     var barCls = barColor[0];
@@ -160,16 +157,32 @@ function ConstructDashboardItem(name, value) {
 }
 var DashBoardItem = {
 
-    'circle': 'Circle',
-    'clientBusinessVertical': 'Business Vertical',
-    'clientCity': 'City',
-    'clientName': 'Client Name',
+    'address': 'Address',
+    'address2': 'Address2',
+    'annualSalary': 'AnnualSalary',
+    'area': 'Area',
+    'caste': 'Caste',
+    'city': 'City',
     'country': 'Country',
-    'dateOfUse': 'Date Of Use',
-    'dbquality': 'DB Quality',
-    'numbers': 'Numbers',
-    'operator': 'Operator',
+    'dob': 'Dob',
+    'email': 'Email',
+    'employer': 'Employer',
+    'experience': 'Experience',
+    'gender': 'Gender',
+    'industry': 'Industry',
+    'keySkills': 'KeySkills',
+    'location': 'Location',
+    'mobile2': 'Mobile2',
+    'mobileNew': 'MobileNew',
+    'name': 'Name',
+    'network': 'Network',
+    'phoneNew': 'PhoneNew',
+    'pincode': 'Pincode',
+    'qualification': 'Qualification',
+    'roles': 'Roles',
     'state': 'State'
+
+   
 };
 var barColor = ['progress-bar-danger', //0
     'progress-bar-pink', // 1

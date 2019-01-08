@@ -1,5 +1,6 @@
 ﻿using DataProcessing.Application.B2C.Command;
 using DataProcessing.Application.B2C.Query;
+using DataProcessing.Application.Common;
 using DataProcessing.CommonModels;
 using DataProcessing.Core.Web.Actions;
 using DataProcessing.Core.Web.Models;
@@ -20,15 +21,16 @@ namespace DataProcessing.Core.Web.Controllers
         private readonly ISaveB2C _saveB2C;
         private readonly IB2CSearchBlock _b2CSearchBlock;
         private readonly IB2CSearchAction _b2CSearchAction;
-
+        private readonly IGetSearchedFileStatuscs _getSearchedFileStatuscs;
         public BusinessToCustomerController(IOptions<DataProcessingSetting> appSettings,
             ISaveB2C saveB2C,
-         IB2CSearchBlock b2CSearchBlock, IB2CSearchAction b2CSearchAction)
+         IB2CSearchBlock b2CSearchBlock, IB2CSearchAction b2CSearchAction, IGetSearchedFileStatuscs getSearchedFileStatuscs)
         {
             _appSettings = appSettings;
             _saveB2C = saveB2C;
             _b2CSearchBlock = b2CSearchBlock;
             _b2CSearchAction = b2CSearchAction;
+            _getSearchedFileStatuscs = getSearchedFileStatuscs;
         }
 
         // GET: /<controller>/
@@ -74,7 +76,7 @@ namespace DataProcessing.Core.Web.Controllers
         [HttpPost]
         public IActionResult Search(BusinessToCustomerSearchRequest searchRequest)
         {
-            _b2CSearchAction.Filter(new B2CSearchFilter
+            var searchSummary = _b2CSearchAction.Filter(new B2CSearchFilter
             {
                 Area = searchRequest.Area,
                 Cities = searchRequest.Cities,
@@ -84,23 +86,37 @@ namespace DataProcessing.Core.Web.Controllers
                 Experience = searchRequest.Experience,
                 Roles = searchRequest.Roles,
                 Salary = searchRequest.Salary
-            }, "", 100);
-            return Json("");
+            }, _appSettings.Value.SearchExport, _appSettings.Value.RowRange);
+            return Json(searchSummary);
         }
 
         public ActionResult DownLoadAsExcel(int searchId)
         {
-            //fileName = $"{fileName}";
-            //var rootPath = _appSettings.Value.SearchExport;
-            //var templateName = DownloadTemplateType.GetTemplateName(templateType);
-            //var sampleTempate = _getFileContent.Get(fileName, rootPath, templateName);
-            //return File(sampleTempate.content, "application/vnd.ms-excel", $"{sampleTempate.TemplateType.Name}.xlsx");
-            return Json("***");
+            var fileName = $"{searchId}";
+            var rootPath = _appSettings.Value.SearchExport;
+            var filePath = $"{rootPath}{fileName}.xlsx";
+            var sampleTempate = new GetFileContent().GetFile(filePath);
+            var templateName = "B2B";
+            return File(sampleTempate, "application/vnd.ms-excel", $"{templateName}.xlsx");
         }
 
         public ActionResult DownLoadAsCsv(int searchId)
         {
-            return Json("***");
+            var fileName = $"{searchId}";
+            var rootPath = _appSettings.Value.SearchExport;
+            var filePath = $"{rootPath}{fileName}.csv";
+            var sampleTempate = new GetFileContent().GetFile(filePath);
+            var templateName = "B2B";
+            return File(sampleTempate, "application/x-csv", $"{templateName}.csv");
+        }
+
+        public ActionResult CheckSearchFileAvailable(SearchRequestCheck searchRequestCheck)
+        {
+            var fileName = $"{searchRequestCheck.SearchId}";
+            var rootPath = _appSettings.Value.SearchExport;
+            var filePath = $"{rootPath}{fileName}.{ searchRequestCheck.Type} ";
+            var fileStatus = _getSearchedFileStatuscs.FileExist(searchRequestCheck.SearchId, 1, filePath);
+            return Json(fileStatus);
         }
     }
 }

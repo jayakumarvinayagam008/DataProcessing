@@ -35,7 +35,7 @@ namespace DataProcessing.Application.B2C.Command
             var rowCount = worksheet.Dimension?.Rows;
             totalRows = rowCount.Value - 1;
             var colCount = worksheet.Dimension?.Columns;
-            columnIndex = new ColumnMapping().GetCustomerColumnMapping();
+            columnIndex = new ColumnMapping().GetB2CColumnMapping();
             IDictionary<string, int> columnHeader = new Dictionary<string, int>();
             IList<BusinessToCustomerModel> businessToCustomerModels = new List<BusinessToCustomerModel>();
 

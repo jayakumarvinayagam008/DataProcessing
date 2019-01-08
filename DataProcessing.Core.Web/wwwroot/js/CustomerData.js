@@ -5,7 +5,7 @@
         var cities = $('#customerCity').val();
         var states = $('#customerState').val();
         var countries = $('#customerCountry').val();
-        var businessVerticle = $('#customerBusinessVerticle').val();
+        var businessVerticle = $('#customerVertical').val();
         var dataQuality = $('#customerDataQuality').val();
         var network = $('#customerNetwork').val();
         var customerName = $('#customerName').val();
@@ -154,7 +154,6 @@ function ConstructDashboardItem(name, value) {
     return '<p class="font-600">' + name + ' <span class="text-primary pull-right">' + value + '%</span></p><div class="progress m-b-30"><div class="progress-bar ' + barCls + ' progress-animated wow animated animated" role="progressbar" aria-valuenow=' + value + ' aria-valuemin="0" aria-valuemax="100" style="width: ' + value + '%; visibility: visible; animation-name: animationProgress;"></div>';
 }
 var DashBoardItem = {
-
     'circle': 'Circle',
     'clientBusinessVertical': 'Business Vertical',
     'clientCity': 'City',

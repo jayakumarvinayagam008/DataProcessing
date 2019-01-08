@@ -24,13 +24,17 @@ namespace DataProcessing.Application.B2C.Command
             uploadSummary.TotalCount = b2CModel.Item2;
             //get upload mobileNew value
             var mobileNews = b2CModel.Item1.DistinctBy(x => x.MobileNew);
+            string columnvalidationIssuse = "";
+            if (b2CModel.Item1.Count() == 0)
+                columnvalidationIssuse = " Some column header missing";
+
 
             // get mobileNew from datasource
             var b2bDataSource = _businessToCustomerRepository.GetPhoneNewAsync();
             b2bDataSource.Wait();
             var mobileNewRepo = b2bDataSource.Result;
             var businessToCustomer = mobileNews.Except(mobileNewRepo, x => x.PhoneNew, y => y).ToList();
-            if (businessToCustomer != null)
+            if (businessToCustomer != null && businessToCustomer.Count()>0)
             {
                 var saveToSource = businessToCustomer.Select(x => new BusinessToCustomer
                 {
@@ -66,7 +70,7 @@ namespace DataProcessing.Application.B2C.Command
             }
             else
             {
-                uploadSummary.ErrorMessage = "Unable to save the upload data due to validation error";
+                uploadSummary.ErrorMessage = $"Unable to save the upload data due to validation error{columnvalidationIssuse}.";
             }
             return uploadSummary;
         }
