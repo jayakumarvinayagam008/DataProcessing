@@ -37,9 +37,9 @@
         <div class="card-box">
             <p class="text-muted m-b-15 font-13">
                 You can upload the Business to Business data either .xlsx or .csv
-                <code>
+                <a href="#" id="1" name="lnkSampleB2B" aria-expanded="true" aria-controls="collapseTwo">
                     Sample Template
-                </code>
+                </a>               
             </p>
             <form asp-action="Upload" id="frmUserDataForm" method="post" enctype="multipart/form-data">
                 <div class="row">
@@ -47,14 +47,14 @@
                         <div class="p-20">
                             <div class="form-group">
                                 <label class="control-label">Default file input</label>
-                                <input type="file" class="filestyle" data-placeholder="Excel/CSV" 
-                                       id="files" name="files" tabindex="-1" 
+                                <input type="file" class="filestyle" data-placeholder="Excel/CSV"
+                                       id="files" name="files" tabindex="-1"
                                        style="position: absolute; clip: rect(0px, 0px, 0px, 0px);">
                                 <div class="bootstrap-filestyle input-group">
                                     <input type="text" class="form-control " placeholder="Excel/CSV" disabled="">
                                     <span class="group-span-filestyle input-group-btn" tabindex="0">
                                         <label for="files" class="btn btn-default ">
-                                            <span class="icon-span-filestyle glyphicon glyphicon-folder-open"></span> 
+                                            <span class="icon-span-filestyle glyphicon glyphicon-folder-open"></span>
                                             <span class="buttonText">Choose file</span>
                                         </label>
                                     </span>
@@ -84,24 +84,24 @@
                     <div class="card m-b-20 card-inverse card-success text-xs-center">
                         <div class="card-block">
                             <blockquote class="card-blockquote">
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">Total Upload:</label>
-                                        <div class="col-10">
-                                            @Html.DisplayFor(model => model.TotalCount)
-                                        </div>
+                                <div class="form-group row">
+                                    <label class="col-2 col-form-label">Total Upload:</label>
+                                    <div class="col-10">
+                                        @Html.DisplayFor(model => model.TotalCount)
                                     </div>
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">Successfully Saved:</label>
-                                        <div class="col-10">
-                                            @Html.DisplayFor(model => model.UploadCount)
-                                        </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-2 col-form-label">Successfully Saved:</label>
+                                    <div class="col-10">
+                                        @Html.DisplayFor(model => model.UploadCount)
                                     </div>
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">Reason:</label>
-                                        <div class="col-10">
-                                            @Html.DisplayFor(model => model.ErrorMessage)
-                                        </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-2 col-form-label">Reason:</label>
+                                    <div class="col-10">
+                                        @Html.DisplayFor(model => model.ErrorMessage)
                                     </div>
+                                </div>
                             </blockquote>
                         </div>
                     </div>
@@ -110,3 +110,5 @@
         </div>
     </div>
 </div>
+<script src="~/assets/js/jquery.min.js"></script>
+<script src="~/js/SampleDownload.js"></script>

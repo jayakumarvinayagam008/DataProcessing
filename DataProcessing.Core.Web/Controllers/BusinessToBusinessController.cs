@@ -113,5 +113,11 @@ namespace DataProcessing.Core.Web.Controllers
             var fileStatus = _getSearchedFileStatuscs.FileExist(searchRequestCheck.SearchId, 1, filePath);
             return Json(fileStatus);
         }
+
+        public ActionResult DownloadSampleTemplate(int sourceId)
+        {            
+            var sampleTempate = GetSampleFileContent.Get(_appSettings.Value.SampleDownloadPath, _appSettings.Value.Samples, sourceId);
+            return File(sampleTempate.content, "application/vnd.ms-excel", $"{sampleTempate.FileName}.xlsx");
+        }
     }
 }

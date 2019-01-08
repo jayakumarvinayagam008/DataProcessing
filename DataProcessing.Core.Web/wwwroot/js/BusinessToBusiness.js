@@ -78,10 +78,12 @@
         $("#divLoading").hide();
     });
 
-    $('#tblSummary').DataTable({
-        "paging": true // false to disable pagination (or any other option)
-    });
-    $('.dataTables_length').addClass('bs-select');
+    //$('#tblSummary').DataTable({
+    //    "paging": true // false to disable pagination (or any other option)
+    //});
+    //$('.dataTables_length').addClass('bs-select');
+
+   
 });
 
 function FileCheck($searchId, $type) {

@@ -12,5 +12,6 @@ namespace DataProcessing.Core.Web
         public string NumberLookup { get; set; }
         public string SearchExport { get; set; }
         public int RowRange { get; set; }
+        public string[] Samples { get; set; }
     }
 }
