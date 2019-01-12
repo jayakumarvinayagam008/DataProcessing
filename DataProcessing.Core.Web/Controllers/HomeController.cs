@@ -2,6 +2,7 @@
 using DataProcessing.Core.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 
 namespace DataProcessing.Core.Web.Controllers
@@ -10,10 +11,11 @@ namespace DataProcessing.Core.Web.Controllers
     public class HomeController : Controller
     {
         private readonly IGetDashboard _getDashboard;
-
-        public HomeController(IGetDashboard getDashboard)
+        private ILogger<HomeController> _log;
+        public HomeController(IGetDashboard getDashboard, ILogger<HomeController> log)
         {
             _getDashboard = getDashboard;
+            _log = log;
         }
 
         public IActionResult Index()
