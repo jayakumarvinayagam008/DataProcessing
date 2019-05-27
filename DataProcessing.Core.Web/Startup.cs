@@ -114,6 +114,9 @@ namespace DataProcessing.Core.Web
             services.AddScoped<IB2CDataExport, B2CDataExport>();
             services.AddScoped<IB2CCsvExport, B2CCsvExport>();
             services.AddScoped<IB2CExcelExport, B2CExcelExport>();
+            services.AddScoped<IReadBulkNumberLookUp, ReadBulkNumberLookUp>();
+
+            
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 

@@ -14,12 +14,15 @@ namespace DataProcessing.Core.Web.Controllers
     {
         private readonly IOptions<DataProcessingSetting> _appSettings;
         private readonly ILoopupProcess _loopupProcess = null;
-
+        private readonly IReadBulkNumberLookUp _readBulkNumberLookUp = null;
+        
         public NumberLookupController(IOptions<DataProcessingSetting> appSettings,
-            ILoopupProcess loopupProcess)
+            ILoopupProcess loopupProcess,
+            IReadBulkNumberLookUp readBulkNumberLookUp)
         {
             _appSettings = appSettings;
             _loopupProcess = loopupProcess;
+            _readBulkNumberLookUp = readBulkNumberLookUp;
         }
 
         public IActionResult Index()
@@ -47,6 +50,14 @@ namespace DataProcessing.Core.Web.Controllers
         [HttpPost]
         public IActionResult BulkLookup(IList<IFormFile> files)
         {
+            CreateUploadFile createUploadFile = new CreateUploadFile();
+            var fileCreation = createUploadFile.CreateAsync(files, _appSettings.Value.SharePath);
+            fileCreation.Wait();
+
+            var filePath = fileCreation.Result;
+            _readBulkNumberLookUp.Process(filePath);
+
+
             NumberLookup numberLookup = new NumberLookup() { IsUploaded = true, UploadMessage = "Succesfully uploaded" };
             return View("AddLookup", numberLookup);
         }
