@@ -23,10 +23,10 @@ namespace DataProcessing.Application.B2C.Query
             var filterOptions = result.Result;
             IList<int> ages = new List<int>();
             var today = DateTime.Now;
-            foreach (var item in filterOptions.Age)
-            {
-                ages.Add(item.Value.Age(today));
-            }
+            //foreach (var item in filterOptions.Age)
+            //{
+            //    ages.Add(item.Value.Age(today));
+            //}
 
             B2CSearchBlockModel searchBlock = new B2CSearchBlockModel()
             {
@@ -60,7 +60,7 @@ namespace DataProcessing.Application.B2C.Query
                     Value = x,
                     Text = x
                 }).AsEnumerable(),
-                Ages = ages.Select(x => new SelectListItem()
+                Ages = filterOptions.Age.Select(x => new SelectListItem()
                 {
                     Value = $"{x}",
                     Text = $"{x}"

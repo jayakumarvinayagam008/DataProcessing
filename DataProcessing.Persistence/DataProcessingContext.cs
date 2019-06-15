@@ -28,5 +28,9 @@ namespace DataProcessing.Persistence
         public IMongoCollection<NumberLookup> NumberLookups => _db.GetCollection<NumberLookup>("NumberLookup");
 
         public IMongoCollection<DataProcessingUser> DataProcessingUsers => _db.GetCollection<DataProcessingUser>("DataProcessingUser");
+
+        public IMongoCollection<BToBSearch> B2BSearchItems => _db.GetCollection<BToBSearch>("BToBSearch");
+        public IMongoCollection<BToCSearch> B2CSearchItems => _db.GetCollection<BToCSearch>("BToCSearch");
+        public IMongoCollection<CustomerDataSearch> UserDataSearchItems => _db.GetCollection<CustomerDataSearch>("CustomerDataSearch");
     }
 }

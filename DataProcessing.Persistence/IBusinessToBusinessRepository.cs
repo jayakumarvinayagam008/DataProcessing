@@ -95,32 +95,51 @@ namespace DataProcessing.Persistence
 
         public Task<SearchBlock> GetFilterBlocks()
         {
+
+            var searchItems = _context.B2BSearchItems
+                                .Find(_ => true)
+                                .ToListAsync()
+                                .Result;
+
+            var country = searchItems.Select(x => x.Country).FirstOrDefault()
+                .Where(x => !string.IsNullOrWhiteSpace(x));
+            var city = searchItems.Select(x => x.City).FirstOrDefault()
+                .Where(x => !string.IsNullOrWhiteSpace(x));
+            var state = searchItems.Select(x => x.State).FirstOrDefault()
+                .Where(x => !string.IsNullOrWhiteSpace(x));
+            var area = searchItems.Select(x => x.Area).FirstOrDefault()
+                .Where(x => !string.IsNullOrWhiteSpace(x));
+            var destination = searchItems.Select(x => x.Designation).FirstOrDefault()
+                .Where(x => !string.IsNullOrWhiteSpace(x));
+            var categories = searchItems.Select(x => x.BusinessCategory).FirstOrDefault();
+                
+
             SearchBlock searchBlock = new SearchBlock();
-            var country = _context.BusinessToBusiness
-                .AsQueryable()
-                .Select(x => x.Country).Where(x => x != "")
-                .Distinct().ToList();
-            var city = _context.BusinessToBusiness
-                .AsQueryable()
-                .Select(x => x.City).Where(x => x != "")
-                .Distinct().ToList();
-            var state = _context.BusinessToBusiness
-                .AsQueryable()
-                .Select(x => x.State).Where(x => x != "")
-                .Distinct().ToList();
-            var area = _context.BusinessToBusiness
-                .AsQueryable()
-                .Select(x => x.Area).Where(x => x != "")
-                .Distinct().ToList();
-            var destination = _context.BusinessToBusiness
-                .AsQueryable()
-                .Select(x => x.Designation).Where(x => x != "")
-                .Distinct().ToList();
-            var categories = _context.BusinessToBusiness
-                .AsQueryable()
-                .Where(x => x.CategoryId != null)
-                .Select(x => x.CategoryId.Value)
-                .Distinct().ToList();
+            //var country = _context.BusinessToBusiness
+            //    .AsQueryable()
+            //    .Select(x => x.Country).Where(x => x != "")
+            //    .Distinct().ToList();
+            //var city = _context.BusinessToBusiness
+            //    .AsQueryable()
+            //    .Select(x => x.City).Where(x => x != "")
+            //    .Distinct().ToList();
+            //var state = _context.BusinessToBusiness
+            //    .AsQueryable()
+            //    .Select(x => x.State).Where(x => x != "")
+            //    .Distinct().ToList();
+            //var area = _context.BusinessToBusiness
+            //    .AsQueryable()
+            //    .Select(x => x.Area).Where(x => x != "")
+            //    .Distinct().ToList();
+            //var destination = _context.BusinessToBusiness
+            //    .AsQueryable()
+            //    .Select(x => x.Designation).Where(x => x != "")
+            //    .Distinct().ToList();
+            //var categories = _context.BusinessToBusiness
+            //    .AsQueryable()
+            //    .Where(x => x.CategoryId != null)
+            //    .Select(x => x.CategoryId.Value)
+            //    .Distinct().ToList();
             IEnumerable<BusinessCategoryItem> searchCategory = new List<BusinessCategoryItem>();
 
             if (categories.Any())
@@ -135,13 +154,14 @@ namespace DataProcessing.Persistence
                         Name = x.Name
                     });
             }
-
-            searchBlock.Country = country;
-            searchBlock.State = state;
-            searchBlock.City = city;
-            searchBlock.Area = area;
-            searchBlock.Desigination = destination;
-            searchBlock.BusinessCategory = searchCategory;
+            IEnumerable<string> empty = new List<string>();
+            IEnumerable<BusinessCategoryItem> categoryEmpty = new List<BusinessCategoryItem>();
+            searchBlock.Country = country.Any()?country: empty;
+            searchBlock.State = state.Any() ? state : empty;
+            searchBlock.City = city.Any() ? city : empty;
+            searchBlock.Area = area.Any() ? area : empty;
+            searchBlock.Desigination = destination.Any() ? destination : empty;
+            searchBlock.BusinessCategory = searchCategory.Any() ? searchCategory : categoryEmpty;
 
             return Task.FromResult(searchBlock);
         }

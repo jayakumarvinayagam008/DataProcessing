@@ -68,41 +68,60 @@ namespace DataProcessing.Persistence
 
         public Task<SearchBlock> GetFilterBlocks()
         {
-            SearchBlock searchBlock = new SearchBlock();
-            var country = _context.BusinessToCustomers
-                .AsQueryable()
-                .Select(x => x.Country).Where(x => x != "")
-                .Distinct().ToList();
-            var city = _context.BusinessToCustomers
-                .AsQueryable()
-                .Select(x => x.City).Where(x => x != "")
-                .Distinct().ToList();
-            var state = _context.BusinessToCustomers
-                .AsQueryable()
-                .Select(x => x.State).Where(x => x != "")
-                .Distinct().ToList();
-            var area = _context.BusinessToCustomers
-                .AsQueryable()
-                .Select(x => x.Area).Where(x => x != "")
-                .Distinct().ToList();
-            var roles = _context.BusinessToCustomers
-                .AsQueryable()
-                .Select(x => x.Roles).Where(x => x != "")
-                .Distinct().ToList();
-            var salary = _context.BusinessToCustomers
-                .AsQueryable()
-                .Select(x => x.AnnualSalary).Where(x => x != "")
-                .Distinct().ToList();
+            var searchItems = _context.B2CSearchItems
+                                .Find(_ => true)
+                                .ToListAsync()
+                                .Result;
 
-          
-            var ages = _context.BusinessToCustomers
-               .AsQueryable()
-               .Select(x => x.Dob).Where(x => x.HasValue)
-               .Distinct().ToList();
-            var experience = _context.BusinessToCustomers
-               .AsQueryable()
-               .Select(x => x.Experience).Where(x => x != "")
-               .Distinct().ToList();
+            var country = searchItems.Select(x => x.Country).FirstOrDefault()
+                .Where(x => !string.IsNullOrWhiteSpace(x));
+            var city = searchItems.Select(x => x.City).FirstOrDefault()
+                .Where(x => !string.IsNullOrWhiteSpace(x));
+            var state = searchItems.Select(x => x.State).FirstOrDefault()
+                .Where(x => !string.IsNullOrWhiteSpace(x));
+            var area = searchItems.Select(x => x.Area).FirstOrDefault()
+                .Where(x => !string.IsNullOrWhiteSpace(x));
+            var roles = searchItems.Select(x => x.Roles).FirstOrDefault()
+                 .Where(x => !string.IsNullOrWhiteSpace(x));
+            var salary = searchItems.Select(x => x.Salary).FirstOrDefault()
+                .Where(x => !string.IsNullOrWhiteSpace(x));
+            var ages = searchItems.Select(x => x.Age).FirstOrDefault();
+            var experience = searchItems.Select(x => x.Experience).FirstOrDefault()
+                .Where(x => !string.IsNullOrWhiteSpace(x));
+
+            SearchBlock searchBlock = new SearchBlock();
+            //var country = _context.BusinessToCustomers
+            //    .AsQueryable()
+            //    .Select(x => x.Country).Where(x => x != "")
+            //    .Distinct().ToList();
+            //var city = _context.BusinessToCustomers
+            //    .AsQueryable()
+            //    .Select(x => x.City).Where(x => x != "")
+            //    .Distinct().ToList();
+            //var state = _context.BusinessToCustomers
+            //    .AsQueryable()
+            //    .Select(x => x.State).Where(x => x != "")
+            //    .Distinct().ToList();
+            //var area = _context.BusinessToCustomers
+            //    .AsQueryable()
+            //    .Select(x => x.Area).Where(x => x != "")
+            //    .Distinct().ToList();
+            //var roles = _context.BusinessToCustomers
+            //    .AsQueryable()
+            //    .Select(x => x.Roles).Where(x => x != "")
+            //    .Distinct().ToList();
+            //var salary = _context.BusinessToCustomers
+            //    .AsQueryable()
+            //    .Select(x => x.AnnualSalary).Where(x => x != "")
+            //    .Distinct().ToList();          
+            //var ages = _context.BusinessToCustomers
+            //   .AsQueryable()
+            //   .Select(x => x.Dob).Where(x => x.HasValue)
+            //   .Distinct().ToList();
+            //var experience = _context.BusinessToCustomers
+            //   .AsQueryable()
+            //   .Select(x => x.Experience).Where(x => x != "")
+            //   .Distinct().ToList();
 
             searchBlock.Country = country;
             searchBlock.State = state;

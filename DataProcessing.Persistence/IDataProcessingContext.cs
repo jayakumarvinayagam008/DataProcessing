@@ -12,5 +12,8 @@ namespace DataProcessing.Persistence
         IMongoCollection<SearchHistory> SearchHistories { get; }
         IMongoCollection<NumberLookup> NumberLookups { get; }
         IMongoCollection<DataProcessingUser> DataProcessingUsers { get; }
+        IMongoCollection<BToBSearch> B2BSearchItems { get; }
+        IMongoCollection<BToCSearch> B2CSearchItems { get; }
+        IMongoCollection<CustomerDataSearch> UserDataSearchItems { get; }
     }
 }

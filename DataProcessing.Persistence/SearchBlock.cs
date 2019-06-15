@@ -14,7 +14,7 @@ namespace DataProcessing.Persistence
         public IEnumerable<string> BusinessVertical { get; internal set; }
         public IEnumerable<string> Salary { get; internal set; }
         public IEnumerable<string> Expercinse { get; internal set; }
-        public IEnumerable<DateTime?> Age { get; internal set; }
+        public IEnumerable<int> Age { get; internal set; }
         public List<string> Dbquality { get; internal set; }
         public List<string> ClientName { get; internal set; }
         public List<string> NetWork { get; internal set; }
