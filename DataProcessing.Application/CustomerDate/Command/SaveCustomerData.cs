@@ -4,6 +4,7 @@ using DataProcessing.Persistence;
 using MoreLinq;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DataProcessing.Application.CustomerDate.Command
 {
@@ -13,12 +14,16 @@ namespace DataProcessing.Application.CustomerDate.Command
         private readonly ICustomerDataRepository _businessToCustomerRepository;
         private string createdBy = "Admin";
         private readonly DateTime createdOn;
+        private readonly ICustomerDataSearchItem _customerDataSearchItem;
 
-        public SaveCustomerData(ICustomerReadDataFromFile readDataFromFile, ICustomerDataRepository businessToCustomerRepository)
+        public SaveCustomerData(ICustomerReadDataFromFile readDataFromFile
+            , ICustomerDataRepository businessToCustomerRepository
+            , ICustomerDataSearchItem customerDataSearchItem)
         {
             _readDataFromFile = readDataFromFile;
             _businessToCustomerRepository = businessToCustomerRepository;
             createdOn = DateTime.Now;
+            _customerDataSearchItem = customerDataSearchItem;
         }
 
         public UploadSummary Save(string filePath)
@@ -36,6 +41,7 @@ namespace DataProcessing.Application.CustomerDate.Command
             var customerDate = numbers.Except(mobileNewRepo, x => x.Numbers, y => y).ToList();
             if (customerDate != null)
             {
+                var guid = $"cd-{ Guid.NewGuid()}";
                 var saveToSource = customerDate.Select(x => new CustomerData
                 {
                     Circle = x.Circle,
@@ -49,10 +55,15 @@ namespace DataProcessing.Application.CustomerDate.Command
                     Dbquality = x.Dbquality,
                     Numbers = x.Numbers,
                     Operator = x.Operator,
-                    State = x.State
+                    State = x.State,
+                    RefId = guid
                 });
                 _businessToCustomerRepository.CreateManyAsync(saveToSource);
                 uploadSummary.UploadCount = saveToSource.Count();
+
+                Task task = new Task(() => { _customerDataSearchItem.Update(guid); });
+                task.Start();
+                
             }
             else
             {

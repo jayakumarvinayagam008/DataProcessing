@@ -15,6 +15,8 @@ namespace DataProcessing.Persistence
 
         Task<long> GetTotalDocument();
         (List<BusinessToCustomer> businessToCustomer, long total) GetB2CDataSearch(SearchFilterBlock searchFilterBlock);
+
+        Task<IEnumerable<BusinessToCustomer>> Filter(string refId);
     }
 
     public class BusinessToCustomerRepository : IBusinessToCustomerRepository
@@ -31,6 +33,36 @@ namespace DataProcessing.Persistence
             await _context
                     .BusinessToCustomers.InsertManyAsync(saveToSource);
             return await Task.FromResult(true);
+        }
+
+        public async Task<IEnumerable<BusinessToCustomer>> Filter(string refId)
+        {
+            var builder = Builders<BusinessToCustomer>.Filter;
+            var filter = builder.Eq("RefId", refId);
+            var projection = Builders<BusinessToCustomer>
+                .Projection.Include("Country")
+                .Include("State")
+                .Include("City")
+                .Include("Area")
+                .Include("Roles")
+                .Include("AnnualSalary")
+                .Include("Experience")
+                .Exclude("_id");
+
+            var searchResult = _context.BusinessToCustomers.Find(filter)
+                .Project(projection).ToList().Select(x => new BusinessToCustomer
+                {
+                    Country = x.GetValue("Country").AsString,
+                    State = x.GetValue("State").AsString,
+                    City = x.GetValue("City").AsString,
+                    Area = x.GetValue("Area").AsString,
+                    Roles = x.GetValue("Roles").AsString,
+                    AnnualSalary = x.GetValue("AnnualSalary").AsString,
+                    Experience = x.GetValue("Experience").AsString
+                }).ToList<BusinessToCustomer>();
+
+
+            return await Task.FromResult(searchResult);
         }
 
         public (List<BusinessToCustomer> businessToCustomer, long total) GetB2CDataSearch(SearchFilterBlock searchFilterBlock)

@@ -11,7 +11,7 @@ namespace DataProcessing.Application.B2B.Command
         {
             var searchTotoal = response.Count();
             SearchSummaryBoard searchSummaryBoard = new SearchSummaryBoard();
-            if (searchTotoal > 0)
+            /*if (searchTotoal > 0)
             {
                 searchSummaryBoard.Add1 = (response.Select(x => !string.IsNullOrWhiteSpace(x.Add1)).Count() / (decimal)searchTotoal) * 100;
                 searchSummaryBoard.Add2 = (response.Select(x => !string.IsNullOrWhiteSpace(x.Add2)).Count() / (decimal)searchTotoal) * 100;
@@ -39,7 +39,8 @@ namespace DataProcessing.Application.B2B.Command
                 searchSummaryBoard.State = (response.Select(x => !string.IsNullOrWhiteSpace(x.State)).Count() / (decimal)searchTotoal) * 100;
                 searchSummaryBoard.Web = (response.Select(x => !string.IsNullOrWhiteSpace(x.Web)).Count() / (decimal)searchTotoal) * 100;
                 searchSummaryBoard.Total = searchTotoal;
-            }
+            }*/
+            searchSummaryBoard.Total = searchTotoal;
             return searchSummaryBoard;
         }
     }

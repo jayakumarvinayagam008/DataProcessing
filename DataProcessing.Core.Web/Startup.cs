@@ -116,7 +116,15 @@ namespace DataProcessing.Core.Web
             services.AddScoped<IB2CExcelExport, B2CExcelExport>();
             services.AddScoped<IReadBulkNumberLookUp, ReadBulkNumberLookUp>();
 
-            
+            services.AddScoped<IB2BSearchRepository, B2BSearchRepository>();
+            services.AddScoped<IUpdateB2BSearchItem, UpdateB2BSearchItem>();
+
+            services.AddScoped<IUpdateB2CSearchItem, UpdateB2CSearchItem>();
+            services.AddScoped<IB2CSearchRepository, B2CSearchRepository>();
+
+            services.AddScoped<ICustomerDataSearchRepository, CustomerDataSearchRepository>();
+            services.AddScoped<ICustomerDataSearchItem, CustomerDataSearchItem>();            
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 

@@ -35,5 +35,6 @@ namespace DataProcessing.Persistence
         public string Caste { get; set; }
         public DateTime? CreatedDate { get; set; }
         public string CreatedBy { get; set; }
+        public string RefId { get; set; }
     }
 }

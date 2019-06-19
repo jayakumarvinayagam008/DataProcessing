@@ -1,7 +1,9 @@
 ﻿using DataProcessing.Application.Common;
 using DataProcessing.Persistence;
 using MoreLinq;
+using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DataProcessing.Application.B2B.Command
 {
@@ -9,15 +11,20 @@ namespace DataProcessing.Application.B2B.Command
     {
         private readonly IReadDataFromFile _readDataFromFile;
         public readonly IBusinessToBusinessRepository _businessToBusinessRepository;
+        private readonly IUpdateB2BSearchItem _updateB2BSearchItem;
 
-        public SaveB2B(IReadDataFromFile readDataFromFile, IBusinessToBusinessRepository businessToBusinessRepository)
+        public SaveB2B(IReadDataFromFile readDataFromFile, 
+            IBusinessToBusinessRepository businessToBusinessRepository,
+            IUpdateB2BSearchItem updateB2BSearchItem)
         {
             _readDataFromFile = readDataFromFile;
             _businessToBusinessRepository = businessToBusinessRepository;
+            _updateB2BSearchItem = updateB2BSearchItem;
         }
 
         public B2BSaveSummary Save(string filePath)
-        {
+        {       
+            //_updateB2BSearchItem.Update("b2b-7bc2c8f0-8e1f-406c-bd88-f1a64c3ee0f7");  
             //var response = new B2BSaveSummary()
             //{
             //    ErrorMessage = "********* **************",
@@ -37,8 +44,9 @@ namespace DataProcessing.Application.B2B.Command
             var b2bDataRepo = b2bDataSource.Result;
             var phoneNew = b2bDataRepo.Select(x => x.Phone_New).ToList();
             businessToBusiness = businessToBusiness.Except(phoneNew, x => x.PhoneNew, y => y).ToList();
-            if (businessToBusiness != null)
+            if (businessToBusiness != null && businessToBusiness.Count()>0)
             {
+                var guid = $"b2b-{ Guid.NewGuid()}";
                 var saveToSource = businessToBusiness.Select(x => new BusinessToBusiness
                 {
                     Add1 = x.Add1,
@@ -68,14 +76,23 @@ namespace DataProcessing.Application.B2B.Command
                     Phone_New = x.PhoneNew,
                     Pincode = x.Pincode,
                     State = x.State,
-                    Web = x.Web
+                    Web = x.Web,
+                    RefId = guid
                 }).ToList();
-                _businessToBusinessRepository.CreateManyAsync(saveToSource);
+
+                var fromB2B = _businessToBusinessRepository.CreateManyAsync(saveToSource).Result;
                 response.TotalCount = saveToSource.Count();
+                // call filter integration
+                //_updateB2BSearchItem.Update(guid);  
+                Task task = new Task(() => { _updateB2BSearchItem.Update(guid); });
+                task.Start();
             }
             else
             {
-                response.ErrorMessage = "Unable to save the upload data due to validation error";
+                if(businessToBusiness.Count() == 0)
+                    response.ErrorMessage = "Document save count is 0";
+                else
+                    response.ErrorMessage = "Unable to save the upload data due to validation error";
             }
 
             return response;

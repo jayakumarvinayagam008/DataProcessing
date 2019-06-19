@@ -23,7 +23,7 @@ namespace DataProcessing.Application.B2B.Command
         {
             var tempResult = _businessToBusinessRepository.GetB2BSearch(new B2BFilter
             {
-                Area = (searchFilter.Cities != null) ? searchFilter.Cities : new List<string>(),
+                Area = (searchFilter.Area != null) ? searchFilter.Area : new List<string>(),
                 BusinessCategoryId = (searchFilter.BusinessCategoryId != null) ? searchFilter.BusinessCategoryId : new List<int?>(),
                 Cities = (searchFilter.Cities != null) ? searchFilter.Cities : new List<string>(),
                 Contries = (searchFilter.Contries != null) ? searchFilter.Contries : new List<string>(),

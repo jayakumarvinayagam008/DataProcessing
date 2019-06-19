@@ -30,11 +30,12 @@ namespace DataProcessing.Persistence
         public string Contactperson1 { get; set; }
         public string Designation1 { get; set; }
         public int? EstYear { get; set; }
-        public int? CategoryId { get; set; }
+        public long? CategoryId { get; set; }
         public string LandMark { get; set; }
         public int? NoOfEmp { get; set; }
         public string Country { get; set; }
         public string CreatedDate { get; set; }
         public string CreatedBy { get; set; }
+        public string RefId { get; set; }
     }
 }

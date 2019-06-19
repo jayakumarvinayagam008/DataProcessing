@@ -13,7 +13,8 @@ namespace DataProcessing.Application.B2C.Command
         {
             var searchTotoal = response.Count();
             BusinessToCustomerSearchSumary searchSummaryBoard = new BusinessToCustomerSearchSumary();
-            if (searchTotoal > 0)
+            searchSummaryBoard.SearchCount = searchTotoal;
+            /*if (searchTotoal > 0)
             {
                 searchSummaryBoard.SearchCount = searchTotoal;
                 searchSummaryBoard.Name = (response.Select(x => !string.IsNullOrWhiteSpace(x.Name)).Count() / (decimal)searchTotoal) * 100;
@@ -40,7 +41,7 @@ namespace DataProcessing.Application.B2C.Command
                 searchSummaryBoard.Network = (response.Select(x => !string.IsNullOrWhiteSpace(x.Network)).Count() / (decimal)searchTotoal) * 100;
                 searchSummaryBoard.Gender = (response.Select(x => !string.IsNullOrWhiteSpace(x.Gender)).Count() / (decimal)searchTotoal) * 100;
                 searchSummaryBoard.Caste = (response.Select(x => !string.IsNullOrWhiteSpace(x.Caste)).Count() / (decimal)searchTotoal) * 100;
-            }
+            }*/
             return searchSummaryBoard;
         }
     }

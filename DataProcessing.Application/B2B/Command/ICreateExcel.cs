@@ -39,8 +39,8 @@ namespace DataProcessing.Application.B2B.Command
                                         "EstYear",
                                         "LandMark",
                                         "NoOfEmp",
-                                        "Country",
-                                        "CategoryName",
+                                        "Country",                                        
+                                        "CategoryName"
                                         };
 
         private readonly IDownloadRequestRepository _downloadRequestRepository;

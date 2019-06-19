@@ -11,20 +11,21 @@ namespace DataProcessing.Application.CustomerDate.Command
         {
             var searchTotoal = response.Count();
             CustomerDataSearchSummary searchSummaryBoard = new CustomerDataSearchSummary();
-            if (searchTotoal > 0)
-            {
-                searchSummaryBoard.SearchCount = searchTotoal;
-                searchSummaryBoard.Circle = (response.Select(x => !string.IsNullOrWhiteSpace(x.Circle)).Count() / (decimal)searchTotoal) * 100;
-                searchSummaryBoard.ClientBusinessVertical = (response.Select(x => !string.IsNullOrWhiteSpace(x.ClientBusinessVertical)).Count() / (decimal)searchTotoal) * 100;
-                searchSummaryBoard.ClientCity = (response.Select(x => !string.IsNullOrWhiteSpace(x.ClientCity)).Count() / (decimal)searchTotoal) * 100;
-                searchSummaryBoard.ClientName = (response.Select(x => !string.IsNullOrWhiteSpace(x.ClientName)).Count() / (decimal)searchTotoal) * 100;
-                searchSummaryBoard.Country = (response.Select(x => !string.IsNullOrWhiteSpace(x.Country)).Count() / (decimal)searchTotoal) * 100;
-                searchSummaryBoard.DateOfUse = (response.Select(x => !string.IsNullOrWhiteSpace(x.DateOfUse)).Count() / (decimal)searchTotoal) * 100;
-                searchSummaryBoard.Dbquality = (response.Select(x => !string.IsNullOrWhiteSpace(x.Dbquality)).Count() / (decimal)searchTotoal) * 100;
-                searchSummaryBoard.Numbers = (response.Select(x => !string.IsNullOrWhiteSpace(x.Numbers)).Count() / (decimal)searchTotoal) * 100;
-                searchSummaryBoard.Operator = (response.Select(x => !string.IsNullOrWhiteSpace(x.Operator)).Count() / (decimal)searchTotoal) * 100;
-                searchSummaryBoard.State = (response.Select(x => !string.IsNullOrWhiteSpace(x.State)).Count() / (decimal)searchTotoal) * 100;
-            }
+            searchSummaryBoard.SearchCount = searchTotoal;
+            //if (searchTotoal > 0)
+            //{
+            //    searchSummaryBoard.SearchCount = searchTotoal;
+            //    searchSummaryBoard.Circle = (response.Select(x => !string.IsNullOrWhiteSpace(x.Circle)).Count() / (decimal)searchTotoal) * 100;
+            //    searchSummaryBoard.ClientBusinessVertical = (response.Select(x => !string.IsNullOrWhiteSpace(x.ClientBusinessVertical)).Count() / (decimal)searchTotoal) * 100;
+            //    searchSummaryBoard.ClientCity = (response.Select(x => !string.IsNullOrWhiteSpace(x.ClientCity)).Count() / (decimal)searchTotoal) * 100;
+            //    searchSummaryBoard.ClientName = (response.Select(x => !string.IsNullOrWhiteSpace(x.ClientName)).Count() / (decimal)searchTotoal) * 100;
+            //    searchSummaryBoard.Country = (response.Select(x => !string.IsNullOrWhiteSpace(x.Country)).Count() / (decimal)searchTotoal) * 100;
+            //    searchSummaryBoard.DateOfUse = (response.Select(x => !string.IsNullOrWhiteSpace(x.DateOfUse)).Count() / (decimal)searchTotoal) * 100;
+            //    searchSummaryBoard.Dbquality = (response.Select(x => !string.IsNullOrWhiteSpace(x.Dbquality)).Count() / (decimal)searchTotoal) * 100;
+            //    searchSummaryBoard.Numbers = (response.Select(x => !string.IsNullOrWhiteSpace(x.Numbers)).Count() / (decimal)searchTotoal) * 100;
+            //    searchSummaryBoard.Operator = (response.Select(x => !string.IsNullOrWhiteSpace(x.Operator)).Count() / (decimal)searchTotoal) * 100;
+            //    searchSummaryBoard.State = (response.Select(x => !string.IsNullOrWhiteSpace(x.State)).Count() / (decimal)searchTotoal) * 100;
+            //}
             return searchSummaryBoard;
         }
     }

@@ -17,5 +17,6 @@ namespace DataProcessing.Persistence
         public List<string> Network { get; set; }
         public List<string> DataQuality { get; set; }
         public List<string> Customer { get; set; }
+        public string Label { get; set; }
     }
 }

@@ -2,7 +2,9 @@
 using DataProcessing.CommonModels;
 using DataProcessing.Persistence;
 using MoreLinq;
+using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DataProcessing.Application.B2C.Command
 {
@@ -10,11 +12,13 @@ namespace DataProcessing.Application.B2C.Command
     {
         private readonly IB2CReadDataFromFile _readDataFromFile;
         private readonly IBusinessToCustomerRepository _businessToCustomerRepository;
-
-        public SaveB2C(IB2CReadDataFromFile readDataFromFile, IBusinessToCustomerRepository businessToCustomerRepository)
+        private readonly IUpdateB2CSearchItem _updateB2CSearchItem;
+        public SaveB2C(IB2CReadDataFromFile readDataFromFile, IBusinessToCustomerRepository businessToCustomerRepository
+            , IUpdateB2CSearchItem updateB2CSearchItem)
         {
             _readDataFromFile = readDataFromFile;
             _businessToCustomerRepository = businessToCustomerRepository;
+            _updateB2CSearchItem = updateB2CSearchItem;
         }
 
         public UploadSummary Save(string filePath)
@@ -36,6 +40,7 @@ namespace DataProcessing.Application.B2C.Command
             var businessToCustomer = mobileNews.Except(mobileNewRepo, x => x.PhoneNew, y => y).ToList();
             if (businessToCustomer != null && businessToCustomer.Count()>0)
             {
+                var guid = $"b2c-{ Guid.NewGuid()}";
                 var saveToSource = businessToCustomer.Select(x => new BusinessToCustomer
                 {
                     Address = x.Address,
@@ -63,10 +68,14 @@ namespace DataProcessing.Application.B2C.Command
                     Pincode = x.Pincode,
                     Qualification = x.Qualification,
                     Roles = x.Roles,
-                    State = x.State
+                    State = x.State,
+                    RefId = guid
                 });
                 _businessToCustomerRepository.CreateManyAsync(saveToSource);
                 uploadSummary.UploadCount = saveToSource.Count();
+
+                Task task = new Task(() => { _updateB2CSearchItem.Update(guid); });
+                task.Start();
             }
             else
             {

@@ -125,16 +125,16 @@ function UpdateCustomerDashBoard(data) {
     $("#total").html(customerDataJson.total);
     $("#excelDown, #csvDown").attr('title', customerDataJson.searchId);
     $('#dashboard').html('');
-    for (var key in customerDataJson) {
-        if (customerDataJson.hasOwnProperty(key)) {
+    //for (var key in customerDataJson) {
+    //    if (customerDataJson.hasOwnProperty(key)) {
 
-            if (DashBoardItem[key] !== null
-                && DashBoardItem[key] !== undefined
-                && DashBoardItem[key] !== 'undefined') {
-                $('#dashboard').append(ConstructDashboardItem(DashBoardItem[key], customerDataJson[key]))
-            }
-        }
-    }
+    //        if (DashBoardItem[key] !== null
+    //            && DashBoardItem[key] !== undefined
+    //            && DashBoardItem[key] !== 'undefined') {
+    //            $('#dashboard').append(ConstructDashboardItem(DashBoardItem[key], customerDataJson[key]))
+    //        }
+    //    }
+    //}
 
 
     //alert(JSON.stringify(data));

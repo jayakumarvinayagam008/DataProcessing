@@ -21,5 +21,6 @@ namespace DataProcessing.Persistence
         public string CreatedBy { get; set; }
         public string State { get; set; }
         public string Country { get; set; }
+        public string RefId { get; set; }
     }
 }

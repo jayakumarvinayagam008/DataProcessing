@@ -14,5 +14,6 @@ namespace DataProcessing.Persistence
         public List<string> Area { get; set; }
         public List<int> BusinessCategory { get; set; }
         public List<string> Designation { get; set; }
+        public string Label { get; set; }
     }
 }

@@ -52,11 +52,11 @@ namespace DataProcessing.Application.CustomerDate.Query
                     Value = x,
                     Text = x
                 }).AsEnumerable(),
-                DataQuality = filterOptions.Dbquality.Select(x => new SelectListItem()
-                {
-                    Value = x,
-                    Text = x
-                }).AsEnumerable()
+                //DataQuality = filterOptions.Dbquality.Select(x => new SelectListItem()
+                //{
+                //    Value = x,
+                //    Text = x
+                //}).AsEnumerable()
             };
             return searchBlock;
         }

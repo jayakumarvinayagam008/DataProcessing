@@ -17,7 +17,7 @@ namespace DataProcessing.Persistence
         //Task<bool> Delete(string name);
         Task<bool> CreateManyAsync(List<BusinessToBusiness> games);
 
-        Task<IEnumerable<BusinessToBusiness>> Filter();
+        Task<IEnumerable<BusinessToBusiness>> Filter(string refId);
 
         Task<SearchBlock> GetFilterBlocks();
 
@@ -51,9 +51,33 @@ namespace DataProcessing.Persistence
             return await Task.FromResult(true);
         }
 
-        public Task<IEnumerable<BusinessToBusiness>> Filter()
+        public async Task<IEnumerable<BusinessToBusiness>> Filter(string refId)
         {
-            throw new NotImplementedException();
+            var builder = Builders<BusinessToBusiness>.Filter;
+            var filter = builder.Eq("RefId", refId);
+            var projection = Builders<BusinessToBusiness>
+                .Projection.Include("Country")
+                .Include("State")
+                .Include("City")
+                .Include("Area")
+                .Include("Designation")
+                .Include("CategoryId")
+                .Exclude("_id");
+
+            var searchResult = _context.BusinessToBusiness.Find(filter)
+                .Project(projection).ToList().Select(x => new BusinessToBusiness
+                {
+                    Country = x.GetValue("Country").AsString,
+                    State = x.GetValue("State").AsString,
+                    City = x.GetValue("City").AsString,
+                    Area = x.GetValue("Area").AsString,
+                    Designation = x.GetValue("Designation").AsString,
+                    CategoryId = x.GetValue("CategoryId").AsNullableInt64
+                }).ToList<BusinessToBusiness>();
+
+            
+            return await Task.FromResult(searchResult);
+                
         }
 
         public async Task<IEnumerable<BusinessToBusiness>> GetAllB2BAsync()
@@ -112,7 +136,7 @@ namespace DataProcessing.Persistence
             var destination = searchItems.Select(x => x.Designation).FirstOrDefault()
                 .Where(x => !string.IsNullOrWhiteSpace(x));
             var categories = searchItems.Select(x => x.BusinessCategory).FirstOrDefault();
-                
+
 
             SearchBlock searchBlock = new SearchBlock();
             //var country = _context.BusinessToBusiness
@@ -156,7 +180,7 @@ namespace DataProcessing.Persistence
             }
             IEnumerable<string> empty = new List<string>();
             IEnumerable<BusinessCategoryItem> categoryEmpty = new List<BusinessCategoryItem>();
-            searchBlock.Country = country.Any()?country: empty;
+            searchBlock.Country = country.Any() ? country : empty;
             searchBlock.State = state.Any() ? state : empty;
             searchBlock.City = city.Any() ? city : empty;
             searchBlock.Area = area.Any() ? area : empty;

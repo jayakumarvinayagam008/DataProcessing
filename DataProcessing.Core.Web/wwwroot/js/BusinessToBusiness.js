@@ -14,7 +14,7 @@
             || area !== null
             || destinations !== null
             || businessCategory !== null
-            || tags !== null) {
+            ) { //|| tags !== null
 
             var b2bSearch = {
                 'Cities': cities,
@@ -127,16 +127,16 @@ function UpdateB2BDashBoard(data) {
     $("#b2SearchTotal").html(b2bJson.searchCount);
     $("#b2bTotal").html(b2bJson.total);
     $("#excelDown, #csvDown").attr('title', b2bJson.searchId);
-    for (var key in b2bJson) {
-        if (b2bJson.hasOwnProperty(key)) {
+    //for (var key in b2bJson) {
+    //    if (b2bJson.hasOwnProperty(key)) {
 
-            if (b2CDashBoardItem[key] !== null
-                && b2CDashBoardItem[key] !== undefined
-                && b2CDashBoardItem[key] !== 'undefined') {
-                $('#b2bDashboard').append( ConstructDashboardItem(b2CDashBoardItem[key], b2bJson[key]))
-            }
-        }
-    }
+    //        if (b2CDashBoardItem[key] !== null
+    //            && b2CDashBoardItem[key] !== undefined
+    //            && b2CDashBoardItem[key] !== 'undefined') {
+    //            $('#b2bDashboard').append( ConstructDashboardItem(b2CDashBoardItem[key], b2bJson[key]))
+    //        }
+    //    }
+    //}
     
     
     //alert(JSON.stringify(data));
