@@ -16,7 +16,7 @@ namespace DataProcessing.Persistence
         public List<string> Area { get; set; }
         public List<string> Roles { get; set; }
         public List<string> Salary { get; set; }
-        public List<int> Age { get; set; }
+        public List<string> Age { get; set; }
         public List<string> Experience { get; set; }
         public string Label { get; set; }
     }

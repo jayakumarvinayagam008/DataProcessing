@@ -7,7 +7,7 @@ namespace DataProcessing.CommonModels
     public class B2CSearchResult
     {
         public string Name { get; set; }
-        public DateTime? Dob { get; set; }
+        public string Dob { get; set; }
         public string Qualification { get; set; }
         public string Experience { get; set; }
         public string Employer { get; set; }

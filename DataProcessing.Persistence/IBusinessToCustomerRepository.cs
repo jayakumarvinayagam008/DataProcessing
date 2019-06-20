@@ -1,4 +1,5 @@
 ﻿using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -77,9 +78,26 @@ namespace DataProcessing.Persistence
                 filter = filter & Builders<BusinessToCustomer>.Filter.In("City", searchFilterBlock.Cities);
             if (searchFilterBlock.Roles.Where(x => !string.IsNullOrWhiteSpace(x)).Any())
                 filter = filter & Builders<BusinessToCustomer>.Filter.In("Roles", searchFilterBlock.Roles);
-            //if (searchFilterBlock.Age.Where(x => !string.IsNullOrWhiteSpace(x)).Any())
-            //    filter = filter & Builders<BusinessToCustomer>.Filter.In("Dob", searchFilterBlock.Age);
-            
+
+            //var filter = filterBuilder.Gte(x => x.CreatedOn, start) &
+            //    filterBuilder.Lte(x => x.CreatedOn, end);
+
+            if (searchFilterBlock.Age.Where(x => !string.IsNullOrWhiteSpace(x)).Any())
+            {                
+                DateTime today = DateTime.Today;
+                foreach (var item in searchFilterBlock.Age)
+                {
+                    var ageBetween = item.Split('-');
+                    int.TryParse(ageBetween[0], out int startYear);
+                    int.TryParse(ageBetween[1], out int endYear);
+                    var start = today.AddYears(-startYear);
+                    var end = today.AddYears(-endYear);
+                    filter = filter & Builders<BusinessToCustomer>.Filter.Gte(x => x.Dob, end)
+                        & Builders<BusinessToCustomer>.Filter.Lte(x=>x.Dob, start);
+                }                
+
+            }                
+
             if (searchFilterBlock.States.Where(x => !string.IsNullOrWhiteSpace(x)).Any())
                 filter = filter & Builders<BusinessToCustomer>.Filter.In("State", searchFilterBlock.States);
 

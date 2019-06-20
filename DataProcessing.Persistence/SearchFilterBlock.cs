@@ -16,6 +16,6 @@ namespace DataProcessing.Persistence
         public IEnumerable<string> Roles { get; set; }
         public IEnumerable<string> Salary { get; set; }
         public IEnumerable<string> Experience { get; set; }
-        public IEnumerable<int> Age { get; set; }
+        public IEnumerable<string> Age { get; set; }
     }
 }

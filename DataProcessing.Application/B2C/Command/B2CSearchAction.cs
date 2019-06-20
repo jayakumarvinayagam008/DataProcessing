@@ -29,7 +29,7 @@ namespace DataProcessing.Application.B2C.Command
                 Contries = (requestFilter.Contries != null) ? requestFilter.Contries : new List<string>(),
                 Cities = (requestFilter.Cities != null) ? requestFilter.Cities : new List<string>(),
                 Roles = (requestFilter.Roles != null) ? requestFilter.Roles : new List<string>(),
-                Age = (requestFilter.Age != null) ? requestFilter.Age : new List<int>(),
+                Age = (requestFilter.Age != null) ? requestFilter.Age : new List<string>(),
                 Area = (requestFilter.Area != null) ? requestFilter.Area : new List<string>(),
                 Salary = (requestFilter.Salary != null) ? requestFilter.Salary : new List<string>(),
                 States = (requestFilter.States != null) ? requestFilter.States : new List<string>(),

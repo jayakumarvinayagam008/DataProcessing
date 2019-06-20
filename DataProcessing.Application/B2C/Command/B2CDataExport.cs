@@ -49,7 +49,8 @@ namespace DataProcessing.Application.B2C.Command
                 }
             };
             //
-            var download = businessToBusinesses.Select(x => new B2CSearchResult {
+            var download = businessToBusinesses.Select(x => new B2CSearchResult
+            {
                 Address = x.Address,
                 Address2 = x.Address2,
                 AnnualSalary = x.AnnualSalary,
@@ -57,7 +58,7 @@ namespace DataProcessing.Application.B2C.Command
                 Caste = x.Caste,
                 City = x.City,
                 Country = x.Country,
-                Dob = x.Dob,
+                Dob = (x.Dob.HasValue) ? x.Dob.Value.ToString("MM/dd/yyyy") : string.Empty,
                 Email = x.Email,
                 Employer = x.Employer,
                 Experience = x.Experience,
