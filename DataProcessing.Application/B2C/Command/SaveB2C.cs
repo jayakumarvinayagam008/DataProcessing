@@ -3,6 +3,7 @@ using DataProcessing.CommonModels;
 using DataProcessing.Persistence;
 using MoreLinq;
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -72,8 +73,7 @@ namespace DataProcessing.Application.B2C.Command
                     RefId = guid
                 });
                 _businessToCustomerRepository.CreateManyAsync(saveToSource);
-                uploadSummary.UploadCount = saveToSource.Count();
-
+                uploadSummary.UploadCount = saveToSource.Count();               
                 Task task = new Task(() => { _updateB2CSearchItem.Update(guid); });
                 task.Start();
             }

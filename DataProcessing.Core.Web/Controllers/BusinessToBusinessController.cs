@@ -7,6 +7,7 @@ using DataProcessing.Core.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 
@@ -20,10 +21,11 @@ namespace DataProcessing.Core.Web.Controllers
         private readonly ISearchAction _searchAction;
         private readonly IGetSearchedFileStatuscs _getSearchedFileStatuscs;
         private readonly ISaveB2B _saveB2B;
-
+        readonly ILogger<BusinessToBusinessController> _log;
         public BusinessToBusinessController(IOptions<DataProcessingSetting> appSettings,
             ISaveB2B saveB2B, IB2BSearchBlock searchBlock, ISearchAction searchAction,
-            IGetSearchedFileStatuscs getSearchedFileStatuscs)
+            IGetSearchedFileStatuscs getSearchedFileStatuscs
+            )
         {
             _appSettings = appSettings;
             _saveB2B = saveB2B;
@@ -33,7 +35,7 @@ namespace DataProcessing.Core.Web.Controllers
         }
 
         public IActionResult Index()
-        {
+        {           
             return View(new B2BDashboard());
         }
 

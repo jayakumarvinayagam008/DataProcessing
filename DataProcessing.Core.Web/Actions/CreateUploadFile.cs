@@ -14,14 +14,15 @@ namespace DataProcessing.Core.Web.Actions
             var filePath = string.Empty;
             foreach (var file in files)
             {
-                var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Replace(" ", "").Trim('"');
                 // full path to file in temp location
                 filePath = Path.GetFullPath(rootFilePath);
+                FileInfo fi = new FileInfo(fileName);
                 // checked file types
                 if (fileName.EndsWith(".xlsx") || fileName.EndsWith(".csv"))
                 {
                     var dateTime = DateTime.Now;
-                    filePath = $"{filePath}\\{GetGUID()}_{fileName}";
+                    filePath = $"{filePath}\\{GetGUID()}{fi.Extension}";
                     await SaveFileToServerAsync(filePath);
                     async Task SaveFileToServerAsync(string fileFullPath)
                     {

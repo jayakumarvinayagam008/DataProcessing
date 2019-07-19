@@ -144,7 +144,9 @@ namespace DataProcessing.Core.Web
             app.UseExceptionHandler("/Home/Error");
             var loggerFile = Configuration["Logging:Log"];
 
-            loggerFactory.CreateLogger(loggerFile);
+            //loggerFactory.CreateLogger(loggerFile);
+            loggerFactory.AddFile(Configuration["Logging:Log"]);
+
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
