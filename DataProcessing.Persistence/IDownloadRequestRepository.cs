@@ -1,5 +1,6 @@
 ﻿using MongoDB.Driver;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace DataProcessing.Persistence
@@ -29,6 +30,8 @@ namespace DataProcessing.Persistence
 
         public Task<DownloadRequest> GetDownloadRequestDetail(string requestId, int typeId)
         {
+            var folder = Path.GetFileNameWithoutExtension(requestId);
+
             FilterDefinition<DownloadRequest> filter = Builders<DownloadRequest>.Filter.Eq(m => m.SearchId, requestId)
                 & Builders<DownloadRequest>.Filter.Eq(m => m.FileType, typeId);
 

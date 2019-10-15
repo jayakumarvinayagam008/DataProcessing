@@ -13,5 +13,6 @@ namespace DataProcessing.Core.Web
         public string SearchExport { get; set; }
         public int RowRange { get; set; }
         public string[] Samples { get; set; }
+        public int ZipFileRange { get; set; }
     }
 }

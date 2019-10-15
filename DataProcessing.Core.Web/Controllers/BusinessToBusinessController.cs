@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Collections.Generic;
+using System.IO;
 
 namespace DataProcessing.Core.Web.Controllers
 {
@@ -83,7 +84,7 @@ namespace DataProcessing.Core.Web.Controllers
                 Contries = searchRequest.Contries,
                 Designation = searchRequest.Designation,
                 States = searchRequest.States
-            }, _appSettings.Value.SearchExport, _appSettings.Value.RowRange);
+            }, _appSettings.Value.SearchExport, _appSettings.Value.RowRange, _appSettings.Value.ZipFileRange);
             return Json(searchSummary);
         }
 
@@ -91,10 +92,11 @@ namespace DataProcessing.Core.Web.Controllers
         {
             var fileName = $"{searchId}";
             var rootPath = _appSettings.Value.SearchExport;
-            var filePath = $"{rootPath}{fileName}.xlsx";
+            var filePath = $"{rootPath}{fileName}.xlsx";            
             var sampleTempate = new GetFileContent().GetFile(filePath);
             var templateName = "B2B";
-            return File(sampleTempate, "application/vnd.ms-excel", $"{templateName}.xlsx");
+            var fileType = Directory.Exists($"{rootPath}{fileName}") ? ".zip" : ".xlsx";
+            return File(sampleTempate, "application/vnd.ms-excel", $"{templateName}{fileType}");
         }
 
         public ActionResult DownLoadAsCsv(string searchId)
@@ -112,7 +114,8 @@ namespace DataProcessing.Core.Web.Controllers
             var fileName = $"{searchRequestCheck.SearchId}";
             var rootPath = _appSettings.Value.SearchExport;
             var filePath = $"{rootPath}{fileName}.{ searchRequestCheck.Type} ";
-            var fileStatus = _getSearchedFileStatuscs.FileExist(searchRequestCheck.SearchId, 1, filePath);
+            var fileType = GetFileType(searchRequestCheck.Type);
+            var fileStatus = _getSearchedFileStatuscs.FileExist(searchRequestCheck.SearchId, fileType, filePath);
             return Json(fileStatus);
         }
 
@@ -120,6 +123,11 @@ namespace DataProcessing.Core.Web.Controllers
         {            
             var sampleTempate = GetSampleFileContent.Get(_appSettings.Value.SampleDownloadPath, _appSettings.Value.Samples, sourceId);
             return File(sampleTempate.content, "application/vnd.ms-excel", $"{sampleTempate.FileName}.xlsx");
+        }
+
+        private int GetFileType(string fileType)
+        {
+            return (fileType.ToLower().Equals("xlsx") ? 0 : 1);
         }
     }
 }

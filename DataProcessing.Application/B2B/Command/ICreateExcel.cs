@@ -9,7 +9,7 @@ namespace DataProcessing.Application.B2B.Command
 {
     public interface ICreateExcel
     {
-        void Create(List<BusinessToBusinessModel> businessToBusinesses, string filePath, int range, DownloadRequest downloadRequest);
+        void Create(List<BusinessToBusinessModel> businessToBusinesses, string filePath, int range, DownloadRequest downloadRequest);        
     }
 
     public class CreateExcel : ICreateExcel
@@ -54,7 +54,6 @@ namespace DataProcessing.Application.B2B.Command
         {
             var sheetContainer = businessToBusinesses.Batch(range);
             FileInfo fileInfo = new FileInfo(filePath);
-
             downloadRequest.StatusCode = (int)FileCreateStatus.InProgress;
             _downloadRequestRepository.UpdateAsync(downloadRequest);
 

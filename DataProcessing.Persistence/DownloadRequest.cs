@@ -4,7 +4,7 @@ using System;
 
 namespace DataProcessing.Persistence
 {
-    public class DownloadRequest
+    public class DownloadRequest : ICloneable
     {
         [BsonId]
         public ObjectId Id { get; set; }
@@ -14,5 +14,11 @@ namespace DataProcessing.Persistence
         public string CreatedBy { get; set; }
         public DateTime CreatedOn { get; set; }
         public int FileType { get; set; }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
+
     }
 }

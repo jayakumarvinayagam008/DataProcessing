@@ -2,6 +2,7 @@
 using DataProcessing.Persistence;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,17 +14,18 @@ namespace DataProcessing.Application.B2B.Command
         private readonly IDownloadRequestRepository _downloadRequestRepository;
         private readonly ICreateCsv _createCsv;
         private readonly IBusinessCategoryRepository _businessCategoryRepository;
-
+        private readonly ICreateExcelZip _createExcelZip;
         public BusinessToBusinessExport(ICreateExcel createExcel, IDownloadRequestRepository downloadRequestRepository
-            , ICreateCsv createCsv, IBusinessCategoryRepository businessCategoryRepository)
+            , ICreateCsv createCsv, IBusinessCategoryRepository businessCategoryRepository, ICreateExcelZip createExcelZip)
         {
             _createExcel = createExcel;
             _downloadRequestRepository = downloadRequestRepository;
             _createCsv = createCsv;
             _businessCategoryRepository = businessCategoryRepository;
+            _createExcelZip = createExcelZip;
         }
 
-        public string Export(List<BusinessToBusiness> businessToBusinesses, string fileRootPath, int range)
+        public string Export(List<BusinessToBusiness> businessToBusinesses, string fileRootPath, int range, int zipFileRange)
         {
             var fileName = GetGUID();
             string fileType = "xlsx";
@@ -113,8 +115,34 @@ namespace DataProcessing.Application.B2B.Command
             //    ).ToList();
 
             _downloadRequestRepository.CreateAsync(searchRequest).Wait();
-            Task.Run(() => _createExcel.Create(businessToBusinessModels, filePath, range, searchRequest[0]));
-            Task.Run(() => _createCsv.Create(businessToBusinessModels, fileCsvPath, searchRequest[1]));
+            if(businessToBusinessModels.Count() > zipFileRange)
+            {
+                var folderPath = $"{fileRootPath}{fileName}";
+                try
+                {
+                    // If the directory doesn't exist, create it.
+                    if (!Directory.Exists(folderPath))
+                    {
+                        Directory.CreateDirectory(folderPath);
+                    }
+                }
+                catch (Exception)
+                {
+                    // Fail silently
+                }
+               
+                //Task.Run(() =>
+                _createExcelZip.Create(businessToBusinessModels, folderPath, range, searchRequest[0], zipFileRange);
+                //);
+                
+            }
+            else
+            {
+                Task.Run(() => _createExcel.Create(businessToBusinessModels, filePath, range, searchRequest[0]));
+                Task.Run(() => _createCsv.Create(businessToBusinessModels, fileCsvPath, searchRequest[1]));
+            }
+
+            
 
             return fileName;
         }

@@ -5,6 +5,6 @@ namespace DataProcessing.Application.B2B.Command
 {
     public interface IBusinessToBusinessExport
     {
-        string Export(List<BusinessToBusiness> businessToBusinesses, string fileRootPath, int range);
+        string Export(List<BusinessToBusiness> businessToBusinesses, string fileRootPath, int range, int zipFileRange=0);
     }
 }

@@ -19,7 +19,7 @@ namespace DataProcessing.Application.B2B.Command
             _businessToBusinessExport = businessToBusinessExport;
         }
 
-        public SearchSummaryBoard Filter(SearchFilter searchFilter, string rootPath, int range)
+        public SearchSummaryBoard Filter(SearchFilter searchFilter, string rootPath, int range, int zipFileRange =0)
         {
             var tempResult = _businessToBusinessRepository.GetB2BSearch(new B2BFilter
             {
@@ -35,7 +35,7 @@ namespace DataProcessing.Application.B2B.Command
             string fileId = string.Empty;
             if (tempResult.BusinessToBusinesses.Count() > 0)
             {
-                fileId = _businessToBusinessExport.Export(tempResult.BusinessToBusinesses, rootPath, range);
+                fileId = _businessToBusinessExport.Export(tempResult.BusinessToBusinesses, rootPath, range, zipFileRange);
             }
             dashBoard.SearchId = fileId;
             dashBoard.Total = tempResult.Total;

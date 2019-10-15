@@ -4,6 +4,6 @@ namespace DataProcessing.Application.B2B.Command
 {
     public interface ISearchAction
     {
-        SearchSummaryBoard Filter(SearchFilter searchFilter, string rootPath, int range);
+        SearchSummaryBoard Filter(SearchFilter searchFilter, string rootPath, int range, int zipFileRange = 0);
     }
 }

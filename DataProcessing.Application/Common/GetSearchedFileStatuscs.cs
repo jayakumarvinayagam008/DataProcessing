@@ -14,13 +14,11 @@ namespace DataProcessing.Application.Common
         }
 
         public FileAvailable FileExist(string searchRequistId, int fileType, string filePath)
-        {
-            var fileExist = new FileAvailable()
-            {
-            };
+        {          
             var status = _downloadRequestRepository.GetDownloadRequestDetail(searchRequistId, fileType);
             status.Wait();
-            if (status.Result != null && status.Result.StatusCode == (int)FileCreateStatus.Completed && File.Exists(filePath))
+            if (status.Result != null && status.Result.StatusCode == (int)FileCreateStatus.Completed 
+                && (File.Exists(filePath) || Directory.Exists(Path.ChangeExtension(filePath, null))))
                 return new FileAvailable() { IsAvailable = true, Message = string.Empty };
             return new FileAvailable() { IsAvailable = false, Message = MessageContainer.SearchFile };
         }

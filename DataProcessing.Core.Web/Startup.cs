@@ -123,8 +123,9 @@ namespace DataProcessing.Core.Web
             services.AddScoped<IB2CSearchRepository, B2CSearchRepository>();
 
             services.AddScoped<ICustomerDataSearchRepository, CustomerDataSearchRepository>();
-            services.AddScoped<ICustomerDataSearchItem, CustomerDataSearchItem>();            
-
+            services.AddScoped<ICustomerDataSearchItem, CustomerDataSearchItem>();
+            services.AddScoped<ICreateExcelZip, CreateExcelZip>();
+            
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
