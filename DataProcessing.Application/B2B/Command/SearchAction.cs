@@ -1,5 +1,6 @@
 ﻿using DataProcessing.CommonModels;
 using DataProcessing.Persistence;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -32,14 +33,15 @@ namespace DataProcessing.Application.B2B.Command
             });
             var response = tempResult;
             var dashBoard = _prepareSearchSummaryBoard.GenerateSummary(response.BusinessToBusinesses, response.Total);
-            string fileId = string.Empty;
+            Tuple<string, string> fileId = null;
             if (tempResult.BusinessToBusinesses.Count() > 0)
             {
                 fileId = _businessToBusinessExport.Export(tempResult.BusinessToBusinesses, rootPath, range, zipFileRange);
             }
-            dashBoard.SearchId = fileId;
+            dashBoard.SearchId = fileId.Item1;
             dashBoard.Total = tempResult.Total;
             dashBoard.SearchCount = tempResult.BusinessToBusinesses.Count();
+            dashBoard.SearchCsvId = fileId.Item2;
             return dashBoard;
         }
     }

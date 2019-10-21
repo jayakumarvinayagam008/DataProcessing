@@ -126,7 +126,8 @@ function UpdateB2BDashBoard(data) {
     console.log(data);
     $("#b2SearchTotal").html(b2bJson.searchCount);
     $("#b2bTotal").html(b2bJson.total);
-    $("#excelDown, #csvDown").attr('title', b2bJson.searchId);
+    $("#excelDown").attr('title', b2bJson.searchId);    
+    $("#csvDown").attr('title', b2bJson.searchCsvId);
     //for (var key in b2bJson) {
     //    if (b2bJson.hasOwnProperty(key)) {
 

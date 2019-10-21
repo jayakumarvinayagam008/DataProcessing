@@ -1,10 +1,11 @@
 ﻿using DataProcessing.Persistence;
+using System;
 using System.Collections.Generic;
 
 namespace DataProcessing.Application.B2B.Command
 {
     public interface IBusinessToBusinessExport
     {
-        string Export(List<BusinessToBusiness> businessToBusinesses, string fileRootPath, int range, int zipFileRange=0);
+        Tuple<string, string> Export(List<BusinessToBusiness> businessToBusinesses, string fileRootPath, int range, int zipFileRange=0);
     }
 }

@@ -35,5 +35,6 @@
 
         public int B2BTotal { get; set; }
         public string SearchId { get; set; }
+        public string SearchCsvId { get; set; }
     }
 }
