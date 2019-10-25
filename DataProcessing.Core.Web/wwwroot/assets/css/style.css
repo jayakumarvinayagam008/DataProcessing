@@ -5867,3 +5867,23 @@ textarea.form-control {
         color: #999;
         opacity: 0.8;
     }
+
+.checkBoxContainer
+{    
+}
+.chk {
+    /*padding-top: 10px;*/
+    opacity: unset !important;
+    /*margin-left: 20px;*/
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 170px);
+    /*  Setting column and row gaps  */
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+    /*  Shorthand  */
+    grid-gap: 10px;
+}

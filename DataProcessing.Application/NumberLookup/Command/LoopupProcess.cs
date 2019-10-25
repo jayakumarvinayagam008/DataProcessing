@@ -1,4 +1,6 @@
 ﻿using DataProcessing.Application.NumberLookup.Query;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DataProcessing.Application.NumberLookup.Command
 {
@@ -16,10 +18,14 @@ namespace DataProcessing.Application.NumberLookup.Command
             _saveNumberLookUp = saveNumberLookUp;
         }
 
-        public string Process(string lookupFile, string rootPath)
+        public string Process(string lookupFile, string rootPath,string content, IEnumerable<string> filters)
         {
             var lookup = _readNumberLookup.Read(lookupFile);
+            var lookupfromText = _readNumberLookup.ReadFromContent(content);
+            lookup = lookup.Concat(lookupfromText).Distinct();
             var sourceLookup = _getNumberLoopUpData.FilterNumberLookUp(lookup);
+            // filter 
+            sourceLookup = sourceLookup.Where(x => filters.Contains(x.Operator));
             var fileName = _saveNumberLookUp.CreateAndSave(sourceLookup, rootPath);
             return fileName;
         }

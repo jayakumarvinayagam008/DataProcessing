@@ -1,4 +1,5 @@
 ﻿using DataProcessing.Application.NumberLookup.Command;
+using DataProcessing.Application.NumberLookup.Query;
 using DataProcessing.Core.Web.Actions;
 using DataProcessing.Core.Web.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DataProcessing.Core.Web.Controllers
 {
@@ -15,20 +17,31 @@ namespace DataProcessing.Core.Web.Controllers
         private readonly IOptions<DataProcessingSetting> _appSettings;
         private readonly ILoopupProcess _loopupProcess = null;
         private readonly IReadBulkNumberLookUp _readBulkNumberLookUp = null;
-        
+        private readonly IGetOperators _getOperators = null;
         public NumberLookupController(IOptions<DataProcessingSetting> appSettings,
             ILoopupProcess loopupProcess,
-            IReadBulkNumberLookUp readBulkNumberLookUp)
+            IReadBulkNumberLookUp readBulkNumberLookUp,
+            IGetOperators operators)
         {
             _appSettings = appSettings;
             _loopupProcess = loopupProcess;
             _readBulkNumberLookUp = readBulkNumberLookUp;
+            _getOperators = operators;
         }
 
         public IActionResult Index()
         {
+            var getOperators = _getOperators.Get();
+            List<Operator> operators = new List<Operator>();
+
+            foreach (var item in getOperators)
+            {
+                operators.Add(new Operator { IsChecked = false, Text = item, Value = item });
+            }
+            
             NumberLookUpDownload numberLookUpDownload = new NumberLookUpDownload()
             {
+                Operators = operators
             };
             return View(numberLookUpDownload);
         }
@@ -63,20 +76,26 @@ namespace DataProcessing.Core.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(IList<IFormFile> files)
+        public IActionResult Index(IList<IFormFile> files, NumberLookUpDownload noLookUpDownload)
         {
             CreateUploadFile createUploadFile = new CreateUploadFile();
             var fileCreation = createUploadFile.CreateAsync(files, _appSettings.Value.SharePath);
             fileCreation.Wait();
             var filePath = fileCreation.Result;
-            var fileName = _loopupProcess.Process(filePath, _appSettings.Value.NumberLookup);
+            var filters = noLookUpDownload.Operators.Where(x => x.IsChecked).Select(x=>x.Value);
+            var fileName = _loopupProcess.Process(filePath, _appSettings.Value.NumberLookup, noLookUpDownload.LookupNumbers, filters);
 
             NumberLookUpDownload numberLookUpDownload = new NumberLookUpDownload()
             {
                 FileName = fileName,
                 Status = !string.IsNullOrWhiteSpace(fileName)
             };
-            return View(numberLookUpDownload);
+
+            var rootPath = _appSettings.Value.NumberLookup;
+            var newfilePath = $"{rootPath}{fileName}.xlsx";
+            var sampleTempate = new GetFileContent().GetFile(newfilePath);
+            var templateName = "Number LookUp";
+            return File(sampleTempate, "application/vnd.ms-excel", $"{templateName}.xlsx");
         }
 
         public ActionResult DownLoadNumberLookup(string fileName)

@@ -1,4 +1,5 @@
 ﻿using OfficeOpenXml;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -50,6 +51,29 @@ namespace DataProcessing.Application.NumberLookup.Command
             if (!string.IsNullOrWhiteSpace(header) && long.TryParse(header, out long val))
                 return 1;
             return 2;
+        }
+
+        public IEnumerable<Numbers> ReadFromContent(string content)
+        {
+            IList<Numbers> numberLookups = new List<Numbers>();
+            // split with , and space
+            if(!string.IsNullOrWhiteSpace(content))
+            {
+                string[] numbers = content.Split(new[] { ',', ' ', '\n' },
+                                StringSplitOptions.RemoveEmptyEntries);
+                for (int i = 0; i < numbers.Length; i++)
+                {
+                    if (!string.IsNullOrWhiteSpace(numbers[i]))
+                    {
+                        numberLookups.Add(new Numbers
+                        {
+                            PhoneNumber = numbers[i],
+                            Series = numbers[i].Substring(0, 4)
+                        });
+                    }
+                }
+            }            
+            return numberLookups;
         }
     }
 }

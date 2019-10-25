@@ -5,5 +5,7 @@ namespace DataProcessing.Application.NumberLookup.Command
     public interface IReadNumberLookup
     {
         IEnumerable<Numbers> Read(string filePath);
+        IEnumerable<Numbers> ReadFromContent(string content);
+
     }
 }
