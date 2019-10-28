@@ -11,11 +11,11 @@
     <div class="row">
         <div class="col-md-7">
             <div class="card-box">
-                <p class="text-muted font-14 m-b-25">
+                <p class="font-14 m-b-25">
                     Scrub Upto 1000000 Mobile Numbers at a time & Enjoy super fast DND Check Online.
                 </p>
                 <div class="row">
-                    <div class="col-12">                       
+                    <div class="col-12">
                         <textarea asp-for="LookupNumbers" class="form-control" rows="15" placeholder="To scrub, you can enter multiple numbers by one number per line or one number by comma. For example 8555300000, 8543345675, 8543954564 &#13; OR &#13;&#10;8555300000 &#13;&#10;8543345675 &#13;&#10;8543954564">
                         </textarea>
                     </div>
@@ -36,44 +36,45 @@
             </div>
         </div>
         <div class="col-md-5">
-            <div class="card-box">
+            <div class="card-box operatorBox">
                 <div class="checkbox checkbox-purple">
                     <div>Download Type (Select one or both options)</div>
                     @*<input id="checkbox6a" type="checkbox" data-parsley-multiple="checkbox6a">
-                    <label for="checkbox6a">
-                        Airtel
-                    </label>*@
+            <label for="checkbox6a">
+                Airtel
+            </label>*@
                 </div>
                 <div class="grid-container checkBoxContainer">
-                    @for (int i = 0; i < Model.Operators.Count; i++)
-                    {
-                        @*<input id="@Model.Operators[i].Value" type="checkbox"
-                   data-parsley-multiple="@Model.Operators[i].Value">
-            <label for="@Model.Operators[i].Value">
-                @Model.Operators[i].Text
-            </label>*@                        
-                        @Html.CheckBoxFor(m => Model.Operators[i].IsChecked
-                            , new { @class = "chk" })
-                        @Model.Operators[i].Text
-                        @Html.HiddenFor(m => Model.Operators[i].Value)
-                        @Html.HiddenFor(m => Model.Operators[i].Text)
-
-                    }
+                    <div class="wrapper">
+                        @for (int i = 0; i < Model.Operators.Count; i++)
+                        {
+                        <div class="box">
+                            <label class="label-big-check">
+                                @Html.CheckBoxFor(m => Model.Operators[i].IsChecked)
+                                <span for="option_1" class="check-title">@Model.Operators[i].Text</span>                                
+                                @Html.HiddenFor(m => Model.Operators[i].Value)
+                                @Html.HiddenFor(m => Model.Operators[i].Text)
+                            </label>
+                        </div>
+                        }
+                    </div>
                 </div>
-                @*<input id="checkbox6a" type="checkbox" data-parsley-multiple="checkbox6a">
-        <label for="checkbox6a">
-            Airtel
-        </label>
-        <input id="checkbox6b" type="checkbox" data-parsley-multiple="checkbox6a">
-        <label for="checkbox6b">
-            BSNL
-        </label>
-        <input id="checkbox6c" type="checkbox" data-parsley-multiple="checkbox6a">
-        <label for="checkbox6c">
-            Vodofone
-        </label>*@
 
-            </div>
+                
+                    @*<input id="checkbox6a" type="checkbox" data-parsley-multiple="checkbox6a">
+            <label for="checkbox6a">
+                Airtel
+            </label>
+            <input id="checkbox6b" type="checkbox" data-parsley-multiple="checkbox6a">
+            <label for="checkbox6b">
+                BSNL
+            </label>
+            <input id="checkbox6c" type="checkbox" data-parsley-multiple="checkbox6a">
+            <label for="checkbox6c">
+                Vodofone
+            </label>*@
+
+                </div>
                 <div class="form-group m-b-0" style="margin-top:50px;">
                     <button type="submit" class="btn btn-default waves-effect waves-light">
                         <span class="btn-label">
@@ -82,19 +83,19 @@
                     </button>
                 </div>
             </div>
-        </div>
+    </div>
 
-        <div class="uploadSummary">
-            @{
-                if (Model.Status)
-                {
-                    <input type="hidden" id="hndLookupId" value="@Model.FileName" />
-                    <button class="btn btn-link" type="button" id="btnNumberLookUp">
-                        Download Number Lookup Response
-                    </button>
-                }
+    <div class="uploadSummary">
+        @{
+            if (Model.Status)
+            {
+                <input type="hidden" id="hndLookupId" value="@Model.FileName" />
+                <button class="btn btn-link" type="button" id="btnNumberLookUp">
+                    Download Number Lookup Response
+                </button>
             }
-        </div>
+        }
+    </div>
     </div>
 </form>
 
