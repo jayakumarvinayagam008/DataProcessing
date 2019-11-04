@@ -39,7 +39,7 @@ namespace DataProcessing.Core.Web.Controllers
                 ZipFile.CreateFromDirectory(sourceFolder, filePath);
                 return filePath;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return string.Empty;
             }

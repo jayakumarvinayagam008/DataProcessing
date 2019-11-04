@@ -91,7 +91,7 @@ namespace DataProcessing.Core.Web.Controllers
             return Json(searchSummary);
         }
 
-        public ActionResult DownLoadAsExcel(int searchId)
+        public ActionResult DownLoadAsExcel(string searchId)
         {
             var fileName = $"{searchId}";
             var rootPath = _appSettings.Value.SearchExport;
@@ -99,17 +99,18 @@ namespace DataProcessing.Core.Web.Controllers
             var sampleTempate = new GetFileContent().GetFile(filePath);
             var templateName = "B2C";
             var fileType = Directory.Exists($"{rootPath}{fileName}") ? ".zip" : ".xlsx";
-            return File(sampleTempate, "application/vnd.ms-excel", $"{templateName}.xlsx");
+            return File(sampleTempate, "application/vnd.ms-excel", $"{templateName}{fileType}");
         }
 
-        public ActionResult DownLoadAsCsv(int searchId)
+        public ActionResult DownLoadAsCsv(string searchId)
         {
             var fileName = $"{searchId}";
             var rootPath = _appSettings.Value.SearchExport;
             var filePath = $"{rootPath}{fileName}.csv";
             var sampleTempate = new GetFileContent().GetFile(filePath);
             var templateName = "B2C";
-            return File(sampleTempate, "application/x-csv", $"{templateName}.csv");
+            var fileType = Directory.Exists($"{rootPath}{fileName}") ? ".zip" : ".xlsx";
+            return File(sampleTempate, "application/x-csv", $"{templateName}{fileType}");
         }
 
         public ActionResult CheckSearchFileAvailable(SearchRequestCheck searchRequestCheck)

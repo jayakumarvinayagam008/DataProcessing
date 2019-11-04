@@ -106,7 +106,8 @@ namespace DataProcessing.Core.Web.Controllers
             var filePath = $"{rootPath}{fileName}.csv";
             var sampleTempate = new GetFileContent().GetFile(filePath);
             var templateName = "B2B";
-            return File(sampleTempate, "application/x-csv", $"{templateName}.csv");
+            var fileType = Directory.Exists($"{rootPath}{fileName}") ? ".zip" : ".xlsx";
+            return File(sampleTempate, "application/x-csv", $"{templateName}{fileType}");
         }
 
         public ActionResult CheckSearchFileAvailable(SearchRequestCheck searchRequestCheck)

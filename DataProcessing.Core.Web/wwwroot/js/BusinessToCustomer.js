@@ -59,11 +59,9 @@
     //IsAvailable
     //Message
     $('#excelDown').on('click', function (eve) {
-        alert('Hai');
         $('#searchRequestMessage').hide();
         var $fileName = $('#excelDown').attr('title');
         var $fileStatus = FileCheck($fileName, 'xlsx');
-        console.log(JSON.stringify($fileStatus.message));
         if ($fileStatus.isAvailable === true) {
             DownloadFile($fileName, 'xlsx');
         } else {
@@ -97,7 +95,7 @@ function FileCheck($searchId, $type) {
     };
     $fileResponse = {};
     $.ajax({
-        url: '/CustomerData/CheckSearchFileAvailable/',
+        url: '/BusinessToCustomer/CheckSearchFileAvailable/',
         type: 'POST',
         dataType: 'json',
         async: false,
@@ -118,15 +116,14 @@ function FileCheck($searchId, $type) {
 
 function DownloadFile($searchId, $type) {
     if ($type === 'xlsx') {
-        window.location = '/CustomerData/DownLoadAsExcel/?searchId=' + $searchId;
+        window.location = '/BusinessToCustomer/DownLoadAsExcel/?searchId=' + $searchId;
     } else {
-        window.location = '/CustomerData/DownLoadAsCsv/?searchId=' + $searchId;
+        window.location = '/BusinessToCustomer/DownLoadAsCsv/?searchId=' + $searchId;
     }
 }
 function UpdateCustomerDashBoard(data) {
 
     var customerDataJson = data;
-    console.log(data);
     $("#searchTotal").html(customerDataJson.searchCount);
     $("#total").html(customerDataJson.total);
     $("#excelDown, #csvDown").attr('title', customerDataJson.searchId);

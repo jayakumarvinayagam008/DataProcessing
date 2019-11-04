@@ -28,7 +28,7 @@ namespace DataProcessing.Application.B2B.Command
             , int range, DownloadRequest downloadRequest, int zipFileRange)
         {
             string fileType = "xlsx";
-            var fileContainer = businessToBusinesses.Batch(range);
+            var fileContainer = businessToBusinesses.Batch(zipFileRange);
             //FileInfo fileInfo = new FileInfo(folderPath);
 
             downloadRequest.StatusCode = (int)FileCreateStatus.InProgress;

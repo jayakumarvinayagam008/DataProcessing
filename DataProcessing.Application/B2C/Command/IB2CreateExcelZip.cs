@@ -26,7 +26,7 @@ namespace DataProcessing.Application.B2C.Command
         public void Create(List<B2CSearchResult> businessToCustomers, string folderPath, int range, DownloadRequest downloadRequest, int zipFileRange)
         {
             string fileType = "xlsx";
-            var fileContainer = businessToCustomers.Batch(range);
+            var fileContainer = businessToCustomers.Batch(zipFileRange);
             downloadRequest.StatusCode = (int)FileCreateStatus.InProgress;
             _downloadRequestRepository.UpdateAsync(downloadRequest);
             foreach (var businessToCustomerModels in fileContainer)
