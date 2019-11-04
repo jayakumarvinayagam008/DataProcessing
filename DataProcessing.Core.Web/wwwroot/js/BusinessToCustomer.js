@@ -6,7 +6,6 @@
         var cities = $('#b2cCity').val();
         var roles = $('#b2cRole').val();
         var ages = $('#b2cAge').val();
-
         var states = $('#b2cState').val();
         var area = $('#b2cArea').val();
         var salary = $('#b2cSalary').val();
