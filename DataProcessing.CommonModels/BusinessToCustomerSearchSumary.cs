@@ -34,5 +34,6 @@ namespace DataProcessing.CommonModels
         public int SearchCount { get; set; }
         public long Total { get; set; }
         public string SearchId { get; set; }
+        public string SearchCsvId { get; set; }
     }
 }

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System.Collections.Generic;
+using System.IO;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -86,7 +87,7 @@ namespace DataProcessing.Core.Web.Controllers
                 Experience = searchRequest.Experience,
                 Roles = searchRequest.Roles,
                 Salary = searchRequest.Salary
-            }, _appSettings.Value.SearchExport, _appSettings.Value.RowRange);
+            }, _appSettings.Value.SearchExport, _appSettings.Value.RowRange, _appSettings.Value.ZipFileRange);
             return Json(searchSummary);
         }
 
@@ -96,7 +97,8 @@ namespace DataProcessing.Core.Web.Controllers
             var rootPath = _appSettings.Value.SearchExport;
             var filePath = $"{rootPath}{fileName}.xlsx";
             var sampleTempate = new GetFileContent().GetFile(filePath);
-            var templateName = "B2B";
+            var templateName = "B2C";
+            var fileType = Directory.Exists($"{rootPath}{fileName}") ? ".zip" : ".xlsx";
             return File(sampleTempate, "application/vnd.ms-excel", $"{templateName}.xlsx");
         }
 
@@ -106,7 +108,7 @@ namespace DataProcessing.Core.Web.Controllers
             var rootPath = _appSettings.Value.SearchExport;
             var filePath = $"{rootPath}{fileName}.csv";
             var sampleTempate = new GetFileContent().GetFile(filePath);
-            var templateName = "B2B";
+            var templateName = "B2C";
             return File(sampleTempate, "application/x-csv", $"{templateName}.csv");
         }
 
@@ -115,8 +117,13 @@ namespace DataProcessing.Core.Web.Controllers
             var fileName = $"{searchRequestCheck.SearchId}";
             var rootPath = _appSettings.Value.SearchExport;
             var filePath = $"{rootPath}{fileName}.{ searchRequestCheck.Type} ";
-            var fileStatus = _getSearchedFileStatuscs.FileExist(searchRequestCheck.SearchId, 1, filePath);
+            var fileType = GetFileType(searchRequestCheck.Type);
+            var fileStatus = _getSearchedFileStatuscs.FileExist(searchRequestCheck.SearchId, fileType, filePath);
             return Json(fileStatus);
+        }
+        private int GetFileType(string fileType)
+        {
+            return (fileType.ToLower().Equals("xlsx") ? 0 : 1);
         }
     }
 }

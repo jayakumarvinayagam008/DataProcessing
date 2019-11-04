@@ -59,6 +59,7 @@
     //IsAvailable
     //Message
     $('#excelDown').on('click', function (eve) {
+        alert('Hai');
         $('#searchRequestMessage').hide();
         var $fileName = $('#excelDown').attr('title');
         var $fileStatus = FileCheck($fileName, 'xlsx');
@@ -129,6 +130,7 @@ function UpdateCustomerDashBoard(data) {
     $("#searchTotal").html(customerDataJson.searchCount);
     $("#total").html(customerDataJson.total);
     $("#excelDown, #csvDown").attr('title', customerDataJson.searchId);
+    $("#csvDown").attr('title', customerDataJson.searchCsvId);
     $('#dashboard').html('');
     //for (var key in customerDataJson) {
     //    if (customerDataJson.hasOwnProperty(key)) {

@@ -37,11 +37,11 @@ namespace DataProcessing.Application.B2B.Command
             if (tempResult.BusinessToBusinesses.Count() > 0)
             {
                 fileId = _businessToBusinessExport.Export(tempResult.BusinessToBusinesses, rootPath, range, zipFileRange);
-            }
-            dashBoard.SearchId = fileId.Item1;
+                dashBoard.SearchId = fileId.Item1;
+                dashBoard.SearchCsvId = fileId.Item2;
+            }            
             dashBoard.Total = tempResult.Total;
-            dashBoard.SearchCount = tempResult.BusinessToBusinesses.Count();
-            dashBoard.SearchCsvId = fileId.Item2;
+            dashBoard.SearchCount = tempResult.BusinessToBusinesses.Count();            
             return dashBoard;
         }
     }

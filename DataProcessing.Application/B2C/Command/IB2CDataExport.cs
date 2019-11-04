@@ -7,6 +7,6 @@ namespace DataProcessing.Application.B2C.Command
 {
     public interface IB2CDataExport
     {
-        string Export(List<BusinessToCustomer> businessToBusinesses, string fileRootPath, int range);
+        Tuple<string, string> Export(List<BusinessToCustomer> businessToBusinesses, string fileRootPath, int range, int zipFileRange = 0);
     }
 }

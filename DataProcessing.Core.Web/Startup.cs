@@ -127,7 +127,11 @@ namespace DataProcessing.Core.Web
             services.AddScoped<ICreateExcelZip, CreateExcelZip>();
             services.AddScoped<ICreateCsvZip, CreateCsvZip>();
             services.AddScoped<IGetOperators, GetOperators>();
+            services.AddScoped<IB2CreateExcelZip, B2CreateExcelZip>();
+            services.AddScoped<IB2CreateCsvZip, B2CreateCsvZip>();
+
             
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 

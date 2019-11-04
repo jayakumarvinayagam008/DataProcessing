@@ -22,7 +22,7 @@ namespace DataProcessing.Application.B2C.Command
         }
         
 
-        public BusinessToCustomerSearchSumary Filter(B2CSearchFilter requestFilter, string rootPath, int range)
+        public BusinessToCustomerSearchSumary Filter(B2CSearchFilter requestFilter, string rootPath, int range, int zipFileRange = 0)
         {
             var tempResult = _businessToCustomerRepository.GetB2CDataSearch(new SearchFilterBlock
             {                
@@ -38,13 +38,15 @@ namespace DataProcessing.Application.B2C.Command
 
             var response = tempResult;
             var dashBoard = _prepareBusinessToCustomerSummaryDashBoard.GenerateSummary(response.businessToCustomer);
-            string fileId = string.Empty;
+            Tuple<string, string> fileId = null;
             if (tempResult.businessToCustomer.Count() > 0)
             {
-                fileId = _b2CDataExport.Export(tempResult.businessToCustomer, rootPath, range);
+                fileId = _b2CDataExport.Export(tempResult.businessToCustomer, rootPath, range, zipFileRange);
+                dashBoard.SearchId = fileId.Item1;
+                dashBoard.SearchCsvId = fileId.Item2;
             }
-            dashBoard.SearchId = fileId;
             dashBoard.Total = tempResult.total;
+            dashBoard.SearchCount = tempResult.businessToCustomer.Count();
             return dashBoard;
         }
     }
