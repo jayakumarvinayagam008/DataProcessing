@@ -3,6 +3,7 @@ using DataProcessing.CommonModels;
 using DataProcessing.Persistence;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,16 +14,20 @@ namespace DataProcessing.Application.CustomerDate.Command
         private readonly ICreateCustomerDataExcel _createExcel;
         private readonly IDownloadRequestRepository _downloadRequestRepository;
         private readonly ICreateCustomerDataCsv _createCsv;
-
+        private readonly ICustomerDataCreateExcelZip _customerDataCreateExcelZip;
+        private readonly ICustomerDataCreateCsvZip _customerDataCreateCsvZip;
         public CustomerDataExport(ICreateCustomerDataExcel createExcel, IDownloadRequestRepository downloadRequestRepository
-            , ICreateCustomerDataCsv createCsv)
+            , ICreateCustomerDataCsv createCsv, ICustomerDataCreateExcelZip customerDataCreateExcelZip
+            , ICustomerDataCreateCsvZip customerDataCreateCsvZip)
         {
             _createExcel = createExcel;
             _downloadRequestRepository = downloadRequestRepository;
             _createCsv = createCsv;
+            _customerDataCreateExcelZip = customerDataCreateExcelZip;
+            _customerDataCreateCsvZip = customerDataCreateCsvZip;
         }
 
-        public string Export(List<CustomerData> customerData, string fileRootPath, int range)
+        public Tuple<string, string> Export(List<CustomerData> customerData, string fileRootPath, int range, int zipFileRange = 0)
         {
             var fileName = GetGuid.Get();
             string fileType = "xlsx";
@@ -63,10 +68,43 @@ namespace DataProcessing.Application.CustomerDate.Command
                 State = x.State
             }).ToList();
 
-            _downloadRequestRepository.CreateAsync(searchRequest).Wait();
-            Task.Run(() => _createExcel.Create(downLoad, filePath, range, searchRequest[0]));
-            Task.Run(() => _createCsv.Create(downLoad, fileCsvPath, searchRequest[1]));
-            return fileName;
+            if(downLoad.Count() > zipFileRange)
+            {
+                var folderPath = $"{fileRootPath}{fileName}";
+                var excelFolder = $"{folderPath}{"Excel"}";
+                var csvFolder = $"{folderPath}{"Csv"}";
+
+                searchRequest[0].SearchId = $"{searchRequest[0].SearchId}{"Excel"}";
+                searchRequest[1].SearchId = $"{searchRequest[1].SearchId}{"Csv"}";
+                _downloadRequestRepository.CreateAsync(searchRequest).Wait();
+                try
+                {
+                    // If the directory doesn't exist, create it.
+
+                    if (!Directory.Exists(excelFolder))
+                    {
+                        Directory.CreateDirectory(excelFolder);
+                    }
+
+                    if (!Directory.Exists(csvFolder))
+                    {
+                        Directory.CreateDirectory(csvFolder);
+                    }
+                }
+                catch (Exception)
+                {
+                }
+                _customerDataCreateExcelZip.Create(downLoad, excelFolder, range, searchRequest[0], zipFileRange);
+                _customerDataCreateCsvZip.Create(downLoad, csvFolder, searchRequest[1], zipFileRange);
+            }
+            else
+            {
+                _downloadRequestRepository.CreateAsync(searchRequest).Wait();
+                Task.Run(() => _createExcel.Create(downLoad, filePath, range, searchRequest[0]));
+                Task.Run(() => _createCsv.Create(downLoad, fileCsvPath, searchRequest[1]));
+            }
+            
+            return new Tuple<string, string>(searchRequest[0].SearchId, searchRequest[1].SearchId);
         }
     }
 }

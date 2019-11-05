@@ -57,7 +57,6 @@
         $('#searchRequestMessage').hide();
         var $fileName = $('#excelDown').attr('title');
         var $fileStatus = FileCheck($fileName, 'xlsx');
-        console.log(JSON.stringify($fileStatus.message));
         if ($fileStatus.isAvailable === true) {
             DownloadFile($fileName, 'xlsx');
         } else {
@@ -120,10 +119,10 @@ function DownloadFile($searchId, $type) {
 function UpdateCustomerDashBoard(data) {
 
     var customerDataJson = data;
-    console.log(data);
     $("#searchTotal").html(customerDataJson.searchCount);
     $("#total").html(customerDataJson.total);
     $("#excelDown, #csvDown").attr('title', customerDataJson.searchId);
+    $("#csvDown").attr('title', customerDataJson.searchCsvId);
     $('#dashboard').html('');
     //for (var key in customerDataJson) {
     //    if (customerDataJson.hasOwnProperty(key)) {
