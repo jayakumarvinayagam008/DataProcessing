@@ -1,6 +1,7 @@
 ﻿using DataProcessing.Application.Common;
 using DataProcessing.CommonModels;
 using DataProcessing.Persistence;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -21,7 +22,7 @@ namespace DataProcessing.Application.CustomerDate.Command
             _customerDataExport = customerDataExport;
         }
 
-        public CustomerDataSearchSummary Filter(RequestFilter requestFilter, string rootPath, int range)
+        public CustomerDataSearchSummary Filter(RequestFilter requestFilter, string rootPath, int range, int zipFileRange = 0)
         {
             //SearchFilterBlock
 
@@ -38,13 +39,15 @@ namespace DataProcessing.Application.CustomerDate.Command
             var response = tempResult;
 
             var dashBoard = _prepareSearchSummaryBoard.GenerateSummary(response.customerDatas);
-            string fileId = string.Empty;
+            Tuple<string, string> fileId = null;
             if (tempResult.customerDatas.Count() > 0)
             {
-                fileId = _customerDataExport.Export(tempResult.customerDatas, rootPath, range);
+                fileId = _customerDataExport.Export(tempResult.customerDatas, rootPath, range, zipFileRange);
+                dashBoard.SearchId = fileId.Item1;
+                dashBoard.SearchCsvId = fileId.Item2;
             }
-            dashBoard.SearchId = fileId;
             dashBoard.Total = tempResult.Total;
+            dashBoard.SearchCount = tempResult.customerDatas.Count();
             return dashBoard;
         }
     }

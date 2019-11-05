@@ -109,7 +109,7 @@ namespace DataProcessing.Core.Web.Controllers
             var filePath = $"{rootPath}{fileName}.csv";
             var sampleTempate = new GetFileContent().GetFile(filePath);
             var templateName = "B2C";
-            var fileType = Directory.Exists($"{rootPath}{fileName}") ? ".zip" : ".xlsx";
+            var fileType = Directory.Exists($"{rootPath}{fileName}") ? ".zip" : ".csv";
             return File(sampleTempate, "application/x-csv", $"{templateName}{fileType}");
         }
 

@@ -17,6 +17,7 @@
         public decimal ClientCity { get; set; }
         public int SearchCount { get; set; }
         public long Total { get; set; }
+        public string SearchCsvId { get; set; }
     }
 }
 

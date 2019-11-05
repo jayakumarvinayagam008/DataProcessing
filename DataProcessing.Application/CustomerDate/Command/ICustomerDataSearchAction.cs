@@ -5,6 +5,6 @@ namespace DataProcessing.Application.CustomerDate.Command
 {
     public interface ICustomerDataSearchAction
     {
-        CustomerDataSearchSummary Filter(RequestFilter requestFilter, string rootPath, int range);
+        CustomerDataSearchSummary Filter(RequestFilter requestFilter, string rootPath, int range, int zipFileRange = 0);
     }
 }
