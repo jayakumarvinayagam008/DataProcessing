@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.106
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29411.108
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{43CE350A-D98A-4604-B04A-88C4E8760A5B}"
 EndProject
@@ -16,7 +16,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataProcessing.Application", "DataProcessing.Application\DataProcessing.Application.csproj", "{446C9133-B1B7-43F0-8C38-06EF3D66E165}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataProcessing.CommonModels", "DataProcessing.CommonModels\DataProcessing.CommonModels.csproj", "{42041C85-B3D4-498A-AE66-72827F080030}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataProcessing.CommonModels", "DataProcessing.CommonModels\DataProcessing.CommonModels.csproj", "{42041C85-B3D4-498A-AE66-72827F080030}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Winservice", "Winservice", "{0005DA31-00DA-4179-B116-21A84C72DA62}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +51,7 @@ Global
 		{FEC36C14-E1A0-4B25-95A3-B3AD9431FC6B} = {43CE350A-D98A-4604-B04A-88C4E8760A5B}
 		{446C9133-B1B7-43F0-8C38-06EF3D66E165} = {43CE350A-D98A-4604-B04A-88C4E8760A5B}
 		{42041C85-B3D4-498A-AE66-72827F080030} = {43CE350A-D98A-4604-B04A-88C4E8760A5B}
+		{0005DA31-00DA-4179-B116-21A84C72DA62} = {43CE350A-D98A-4604-B04A-88C4E8760A5B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3A496852-7C45-434A-92D5-D495D222F514}

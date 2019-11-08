@@ -31,17 +31,17 @@ namespace DataProcessing.Core.Web.Controllers
 
         public IActionResult Index()
         {
-            var getOperators = _getOperators.Get();
-            List<Operator> operators = new List<Operator>();
+            //var getOperators = _getOperators.Get();
+            //List<Operator> operators = new List<Operator>();
 
-            foreach (var item in getOperators)
-            {
-                operators.Add(new Operator { IsChecked = false, Text = item, Value = item });
-            }
-            
+            //foreach (var item in getOperators)
+            //{
+            //    operators.Add(new Operator { IsChecked = false, Text = item, Value = item });
+            //}
+
             NumberLookUpDownload numberLookUpDownload = new NumberLookUpDownload()
             {
-                Operators = operators
+                //Operators = operators
             };
             return View(numberLookUpDownload);
         }
@@ -66,11 +66,8 @@ namespace DataProcessing.Core.Web.Controllers
             CreateUploadFile createUploadFile = new CreateUploadFile();
             var fileCreation = createUploadFile.CreateAsync(files, _appSettings.Value.SharePath);
             fileCreation.Wait();
-
             var filePath = fileCreation.Result;
             _readBulkNumberLookUp.Process(filePath);
-
-
             NumberLookup numberLookup = new NumberLookup() { IsUploaded = true, UploadMessage = "Succesfully uploaded" };
             return View("AddLookup", numberLookup);
         }
@@ -82,20 +79,26 @@ namespace DataProcessing.Core.Web.Controllers
             var fileCreation = createUploadFile.CreateAsync(files, _appSettings.Value.SharePath);
             fileCreation.Wait();
             var filePath = fileCreation.Result;
-            var filters = noLookUpDownload.Operators.Where(x => x.IsChecked).Select(x=>x.Value);
-            var fileName = _loopupProcess.Process(filePath, _appSettings.Value.NumberLookup, noLookUpDownload.LookupNumbers, filters);
-
-            NumberLookUpDownload numberLookUpDownload = new NumberLookUpDownload()
+            //var filters = noLookUpDownload.Operators.Where(x => x.IsChecked).Select(x=>x.Value);
+            var searchResult = _loopupProcess.Process(filePath, _appSettings.Value.NumberLookup, noLookUpDownload.LookupNumbers);
+            
+            List<Operator> operators = new List<Operator>();
+            foreach (var item in searchResult.Item1)
             {
-                FileName = fileName,
-                Status = !string.IsNullOrWhiteSpace(fileName)
+                operators.Add(new Operator { IsChecked = false, Text = item, Value = item });
+            }
+            NumberLookUpDownload numberLookUpDownloadh = new NumberLookUpDownload()
+            {
+                Operators = operators,
+                SearchId = searchResult.Item2
             };
+            return View(numberLookUpDownloadh);
 
-            var rootPath = _appSettings.Value.NumberLookup;
+            /*var rootPath = _appSettings.Value.NumberLookup;
             var newfilePath = $"{rootPath}{fileName}.xlsx";
             var sampleTempate = new GetFileContent().GetFile(newfilePath);
             var templateName = "Number LookUp";
-            return File(sampleTempate, "application/vnd.ms-excel", $"{templateName}.xlsx");
+            return File(sampleTempate, "application/vnd.ms-excel", $"{templateName}.xlsx"); */
         }
 
         public ActionResult DownLoadNumberLookup(string fileName)

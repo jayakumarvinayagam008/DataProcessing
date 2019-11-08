@@ -32,57 +32,44 @@
                             </span>
                         </div>
                     </div>
+                    <button type="submit" class="btn btn-default waves-effect waves-light">
+                        <span class="btn-label">
+                            <i class="fa fa-download"></i>
+                        </span>Upload
+                    </button>
+                    @*@Html.HiddenFor(m => Model.SearchId)*@
+                    <input type="hidden" asp-for="SearchId" />
                 </div>
             </div>
         </div>
         <div class="col-md-5">
-            <div class="card-box operatorBox">
-                <div class="checkbox checkbox-purple">
-                    <div>Download Type (Select one or both options)</div>
-                    @*<input id="checkbox6a" type="checkbox" data-parsley-multiple="checkbox6a">
-            <label for="checkbox6a">
-                Airtel
-            </label>*@
-                </div>
-                <div class="grid-container checkBoxContainer">
-                    <div class="wrapper">
-                        @for (int i = 0; i < Model.Operators.Count; i++)
-                        {
-                        <div class="box">
-                            <label class="label-big-check">
-                                @Html.CheckBoxFor(m => Model.Operators[i].IsChecked)
-                                <span for="option_1" class="check-title">@Model.Operators[i].Text</span>                                
-                                @Html.HiddenFor(m => Model.Operators[i].Value)
-                                @Html.HiddenFor(m => Model.Operators[i].Text)
-                            </label>
+            @{
+                if (Model.Operators != null)
+                {
+                    <div class="card-box operatorBox" style="border:solid;">
+                        <div class="checkbox checkbox-purple">
+                            <div>Download Type (Select one or both options)</div>
+                            <div>Download Type (Select one or both options)</div>
                         </div>
-                        }
+                        <div class="grid-container checkBoxContainer">
+                            <div class="wrapper">
+                                @for (int i = 0; i < Model.Operators.Count; i++)
+                                {
+                                    <div class="box">
+                                        <label class="label-big-check">
+                                            @Html.CheckBoxFor(m => Model.Operators[i].IsChecked)
+                                            <span for="option_1" class="check-title">@Model.Operators[i].Text</span>
+                                            @Html.HiddenFor(m => Model.Operators[i].Value)
+                                            @Html.HiddenFor(m => Model.Operators[i].Text)
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
                     </div>
-                </div>
-
-                
-                    @*<input id="checkbox6a" type="checkbox" data-parsley-multiple="checkbox6a">
-            <label for="checkbox6a">
-                Airtel
-            </label>
-            <input id="checkbox6b" type="checkbox" data-parsley-multiple="checkbox6a">
-            <label for="checkbox6b">
-                BSNL
-            </label>
-            <input id="checkbox6c" type="checkbox" data-parsley-multiple="checkbox6a">
-            <label for="checkbox6c">
-                Vodofone
-            </label>*@
-
-                </div>
-                <div class="form-group m-b-0" style="margin-top:50px;">
-                    <button type="submit" class="btn btn-default waves-effect waves-light">
-                        <span class="btn-label">
-                            <i class="fa fa-download"></i>
-                        </span>DownLoad Result
-                    </button>
-                </div>
-            </div>
+                }
+            }
+        </div>
     </div>
 
     <div class="uploadSummary">
