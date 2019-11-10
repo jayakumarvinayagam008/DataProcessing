@@ -7799,21 +7799,22 @@ textarea.form-control {
 }
 
 .grid-container {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(2, 170px);
-    /*  Setting column and row gaps  */
-    grid-column-gap: 10px;
-    grid-row-gap: 10px;
+    /*display: grid;
+    grid-template-columns: repeat(4, 1fr);*/
+    /*grid-template-rows: repeat(2, 170px);
+      Setting column and row gaps  */
+    /*grid-column-gap: 20px;
+    grid-row-gap: 10px;*/
     /*  Shorthand  */
-    grid-gap: 10px;
+    /*grid-gap: 20px;*/
 }
 
 /** this for check box in number lookup*/
 .wrapper {
     display: grid;
     grid-template-columns: 100px 100px 100px;
-    grid-gap: 10px;
+    grid-column-gap: 16%;
+    grid-row-gap: 10px;
     background-color: #fff;
     color: #444;
 }
@@ -7822,7 +7823,7 @@ textarea.form-control {
     color: #000;
     border-radius: 5px;
     padding: 2px;
-    width: 300px;
+    width: 192px;
 }
 /* big check labels */
 .label-big-check {
@@ -7865,4 +7866,8 @@ textarea.form-control {
 .operatorBox {
     overflow-y: scroll;
     overflow-x: hidden;
+}
+
+.uploadAlignment {    
+    margin-left: 10px;
 }

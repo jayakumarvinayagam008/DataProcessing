@@ -133,8 +133,9 @@ namespace DataProcessing.Core.Web
             services.AddScoped<ICustomerDataCreateCsvZip, CustomerDataCreateCsvZip>();
 
             services.AddScoped<INumberLookupResultRepository, NumberLookupResultRepository>();
-            services.AddScoped<ISaveNumberLookupResult, SaveNumberLookupResult>();  
-
+            services.AddScoped<ISaveNumberLookupResult, SaveNumberLookupResult>();
+            services.AddScoped<IGetPhoneNetwork, GetPhoneNetwork>();
+            
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 

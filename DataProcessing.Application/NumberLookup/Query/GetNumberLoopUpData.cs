@@ -8,7 +8,7 @@ namespace DataProcessing.Application.NumberLookup.Query
     public class GetNumberLoopUpData : IGetNumberLoopUpData
     {
         public readonly INumberLookupRepository _numberLookupRepository;
-
+        private string _unknownNetwork = "Unknown";
         public GetNumberLoopUpData(INumberLookupRepository numberLookupRepository)
         {
             _numberLookupRepository = numberLookupRepository;
@@ -24,8 +24,8 @@ namespace DataProcessing.Application.NumberLookup.Query
                 y => y.Series,
                   (x, y) => new NumberLookUpDetail
                   {
-                      Circle = y.Any() ? y.FirstOrDefault().Circle : string.Empty,
-                      Operator = y.Any() ? y.FirstOrDefault().Operator : string.Empty,
+                      Circle = y.Any() ? y.FirstOrDefault().Circle : _unknownNetwork,
+                      Operator = y.Any() ? y.FirstOrDefault().Operator : _unknownNetwork,
                       Phone = x.PhoneNumber
                   }).ToList();
             return numbersDetail.AsEnumerable();

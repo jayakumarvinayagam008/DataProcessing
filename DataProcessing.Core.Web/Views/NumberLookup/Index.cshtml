@@ -16,29 +16,42 @@
                 </p>
                 <div class="row">
                     <div class="col-12">
-                        <textarea asp-for="LookupNumbers" class="form-control" rows="15" placeholder="To scrub, you can enter multiple numbers by one number per line or one number by comma. For example 8555300000, 8543345675, 8543954564 &#13; OR &#13;&#10;8555300000 &#13;&#10;8543345675 &#13;&#10;8543954564">
+                        <textarea asp-for="LookupNumbers" id="txtPhone" class="form-control" rows="15" placeholder="To scrub, you can enter multiple numbers by one number per line or one number by comma. For example 8555300000, 8543345675, 8543954564 &#13; OR &#13;&#10;8555300000 &#13;&#10;8543345675 &#13;&#10;8543954564">
                         </textarea>
                     </div>
-                    <div class="form-group">
-                        <label class="control-label">Upload excel file via below upload option(only Xlx and CSV files)</label>
-                        <input type="file" class="filestyle" data-placeholder="Excel/CSV" id="files" name="files" tabindex="-1" style="position: absolute; clip: rect(0px, 0px, 0px, 0px);">
-                        <div class="bootstrap-filestyle input-group">
-                            <input type="text" class="form-control " placeholder="Excel/CSV" disabled="">
-                            <span class="group-span-filestyle input-group-btn" tabindex="0">
-                                <label for="files" class="btn btn-default ">
-                                    <span class="icon-span-filestyle glyphicon glyphicon-folder-open"></span>
-                                    <span class="buttonText">Choose file</span>
-                                </label>
-                            </span>
-                        </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <div>
+                                <label class="control-label">Upload excel file via below upload option(only Excel and CSV files)</label>
+                                <div class="alert alert-danger" style="display:none;" id="phoneError">Fill the excel/csv file or type phone numbers</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <input type="file" class="filestyle" data-placeholder="Excel/CSV" id="files" name="files" tabindex="-1" style="position: absolute; clip: rect(0px, 0px, 0px, 0px);">
+                                    <div class="bootstrap-filestyle input-group">
+                                        <input type="text" class="form-control " placeholder="Excel/CSV" disabled="">
+                                        <span class="group-span-filestyle input-group-btn" tabindex="0">
+                                            <label for="files" class="btn btn-default ">
+                                                <span class="icon-span-filestyle glyphicon glyphicon-folder-open"></span>
+                                                <span class="buttonText">Choose file</span>
+                                            </label>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group m-b-0">
+                                        <button type="submit" class="btn btn-primary waves-effect waves-light uploadAlignment">
+                                            <span class="btn-label">
+                                                <i class=" md-file-upload"></i>
+                                            </span>Upload
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                        
                     </div>
-                    <button type="submit" class="btn btn-default waves-effect waves-light">
-                        <span class="btn-label">
-                            <i class="fa fa-download"></i>
-                        </span>Upload
-                    </button>
                     @*@Html.HiddenFor(m => Model.SearchId)*@
-                    <input type="hidden" asp-for="SearchId" />
+                    <input id="__RequestVerificationTokenSearchId" name="__RequestVerificationTokenSearchId" type="hidden" value="@Model.SearchId">
                 </div>
             </div>
         </div>
@@ -46,9 +59,8 @@
             @{
                 if (Model.Operators != null)
                 {
-                    <div class="card-box operatorBox" style="border:solid;">
+                    <div class="card-box operatorBox">
                         <div class="checkbox checkbox-purple">
-                            <div>Download Type (Select one or both options)</div>
                             <div>Download Type (Select one or both options)</div>
                         </div>
                         <div class="grid-container checkBoxContainer">
@@ -56,17 +68,25 @@
                                 @for (int i = 0; i < Model.Operators.Count; i++)
                                 {
                                     <div class="box">
-                                        <label class="label-big-check">
-                                            @Html.CheckBoxFor(m => Model.Operators[i].IsChecked)
-                                            <span for="option_1" class="check-title">@Model.Operators[i].Text</span>
-                                            @Html.HiddenFor(m => Model.Operators[i].Value)
-                                            @Html.HiddenFor(m => Model.Operators[i].Text)
-                                        </label>
+                                        <div class="checkbox checkbox-info">
+                                            <input id="@Model.Operators[i].Value" name="networkProvider" type="checkbox" value="@Model.Operators[i].Value" data-parsley-multiple="@Model.Operators[i].Value" />
+                                            <label for="@Model.Operators[i].Text">
+                                                @Model.Operators[i].Text
+                                            </label>
+                                        </div>
                                     </div>
                                 }
                             </div>
                         </div>
                     </div>
+                    <div class="alert alert-danger" style="display:none;" id="searchRequestMessage">
+                        Select any network operator
+                    </div>
+                    <button type="button" class="btn btn-primary waves-effect waves-light" id="btnLookupDownload">
+                        <span class="btn-label">
+                            <i class=" md-file-download"></i>
+                        </span>Download
+                    </button>
                 }
             }
         </div>

@@ -52,7 +52,6 @@
         $('#searchRequestMessage').hide();
         var $fileName = $('#excelDown').attr('title');
         var $fileStatus = FileCheck($fileName, 'xlsx');
-        console.log(JSON.stringify($fileStatus.message));       
         if ($fileStatus.isAvailable === true) {
             DownloadFile($fileName, 'xlsx');
         } else {

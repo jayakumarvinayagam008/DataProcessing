@@ -18,15 +18,21 @@ namespace DataProcessing.Core.Web.Controllers
         private readonly ILoopupProcess _loopupProcess = null;
         private readonly IReadBulkNumberLookUp _readBulkNumberLookUp = null;
         private readonly IGetOperators _getOperators = null;
+        private readonly IGetPhoneNetwork _getPhoneNetwork =  null;
+        private readonly ISaveNumberLookUp _saveNumberLookUp = null;
         public NumberLookupController(IOptions<DataProcessingSetting> appSettings,
             ILoopupProcess loopupProcess,
             IReadBulkNumberLookUp readBulkNumberLookUp,
-            IGetOperators operators)
+            IGetOperators operators,
+            IGetPhoneNetwork getPhoneNetwork,
+            ISaveNumberLookUp saveNumberLookUp)
         {
             _appSettings = appSettings;
             _loopupProcess = loopupProcess;
             _readBulkNumberLookUp = readBulkNumberLookUp;
             _getOperators = operators;
+            _getPhoneNetwork = getPhoneNetwork;
+            _saveNumberLookUp = saveNumberLookUp;
         }
 
         public IActionResult Index()
@@ -108,6 +114,15 @@ namespace DataProcessing.Core.Web.Controllers
             var sampleTempate = new GetFileContent().GetFile(filePath);
             var templateName = "Number LookUp";
             return File(sampleTempate, "application/vnd.ms-excel", $"{templateName}.xlsx");
+        }
+
+        [HttpPost]
+        public ActionResult DownloadNetwork(NumberLookupFilter numberLookupFilter)
+        {
+            var numberLookups = _getPhoneNetwork.Get(numberLookupFilter.LookupId, numberLookupFilter.Networks);                        
+            var rootPath = _appSettings.Value.NumberLookup;
+            var fileName = _saveNumberLookUp.CreateAndSave(numberLookups, rootPath);
+            return Json(new { fileName = fileName });
         }
     }
 }
