@@ -3,8 +3,9 @@ using System.Collections.Generic;
 
 namespace DataProcessing.Application.NumberLookup.Query
 {
-    public interface IGetNumberLoopUpData
+    public interface IGetNumberLookUpData
     {
         IEnumerable<NumberLookUpDetail> FilterNumberLookUp(IEnumerable<Numbers> numberLookups);
+        IEnumerable<NumberLookUpDetail> GetNumberLookUp();
     }
 }

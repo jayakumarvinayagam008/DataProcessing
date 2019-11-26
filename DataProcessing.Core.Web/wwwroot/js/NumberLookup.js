@@ -48,4 +48,17 @@
             }
         });
     });
+
+    $("#checkAll").on('click', function (eve) {
+        $("input[name=networkProvider]").prop('checked', $(this).prop('checked'));
+    });
+
+    $("input[name=networkProvider]").on('click', function (eve) {
+        $totalCheckBox = $("input[name=networkProvider]").length;
+        if ($("input[name=networkProvider]:checked").length === $totalCheckBox) {
+            $("#checkAll").prop('checked', true);
+        } else {
+            $("#checkAll").prop('checked', false);
+        }
+    });
 });

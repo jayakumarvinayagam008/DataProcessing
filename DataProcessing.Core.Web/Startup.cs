@@ -95,7 +95,7 @@ namespace DataProcessing.Core.Web
             services.AddScoped<IGetSearchedFileStatuscs, GetSearchedFileStatuscs>();
             services.AddScoped<ILoopupProcess, LoopupProcess>();
             services.AddScoped<IReadNumberLookup, ReadNumberLookup>();
-            services.AddScoped<IGetNumberLoopUpData, GetNumberLoopUpData>();
+            services.AddScoped<IGetNumberLookUpData, GetNumberLookUpData>();
             services.AddScoped<INumberLookupRepository, NumberLookupRepository>();
             services.AddScoped<ISaveNumberLookUp, SaveNumberLookUp>();
 

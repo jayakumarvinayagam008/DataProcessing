@@ -20,12 +20,14 @@ namespace DataProcessing.Core.Web.Controllers
         private readonly IGetOperators _getOperators = null;
         private readonly IGetPhoneNetwork _getPhoneNetwork =  null;
         private readonly ISaveNumberLookUp _saveNumberLookUp = null;
+        private readonly IGetNumberLookUpData _getNumberLookUpData = null;
         public NumberLookupController(IOptions<DataProcessingSetting> appSettings,
             ILoopupProcess loopupProcess,
             IReadBulkNumberLookUp readBulkNumberLookUp,
             IGetOperators operators,
             IGetPhoneNetwork getPhoneNetwork,
-            ISaveNumberLookUp saveNumberLookUp)
+            ISaveNumberLookUp saveNumberLookUp,
+            IGetNumberLookUpData getNumberLookUpData)
         {
             _appSettings = appSettings;
             _loopupProcess = loopupProcess;
@@ -33,6 +35,7 @@ namespace DataProcessing.Core.Web.Controllers
             _getOperators = operators;
             _getPhoneNetwork = getPhoneNetwork;
             _saveNumberLookUp = saveNumberLookUp;
+            _getNumberLookUpData = getNumberLookUpData;
         }
 
         public IActionResult Index()
@@ -54,7 +57,8 @@ namespace DataProcessing.Core.Web.Controllers
 
         public IActionResult AddLookup()
         {
-            NumberLookup numberLookup = new NumberLookup();
+            var seriesData = _getNumberLookUpData.GetNumberLookUp().Select(x => new NumberLookup { Circle = x.Circle, Operator = x.Operator, Series = x.Phone });
+            NumberLookup numberLookup = new NumberLookup() { AvilableSeries = seriesData };
             return View(numberLookup);
         }
 

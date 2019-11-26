@@ -402,13 +402,14 @@ a:focus {
 
 /* Card Box */
 .card-box {
-    padding: 20px;
+    padding: 12px;
     border: 1px solid rgba(54, 64, 74, 0.05);
     border-radius: 5px;
     margin-bottom: 20px;
     background-clip: padding-box;
     background-color: #ffffff;
     color: #505458;
+    height:350px;
 }
 
 /* Grid page */
@@ -7864,10 +7865,20 @@ textarea.form-control {
     }
 
 .operatorBox {
-    overflow-y: scroll;
-    overflow-x: hidden;
+    overflow-y: auto;
+    overflow-x: auto;
+    max-height: 380px;
 }
 
 .uploadAlignment {    
     margin-left: 10px;
+}
+
+.alert
+{
+    padding:5px !important;
+    float:left;
+}
+.extraSpace{
+    margin-top:12px;
 }

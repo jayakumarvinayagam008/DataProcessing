@@ -9,10 +9,10 @@ namespace DataProcessing.Application.NumberLookup.Command
     public class LoopupProcess : ILoopupProcess
     {
         private readonly IReadNumberLookup _readNumberLookup = null;
-        private readonly IGetNumberLoopUpData _getNumberLoopUpData = null;
+        private readonly IGetNumberLookUpData _getNumberLoopUpData = null;
         private readonly ISaveNumberLookUp _saveNumberLookUp = null;
         private readonly ISaveNumberLookupResult _saveNumberLookupResult = null;
-        public LoopupProcess(IReadNumberLookup readNumberLookup, IGetNumberLoopUpData getNumberLoopUpData,
+        public LoopupProcess(IReadNumberLookup readNumberLookup, IGetNumberLookUpData getNumberLoopUpData,
             ISaveNumberLookUp saveNumberLookUp, ISaveNumberLookupResult saveNumberLookupResult)
         {
             _readNumberLookup = readNumberLookup;
@@ -30,6 +30,9 @@ namespace DataProcessing.Application.NumberLookup.Command
             }            
             var lookupfromText = _readNumberLookup.ReadFromContent(content);
             lookup = lookup.Concat(lookupfromText).Distinct();
+            //ignore special characters
+            lookup = lookup.Where(x => IsNumber(x.PhoneNumber));
+
             var sourceLookup = _getNumberLoopUpData.FilterNumberLookUp(lookup);
             // filter 
             IList<NumberLookupResult> numberLookupResults = new List<NumberLookupResult>();
@@ -45,7 +48,8 @@ namespace DataProcessing.Application.NumberLookup.Command
                     CreatedDate = DateTime.Now
                 });
             }            
-            _saveNumberLookupResult.SaveResult(numberLookupResults);
+            if(numberLookupResults.Any())
+                _saveNumberLookupResult.SaveResult(numberLookupResults);
             (IEnumerable<string>, string) operators = (sourceLookup.Select(x => x.Operator).Distinct(), searchId);
 
             //sourceLookup = sourceLookup.Where(x => filters.Contains(x.Operator));
@@ -57,6 +61,10 @@ namespace DataProcessing.Application.NumberLookup.Command
         {
             Guid guid = Guid.NewGuid();
             return $"{guid.ToString()}{DateTime.Now.ToString("yyyyMMddhhmmss")}";
+        }
+        public static bool IsNumber(string s)
+        {
+            return s.TrimEnd('\r', '\n').All(char.IsDigit);
         }
     }
 }

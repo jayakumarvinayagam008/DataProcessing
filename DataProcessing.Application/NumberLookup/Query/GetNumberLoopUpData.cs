@@ -5,11 +5,11 @@ using System.Linq;
 
 namespace DataProcessing.Application.NumberLookup.Query
 {
-    public class GetNumberLoopUpData : IGetNumberLoopUpData
+    public class GetNumberLookUpData : IGetNumberLookUpData
     {
         public readonly INumberLookupRepository _numberLookupRepository;
         private string _unknownNetwork = "Unknown";
-        public GetNumberLoopUpData(INumberLookupRepository numberLookupRepository)
+        public GetNumberLookUpData(INumberLookupRepository numberLookupRepository)
         {
             _numberLookupRepository = numberLookupRepository;
         }
@@ -28,6 +28,20 @@ namespace DataProcessing.Application.NumberLookup.Query
                       Operator = y.Any() ? y.FirstOrDefault().Operator : _unknownNetwork,
                       Phone = x.PhoneNumber
                   }).ToList();
+            return numbersDetail.AsEnumerable();
+        }
+
+        public IEnumerable<NumberLookUpDetail> GetNumberLookUp()
+        {
+            var lookup = _numberLookupRepository.GetNumberLookup();
+            lookup.Wait();
+            var sourceLookUpData = lookup.Result;
+            var numbersDetail = sourceLookUpData.Select(x => new NumberLookUpDetail
+            {
+                Circle = x.Circle,
+                Operator = x.Operator,
+                Phone = x.Series
+            });
             return numbersDetail.AsEnumerable();
         }
     }
