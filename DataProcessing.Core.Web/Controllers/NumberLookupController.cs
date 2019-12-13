@@ -57,7 +57,12 @@ namespace DataProcessing.Core.Web.Controllers
 
         public IActionResult AddLookup()
         {
-            var seriesData = _getNumberLookUpData.GetNumberLookUp().Select(x => new NumberLookup { Circle = x.Circle, Operator = x.Operator, Series = x.Phone });
+            var seriesData = _getNumberLookUpData.GetNumberLookUp().Select(x => new NumberLookup { 
+                Circle = x.Circle, 
+                Operator = x.Operator, 
+                Series = x.Phone,
+                SeriesId = x.SeriesId
+            });
             NumberLookup numberLookup = new NumberLookup() { AvilableSeries = seriesData };
             return View(numberLookup);
         }
@@ -128,5 +133,20 @@ namespace DataProcessing.Core.Web.Controllers
             var fileName = _saveNumberLookUp.CreateAndSave(numberLookups, rootPath);
             return Json(new { fileName = fileName });
         }
+
+        [HttpPost]
+        public ActionResult DeleteOperator(string operatorId)
+        {
+            _readBulkNumberLookUp.Remove(operatorId);
+            return Json("");
+        }
+
+        [HttpPost]
+        public ActionResult UpdateOperator(string operatorId, Numbers numberLookup)
+        {
+            _readBulkNumberLookUp.Update(operatorId, numberLookup);
+            return Json("");
+        }
+
     }
 }

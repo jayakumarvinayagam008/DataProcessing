@@ -1,6 +1,13 @@
-﻿$(document).ready(function (eve) {
-    //$("#divLoading").show();
+﻿$(window).load(function () {
+    $("#divLoading").hide();
+});
+$(function () {
+    // Handler for .ready() called.
+    $("#divLoading").show();
+});
 
+$(document).ready(function (eve) {
+    //$("#divLoading").show();
     $('#btnBusinessToBusinessSearch').on('click', function (eve) {
         var cities = $('#b2bCity').val();
         var states = $('#b2bState').val();

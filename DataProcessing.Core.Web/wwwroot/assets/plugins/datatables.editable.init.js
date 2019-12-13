@@ -166,10 +166,19 @@
 				}
 
 				this.datatable.draw();
-			}
+            }
+            var $saveBlock = $row.closest().find('.save-row');
+            if (!$saveBlock.hasClass('not-active')) {
+                $saveBlock.addClass('not-active');
+            }
 		},
 
-		rowEdit: function( $row ) {
+        rowEdit: function ($row) {
+            //console.log($row);
+            var $saveBlock = $row.closest().find('.save-row');
+            //console.log($saveBlock);
+            $saveBlock.removeClass('not-active');
+           
 			var _self = this,
 				data;
 
@@ -205,15 +214,26 @@
 				} else {
 					return $.trim( $this.find('input').val() );
 				}
-			});
-
+            });
+            
+            
 			this.datatable.row( $row.get(0) ).data( values );
 
 			$actions = $row.find('td.actions');
 			if ( $actions.get(0) ) {
 				this.rowSetActionsDefault( $row );
-			}
+            }
+            var $numberLookup = {                
+                Series: values[0],
+                Circle: values[1],
+                Operator: values[2]
+            };
 
+            UpdateOperator($row, $numberLookup);
+
+            if (!$row.hasClass('not-active')) {
+                $row.addClass('not-active');
+            }
 			this.datatable.draw();
 		},
 
@@ -221,7 +241,7 @@
 			if ( $row.hasClass('adding') ) {
 				this.$addButton.removeAttr( 'disabled' );
 			}
-
+            RemoveOperator($row);
 			this.datatable.row( $row.get(0) ).remove().draw();
 		},
 
@@ -239,6 +259,42 @@
 
 	$(function() {
 		EditableTable.initialize();
-	});
+    });
+
+    function RemoveOperator($row) {
+
+        console.log($row.find("input:hidden").val());
+        $.ajax({
+            url: '/NumberLookup/DeleteOperator/',
+            type: 'POST',
+            dataType: 'json',
+            async: false,
+            data: { operatorId: $row.find("input:hidden").val() },
+            success: function (data) {               
+            },
+            complete: function () {              
+            }
+        });
+
+    }
+
+    function UpdateOperator($row, $numberLookup) {
+        console.log($row.find("input:hidden").val());
+        $.ajax({
+            url: '/NumberLookup/UpdateOperator/',
+            type: 'POST',
+            dataType: 'json',
+            async: false,
+            data: {
+                operatorId: $row.find("input:hidden").val(),
+                numberLookup: $numberLookup
+            },           
+            success: function (data) {   
+            },
+            complete: function () {  
+            }
+        });
+        //alert('RemoveOperator');
+    }
 
 }).apply( this, [ jQuery ]);

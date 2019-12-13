@@ -42,7 +42,7 @@ namespace DataProcessing.Application.NumberLookup.Command
                 numberLookupResults.Add(new NumberLookupResult { 
                     Circle= item.Circle,
                     Operator = item.Operator,
-                    Phone = item.Phone,                
+                    Phone = item.Phone.Trim(),                
                     SearchId = searchId,
                     CreatedBy = "Admin",
                     CreatedDate = DateTime.Now

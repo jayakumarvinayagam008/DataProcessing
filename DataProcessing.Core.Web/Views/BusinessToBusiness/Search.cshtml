@@ -10,7 +10,7 @@
     <div class="col-sm-12">
         <div class="card-box">
             <h4 class="m-t-0 header-title"><b>Business to Business </b></h4>
-            <p class="text-muted m-b-30 font-13">
+            <p class="text-muted font-13">
                 You can use this below search critiria to filter
             </p>
             <div class="row">
@@ -20,19 +20,19 @@
                             <div class="form-group">
                                 <label>Country</label>
                                 <select asp-for="SearchBlock.CountryId" id="b2bCountry"
-                                        class=form-control multiple placeholder="Please select"
+                                        class="form-control customDropDown"  multiple placeholder="Please select"
                                         asp-items="@Model.SearchBlock.Country"></select>
                             </div>
                             <div class="form-group">
                                 <label>State</label>
                                 <select asp-for="SearchBlock.StateId" id="b2bState"
-                                        class=form-control multiple placeholder="Please select"
+                                        class="form-control customDropDown" multiple placeholder="Please select"
                                         asp-items="@Model.SearchBlock.State"></select>
                             </div>
                             <div class="form-group">
                                 <label>Area</label>
                                 <select asp-for="SearchBlock.AreaId" id="b2bArea"
-                                        class=form-control multiple placeholder="Please select"
+                                        class="form-control customDropDown" multiple placeholder="Please select"
                                         asp-items="@Model.SearchBlock.Area"></select>
                             </div>
                         </form>
@@ -46,19 +46,19 @@
                             <div class="form-group">
                                 <label>City</label>
                                 <select asp-for="SearchBlock.CityId" id="b2bCity"
-                                        class=form-control multiple placeholder="Please select"
+                                        class="form-control customDropDown" multiple placeholder="Please select"
                                         asp-items="@Model.SearchBlock.City"></select>
                             </div>
                             <div class="form-group">
                                 <label>Business Category</label>
                                 <select asp-for="SearchBlock.BusinessCategoryId" id="b2bCategory"
-                                        class=form-control multiple placeholder="Please select"
+                                        class="form-control customDropDown" multiple placeholder="Please select"
                                         asp-items="@Model.SearchBlock.BusinessCategory"></select>
                             </div>
                             <div class="form-group">
                                 <label>Desigination</label>
                                 <select asp-for="SearchBlock.DesiginationId" id="b2bDesigination"
-                                        class=form-control multiple placeholder="Please select"
+                                        class="form-control customDropDown" multiple placeholder="Please select"
                                         asp-items="@Model.SearchBlock.Desigination"></select>
                             </div>
                         </form>
@@ -66,9 +66,9 @@
                 </div>
 
 
-                <div>
-                    <div>
-                        <div class="form-group m-b-0" style="margin-top:50px;">
+                <div class="col-md-6">
+                    <div class="p-20">
+                        <div class="form-group m-b-0">
                             <button type="button" id="btnBusinessToBusinessSearch" class="btn btn-primary waves-effect waves-light">Search</button>
                         </div>
                     </div>
@@ -136,7 +136,7 @@
                         </div>
                     </div>
                     <div class="alert alert-danger" style="display:none;" id="searchRequestMessage">
-                        
+
                     </div>
                 </div>
 
@@ -150,3 +150,11 @@
 </div>
 <script src="~/assets/js/jquery.min.js"></script>
 <script src="~/js/BusinessToBusiness.js"></script>
+<script src="~/assets/plugins/fSelect.js"></script>
+<script>
+    (function ($) {
+        $(function () {
+            window.fs_test = $('.customDropDown').fSelect();
+        });
+    })(jQuery);
+</script>

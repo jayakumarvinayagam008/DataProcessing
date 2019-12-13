@@ -40,7 +40,8 @@ namespace DataProcessing.Application.NumberLookup.Query
             {
                 Circle = x.Circle,
                 Operator = x.Operator,
-                Phone = x.Series
+                Phone = x.Series,
+                SeriesId = x.Id.ToString()
             });
             return numbersDetail.AsEnumerable();
         }

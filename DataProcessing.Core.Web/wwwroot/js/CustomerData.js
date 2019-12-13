@@ -1,4 +1,12 @@
-﻿$(document).ready(function (eve) {
+﻿$(window).load(function () {
+    $("#divLoading").hide();
+});
+$(function () {
+    // Handler for .ready() called.
+    $("#divLoading").show();
+});
+
+$(document).ready(function (eve) {
     //$("#divLoading").show();
 
     $('#btnCustomerDataSearch').on('click', function (eve) {

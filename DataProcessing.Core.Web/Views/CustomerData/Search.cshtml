@@ -5,13 +5,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h4>Search</h4>
-
 <div class="row">
     <div class="col-sm-12">
         <div class="card-box">
-            <h4 class="m-t-0 header-title"><b>Customer Data </b></h4>
-            <p class="text-muted m-b-30 font-13">
+            <h4 class="m-t-0 header-title"><b>Customer Data Search </b></h4>
+            <p class="text-muted font-10">
                 You can use this below search critiria to filter
             </p>
             <div class="row">
@@ -21,27 +19,27 @@
                             <div class="form-group">
                                 <label>Country</label>
                                 <select asp-for="CountryId" id="customerCountry"
-                                        class=form-control multiple placeholder="Please select"
+                                        class="form-control customDropDown" multiple placeholder="Please select"
                                         asp-items="@Model.Country"></select>
                             </div>
                             <div class="form-group">
                                 <label>State</label>
                                 <select asp-for="StateId" id="customerState"
-                                        class=form-control multiple placeholder="Please select"
+                                        class="form-control customDropDown" multiple placeholder="Please select"
                                         asp-items="@Model.State"></select>
                             </div>
                             <div class="form-group">
                                 <label>Network</label>
                                 <select asp-for="NetWorkId" id="customerNetwork"
-                                        class=form-control multiple placeholder="Please select"
+                                        class="form-control customDropDown" multiple placeholder="Please select"
                                         asp-items="@Model.NetWork"></select>
                             </div>
                             @*<div class="form-group">
-                                <label>Customer</label>
-                                <select asp-for="CustomerId" id="customerName"
-                                        class=form-control multiple placeholder="Please select"
-                                        asp-items="@Model.CustomerName"></select>
-                            </div>*@
+                                    <label>Customer</label>
+                                    <select asp-for="CustomerId" id="customerName"
+                                            class=form-control multiple placeholder="Please select"
+                                            asp-items="@Model.CustomerName"></select>
+                                </div>*@
                         </form>
                     </div>
                 </div>
@@ -53,20 +51,20 @@
                             <div class="form-group">
                                 <label>City</label>
                                 <select asp-for="CityId" id="customerCity"
-                                        class=form-control multiple placeholder="Please select"
+                                        class="form-control customDropDown" multiple placeholder="Please select"
                                         asp-items="@Model.City"></select>
                             </div>
 
                             <div class="form-group">
                                 <label>BusinessVertical</label>
                                 <select asp-for="BusinessVerticalId" id="customerVertical"
-                                        class=form-control multiple placeholder="Please select"
+                                        class="form-control customDropDown" multiple placeholder="Please select"
                                         asp-items="@Model.BusinessVertical"></select>
                             </div>
                             <div class="form-group">
                                 <label>Data Quality</label>
                                 <select asp-for="CustomerId" id="customerName"
-                                        class=form-control multiple placeholder="Please select"
+                                        class="form-control customDropDown" multiple placeholder="Please select"
                                         asp-items="@Model.CustomerName"></select>
                             </div>
                         </form>
@@ -74,9 +72,9 @@
                 </div>
 
 
-                <div>
-                    <div>
-                        <div class="form-group m-b-0" style="margin-top:50px;">
+                <div class="col-md-6">
+                    <div class="p-20">
+                        <div class="form-group m-b-0">
                             <button type="button" id="btnCustomerDataSearch" class="btn btn-primary waves-effect waves-light">Search</button>
                         </div>
                     </div>
@@ -159,3 +157,11 @@
 
 <script src="~/assets/js/jquery.min.js"></script>
 <script src="~/js/CustomerData.js"></script>
+<script src="~/assets/plugins/fSelect.js"></script>
+<script>
+    (function ($) {
+        $(function () {
+            window.fs_test = $('.customDropDown').fSelect();
+        });
+    })(jQuery);
+</script>

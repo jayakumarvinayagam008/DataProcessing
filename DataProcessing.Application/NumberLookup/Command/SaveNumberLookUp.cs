@@ -28,8 +28,9 @@ namespace DataProcessing.Application.NumberLookup.Command
                     worksheet.Cells[rowIndex, 1].Value = (item.Phone);
                     worksheet.Cells[rowIndex, 2].Value = (item.Circle);
                     worksheet.Cells[rowIndex, 3].Value = (item.Operator);
-                    rowIndex++;
+                    rowIndex++;                    
                 }
+                worksheet.Cells["A1:A5"].Style.Numberformat.Format = "@";
                 fileName = $"{GetGUID()}";
                 FileInfo excelFile = new FileInfo($"{rootPath}{fileName}.xlsx");
                 excel.SaveAs(excelFile);

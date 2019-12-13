@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace DataProcessing.Core.Web.Models
 {
@@ -9,6 +10,7 @@ namespace DataProcessing.Core.Web.Models
         public string Series { get; set; }
         public bool IsUploaded { get; set; }
         public string UploadMessage { get; set; }
+        public string SeriesId { get; set; }
 
         public IEnumerable<NumberLookup> AvilableSeries { get; set; }
 

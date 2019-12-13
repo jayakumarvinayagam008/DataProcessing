@@ -5,12 +5,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h4>Search</h4>
 <div class="row">
     <div class="col-sm-12">
         <div class="card-box">
             <h4 class="m-t-0 header-title"><b>Business to Customer </b></h4>
-            <p class="text-muted m-b-30 font-13">
+            <p class="text-muted font-13">
                 You can use this below search critiria to filter
             </p>
             <div class="row">
@@ -20,25 +19,25 @@
                             <div class="form-group">
                                 <label>Country</label>
                                 <select asp-for="CountryId" id="b2cCountry"
-                                        class=form-control multiple placeholder="Please select"
+                                        class="form-control customDropDown" multiple placeholder="Please select"
                                         asp-items="@Model.Country"></select>
                             </div>
                             <div class="form-group">
                                 <label>City</label>
                                 <select asp-for="CityId" id="b2cCity"
-                                        class=form-control multiple placeholder="Please select"
+                                        class="form-control customDropDown" multiple placeholder="Please select"
                                         asp-items="@Model.City"></select>
                             </div>
                             <div class="form-group">
                                 <label>Role</label>
                                 <select asp-for="RoleId" id="b2cRole"
-                                        class=form-control multiple placeholder="Please select"
+                                        class="form-control customDropDown" multiple placeholder="Please select"
                                         asp-items="@Model.Roles"></select>
                             </div>
                             <div class="form-group">
                                 <label>Age</label>
                                 <select asp-for="AgeId" id="b2cAge"
-                                        class=form-control multiple placeholder="Please select"
+                                        class="form-control customDropDown" multiple placeholder="Please select"
                                         asp-items="@Model.Ages"></select>
                             </div>
                         </form>
@@ -52,26 +51,26 @@
                             <div class="form-group">
                                 <label>State</label>
                                 <select asp-for="StateId" id="b2cState"
-                                        class=form-control multiple placeholder="Please select"
+                                        class="form-control customDropDown" multiple placeholder="Please select"
                                         asp-items="@Model.State"></select>
                             </div>
 
                             <div class="form-group">
                                 <label>Area</label>
                                 <select asp-for="AreaId" id="b2cArea"
-                                        class=form-control multiple placeholder="Please select"
+                                        class="form-control customDropDown" multiple placeholder="Please select"
                                         asp-items="@Model.Area"></select>
                             </div>
                             <div class="form-group">
                                 <label>Salary</label>
                                 <select asp-for="SalaryId" id="b2cSalary"
-                                        class=form-control multiple placeholder="Please select"
+                                        class="form-control customDropDown" multiple placeholder="Please select"
                                         asp-items="@Model.Salaries"></select>
                             </div>
                             <div class="form-group">
                                 <label>Experience</label>
                                 <select asp-for="ExpercinseId" id="b2cExperience"
-                                        class=form-control multiple placeholder="Please select"
+                                        class="form-control customDropDown" multiple placeholder="Please select"
                                         asp-items="@Model.Expercinse"></select>
                             </div>
                         </form>
@@ -79,85 +78,95 @@
                 </div>
 
 
-                <div>
-                    <div>
-                        <div class="form-group m-b-0" style="margin-top:50px;">
+                <div class="col-md-6">
+                    <div class="p-20">
+                        <div class="form-group m-b-0">
                             <button type="button" id="btnBusinessToCustomerSearch" class="btn btn-primary waves-effect waves-light">Search</button>
                         </div>
                     </div>
 
+                </divclass="col-md-6">
+            </div>
+        </div>
+    </div>
+</div>
+<div id="divBlock" style="display:none">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card-box">
+                <p class="text-muted m-b-30 font-13">
+                    Search summary, you can download the complete by using download either excel or csv.
+                </p>
+
+                <div class="row">
+                    <div class="col-md-4 col-xl-4">
+                        <div class="card-box">
+                            <div class="bar-widget">
+                                <div class="table-box">
+                                    <div class="table-detail">
+                                        <div class="iconbox bg-custom">
+                                            <i class="icon-trophy"></i>
+                                        </div>
+                                    </div>
+
+                                    <div class="table-detail">
+                                        <h4 class="m-t-0 m-b-5 font-18"><b>Total</b></h4>
+                                        <h5 id="total" class="text-muted m-b-0 m-t-0"></h5>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-xl-4">
+                        <div class="card-box">
+                            <div class="bar-widget">
+                                <div class="table-box">
+                                    <div class="table-detail">
+                                        <div class="iconbox bg-custom">
+                                            <i class="icon-trophy"></i>
+                                        </div>
+                                    </div>
+
+                                    <div class="table-detail">
+                                        <h4 class="m-t-0 m-b-5 font-18"><b>Result</b></h4>
+                                        <h5 id="searchTotal" class="text-muted m-b-0 m-t-0"></h5>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-xl-4">
+                        <div class="btn-group dropdown show">
+                            <button type="button" class="btn btn-success waves-effect waves-light">Download</button>
+                            <button type="button" class="btn btn-success dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="true"><i class="caret"></i></button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" id="excelDown" href="#">Excel</a>
+                                <a class="dropdown-item" id="csvDown" href="#">CSV</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="alert alert-danger" style="display:none;" id="searchRequestMessage">
+
+                    </div>
+                </div>
+
+                <div class="row" style="max-height: 265px;overflow-y: scroll;">
+                    <div class="col-md-12 col-xl-12" id="dashboard">
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-sm-12">
-        <div class="card-box">
-            <p class="text-muted m-b-30 font-13">
-                You can use this below search critiria to filter
-            </p>
-
-            <div class="row">
-                <div class="col-md-4 col-xl-4">
-                    <div class="card-box">
-                        <div class="bar-widget">
-                            <div class="table-box">
-                                <div class="table-detail">
-                                    <div class="iconbox bg-custom">
-                                        <i class="icon-trophy"></i>
-                                    </div>
-                                </div>
-
-                                <div class="table-detail">
-                                    <h4 class="m-t-0 m-b-5 font-18"><b>Total</b></h4>
-                                    <h5 id="total" class="text-muted m-b-0 m-t-0"></h5>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 col-xl-4">
-                    <div class="card-box">
-                        <div class="bar-widget">
-                            <div class="table-box">
-                                <div class="table-detail">
-                                    <div class="iconbox bg-custom">
-                                        <i class="icon-trophy"></i>
-                                    </div>
-                                </div>
-
-                                <div class="table-detail">
-                                    <h4 class="m-t-0 m-b-5 font-18"><b>Result</b></h4>
-                                    <h5 id="searchTotal" class="text-muted m-b-0 m-t-0"></h5>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 col-xl-4">
-                    <div class="btn-group dropdown show">
-                        <button type="button" class="btn btn-success waves-effect waves-light">Download</button>
-                        <button type="button" class="btn btn-success dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="true"><i class="caret"></i></button>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" id="excelDown" href="#">Excel</a>
-                            <a class="dropdown-item" id="csvDown" href="#">CSV</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="alert alert-danger" style="display:none;" id="searchRequestMessage">
-
-                </div>
-            </div>
-
-            <div class="row" style="max-height: 265px;overflow-y: scroll;">
-                <div class="col-md-12 col-xl-12" id="dashboard">
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<script src="~/assets/js/jquery.min.js"></script>
-<script src="~/js/BusinessToCustomer.js"></script>
+    <script src="~/assets/js/jquery.min.js"></script>
+    <script src="~/js/BusinessToCustomer.js"></script>
+    <script src="~/assets/plugins/fSelect.js"></script>
+    <script>
+        (function ($) {
+            $(function () {
+                window.fs_test = $('.customDropDown').fSelect();
+            });
+        })(jQuery);
+    </script>

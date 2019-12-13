@@ -35,6 +35,14 @@ namespace DataProcessing.Application.B2B.Command
             string fileCsvType = "csv";
             var filePath = $"{fileRootPath}{fileName}.{fileType}";
             var fileCsvPath = $"{fileRootPath}{fileName}.{fileCsvType}";
+
+            var watch = new System.Diagnostics.Stopwatch();
+            var jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(businessToBusinesses);
+            //JsonConvert.SerializeObject(movie)
+            File.WriteAllText($"{fileRootPath}{fileName}.json", jsonString);
+            watch.Stop();
+            Console.WriteLine($"Execution Time: {watch.ElapsedMilliseconds} ms");
+
             // db insert
             var createdOn = DateTime.Now;
             var searchRequest = new List<DownloadRequest>() {

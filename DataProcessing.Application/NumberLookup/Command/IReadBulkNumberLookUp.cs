@@ -11,6 +11,8 @@ namespace DataProcessing.Application.NumberLookup.Command
     public interface IReadBulkNumberLookUp
     {
         bool Process(string filepath);
+        bool Remove(string _id);
+        bool Update(string _id, Numbers numbers);
     }
 
     public class ReadBulkNumberLookUp : IReadBulkNumberLookUp
@@ -80,6 +82,24 @@ namespace DataProcessing.Application.NumberLookup.Command
             if (!string.IsNullOrWhiteSpace(header) && long.TryParse(header, out long val))
                 return 1;
             return 2;
+        }
+
+        public bool Remove(string _id)
+        {
+            return _numberLookupRepository.Remove(_id).Result;
+        }
+
+        public bool Update(string _id, Numbers numbers)
+        {
+            var updateData = new DataProcessing.Persistence.NumberLookup()
+            {
+                Series = numbers.Series,
+                Operator = numbers.Operator,
+                Circle = numbers.Circle,
+                CreatedBy = "Admin",
+                CreatedDate = DateTime.Now
+            };
+            return _numberLookupRepository.UpdateAsync(updateData, _id).Result;
         }
     }
 

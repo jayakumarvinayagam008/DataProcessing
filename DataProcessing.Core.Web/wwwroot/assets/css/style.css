@@ -409,7 +409,7 @@ a:focus {
     background-clip: padding-box;
     background-color: #ffffff;
     color: #505458;
-    height:350px;
+    height:auto;
 }
 
 /* Grid page */
@@ -7881,4 +7881,16 @@ textarea.form-control {
 }
 .extraSpace{
     margin-top:12px;
+}
+
+.avilableOperatorBox
+{
+    height:auto !important;
+}
+
+.not-active {
+    pointer-events: none;
+    cursor: default;
+    text-decoration: none;
+    color: black;
 }

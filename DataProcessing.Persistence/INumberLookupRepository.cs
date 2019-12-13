@@ -1,4 +1,6 @@
-﻿using MongoDB.Driver;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -13,6 +15,8 @@ namespace DataProcessing.Persistence
         Task<IEnumerable<NumberLookup>> GetNumberLookup();
 
         Task<long> GetTotalDocument();
+        Task<bool> Remove(string _id);
+        Task<bool> UpdateAsync(NumberLookup numberLookup, string _id);
     }
 
     public class NumberLookupRepository : INumberLookupRepository
@@ -50,6 +54,27 @@ namespace DataProcessing.Persistence
         {
             var totalDocument = _context.NumberLookups.Find(_ => true).CountDocuments();
             return await Task.FromResult(totalDocument);
+        }
+
+        public async Task<bool> Remove(string _id)
+        {
+            var builder = Builders<NumberLookup>.Filter;
+            var filter = builder.Eq("_id", _id);            
+            var deleteResult = _context.NumberLookups.DeleteOne(x=> x.Id == ObjectId.Parse(_id));
+            return await Task.FromResult(deleteResult.DeletedCount > 0);
+        }
+
+        public async Task<bool> UpdateAsync(NumberLookup numberLookup, string _id)
+        {
+            FilterDefinition<NumberLookup> filterDefinition = new BsonDocument("_id", ObjectId.Parse(_id));            
+            var updateDefinition = Builders<NumberLookup>.Update
+               .Set(m => m.Operator, numberLookup.Operator)
+               .Set(p => p.Series, numberLookup.Series)
+               .Set(p => p.Circle, numberLookup.Circle)
+               .Set(p => p.CreatedDate, numberLookup.CreatedDate)
+               .Set(p => p.CreatedBy, numberLookup.CreatedBy);            
+            var updateResult = await _context.NumberLookups.UpdateOneAsync(filterDefinition, updateDefinition);
+            return await Task.FromResult(updateResult.ModifiedCount > 0);
         }
     }
 }

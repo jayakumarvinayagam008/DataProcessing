@@ -44,7 +44,8 @@
                 window.location = '/NumberLookup/DownLoadNumberLookup/?fileName=' + fileName;
             },
             complete: function () {
-                $("#divLoading").hide();
+                $("#divLoading").hide();  
+                $("#txtPhone").val('');
             }
         });
     });
@@ -62,3 +63,5 @@
         }
     });
 });
+
+

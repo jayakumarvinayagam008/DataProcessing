@@ -11,6 +11,7 @@
     <link href="~/assets/css/bootstrap-table.min.css" rel="stylesheet" />
     <link href="~/assets/fonts/font-awesome.css" rel="stylesheet" />
     <script src="~/assets/js/modernizr.min.js"></script>
+    <link href="~/assets/css/fSelect.css" rel="stylesheet" />
     <style type="text/css">
         #divLoading {
             margin: 0px;
@@ -41,7 +42,7 @@
             <!-- LOGO -->
             <div class="topbar-left">
                 <div class="text-center">
-                    <a asp-controller="Home" asp-action="Index"  class="logo">
+                    <a asp-controller="Home" asp-action="Index" class="logo">
                         <img src="~/assets/images/download.png" />
                         @*<i class="icon-magnet icon-c-logo"></i>
                             <span>Ub<i class="md md-album"></i>ld</span>*@
@@ -69,10 +70,10 @@
                                 <h5 class="text-overflow"><small>Welcome ! John</small> </h5>
                             </div>
                             <!-- item-->
-                            <a asp-controller="DataProcessAuthentication" asp-action="Logout"class="dropdown-item notify-item">
+                            <a asp-controller="DataProcessAuthentication" asp-action="Logout" class="dropdown-item notify-item">
                                 <i class="zmdi zmdi-power"></i>
-                                    <span>Logout</span>
-                                </a>
+                                <span>Logout</span>
+                            </a>
 
                         </div>
                     </li>
@@ -104,53 +105,60 @@
 
                         <li class="has_sub">
                             <a asp-controller="Home" asp-action="Index" class="waves-effect">
-                            <i class="ti-home"></i>Home</a>
-                          
+                                <i class="ti-home"></i>Home
+                            </a>
+
                         </li>
 
                         <li class="has_sub">
-                            <a href="javascript:void(0);" class="waves-effect"><i class="ti-paint-bucket"></i> <span> B2B</span> 
-                            <span class="menu-arrow"></span> </a>
+                            <a href="javascript:void(0);" class="waves-effect">
+                                <i class="icon-loop"></i> <span> B2B</span>
+                                <span class="menu-arrow"></span>
+                            </a>
                             <ul class="list-unstyled">
-                                <li><a asp-controller="BusinessToBusiness" asp-action="Index">Dashboard</a></li>
-                                <li><a asp-controller="BusinessToBusiness" asp-action="Upload">Upload</a></li>
-                                <li><a asp-controller="BusinessToBusiness" asp-action="Search">Search</a></li>
+                                @*<li><a asp-controller="BusinessToBusiness" asp-action="Index">Dashboard</a></li>*@
+                                <li><a asp-controller="BusinessToBusiness" asp-action="Upload"> <i class="ion-ios7-upload-outline"></i>Upload</a></li>
+                                <li><a asp-controller="BusinessToBusiness" asp-action="Search"> <i class="ti-eye"></i>Search</a></li>
                                 @*<li><a asp-controller="BusinessToBusiness" asp-action="Summary">Summary</a></li>*@
                             </ul>
                         </li>
 
                         <li class="has_sub">
                             <a href="javascript:void(0);" class="waves-effect">
-                                <i class="ti-spray"></i> <span> B2C </span>
+                                <i class="icon-shuffle"></i> <span> B2C </span>
                                 <span class="menu-arrow"></span>
                             </a>
                             </a>
                             <ul class="list-unstyled">
-                                <li><a asp-controller="BusinessToCustomer" asp-action="Index">Dashboard</a></li>
-                                <li><a asp-controller="BusinessToCustomer" asp-action="Upload">Upload</a></li>
-                                <li><a asp-controller="BusinessToCustomer" asp-action="Search">Search</a></li>
+                                @*<li><a asp-controller="BusinessToCustomer" asp-action="Index">Dashboard</a></li>*@
+                                <li><a asp-controller="BusinessToCustomer" asp-action="Upload"><i class="ion-ios7-upload-outline"></i>Upload</a></li>
+                                <li><a asp-controller="BusinessToCustomer" asp-action="Search"><i class="ti-eye"></i>Search</a></li>
                                 @*<li><a asp-controller="BusinessToCustomer" asp-action="Summary">Summary</a></li>*@
                             </ul>
                         </li>
 
                         <li class="has_sub">
-                            <a href="javascript:void(0);" class="waves-effect"><i class="ti-spray"></i> <span> Customer Data </span> 
-                            <span class="menu-arrow"></span> </a>
+                            <a href="javascript:void(0);" class="waves-effect">
+                                <i class=" ti-reload"></i> <span> Customer Data </span>
+                                <span class="menu-arrow"></span>
+                            </a>
                             <ul class="list-unstyled">
-                                <li><a asp-controller="CustomerData" asp-action="Index">Dashboard</a></li>
-                                <li><a asp-controller="CustomerData" asp-action="Upload">Upload</a></li>
-                                <li><a asp-controller="CustomerData" asp-action="Search">Search</a></li>
+                                @*<li><a asp-controller="CustomerData" asp-action="Index">Dashboard</a></li>*@
+                                <li><a asp-controller="CustomerData" asp-action="Upload"><i class="ion-ios7-upload-outline"></i>Upload</a></li>
+                                <li><a asp-controller="CustomerData" asp-action="Search"><i class="ti-eye"></i>Search</a></li>
                                 @*<li><a asp-controller="CustomerData" asp-action="Summary">Summary</a></li>*@
 
                             </ul>
                         </li>
 
                         <li class="has_sub">
-                            <a href="javascript:void(0);" class="waves-effect"><i class="ti-pencil-alt"></i><span> Number Lookup </span> 
-                            <span class="menu-arrow"></span></a>
+                            <a href="javascript:void(0);" class="waves-effect">
+                                <i class="ti-pencil-alt"></i><span> Number Lookup </span>
+                                <span class="menu-arrow"></span>
+                            </a>
                             <ul class="list-unstyled">
-                                <li><a asp-controller="NumberLookup" asp-action="Index">Lookup</a></li>
-                                <li><a asp-controller="NumberLookup" asp-action="AddLookup">Add Lookup</a></li>
+                                <li><a asp-controller="NumberLookup" asp-action="Index"><i class="ti-loop"></i>Lookup</a></li>
+                                <li><a asp-controller="NumberLookup" asp-action="AddLookup"><i class=" typcn typcn-document-add"></i>Add Lookup</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -215,3 +223,4 @@
     @RenderSection("Scripts", required: false)
 </body>
 </html>
+
