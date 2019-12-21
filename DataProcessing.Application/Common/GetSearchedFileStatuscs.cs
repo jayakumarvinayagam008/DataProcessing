@@ -20,7 +20,7 @@ namespace DataProcessing.Application.Common
             if (status.Result != null && status.Result.StatusCode == (int)FileCreateStatus.Completed 
                 && (File.Exists(filePath) || Directory.Exists(Path.ChangeExtension(filePath, null))))
                 return new FileAvailable() { IsAvailable = true, Message = string.Empty };
-            return new FileAvailable() { IsAvailable = false, Message = MessageContainer.SearchFile };
+            return new FileAvailable() { IsAvailable = true, Message = MessageContainer.SearchFile };
         }
     }
 }

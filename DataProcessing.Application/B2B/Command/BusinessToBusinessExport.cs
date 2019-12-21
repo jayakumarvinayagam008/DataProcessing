@@ -36,12 +36,7 @@ namespace DataProcessing.Application.B2B.Command
             var filePath = $"{fileRootPath}{fileName}.{fileType}";
             var fileCsvPath = $"{fileRootPath}{fileName}.{fileCsvType}";
 
-            var watch = new System.Diagnostics.Stopwatch();
-            var jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(businessToBusinesses);
-            //JsonConvert.SerializeObject(movie)
-            File.WriteAllText($"{fileRootPath}{fileName}.json", jsonString);
-            watch.Stop();
-            Console.WriteLine($"Execution Time: {watch.ElapsedMilliseconds} ms");
+            
 
             // db insert
             var createdOn = DateTime.Now;
@@ -112,7 +107,15 @@ namespace DataProcessing.Application.B2B.Command
                     CategoryName = y.Any() ? y.FirstOrDefault().Name : string.Empty
                 }).ToList();
 
-            if(businessToBusinessModels.Count() > zipFileRange)
+
+            //var watch = new System.Diagnostics.Stopwatch();
+            var jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(businessToBusinessModels);
+            //JsonConvert.SerializeObject(movie)
+            File.WriteAllText($"{fileRootPath}{fileName}.json", jsonString);
+            //watch.Stop();
+            //Console.WriteLine($"Execution Time: {watch.ElapsedMilliseconds} ms");
+            /*
+            if (businessToBusinessModels.Count() > zipFileRange)
             {
                 var folderPath = $"{fileRootPath}{fileName}";
                 var excelFolder = $"{folderPath}{"Excel"}";
@@ -150,7 +153,7 @@ namespace DataProcessing.Application.B2B.Command
                 _downloadRequestRepository.CreateAsync(searchRequest).Wait();
                 Task.Run(() => _createExcel.Create(businessToBusinessModels, filePath, range, searchRequest[0]));
                 Task.Run(() => _createCsv.Create(businessToBusinessModels, fileCsvPath, searchRequest[1]));
-            }
+            }*/
 
             return new Tuple<string, string>(searchRequest[0].SearchId, searchRequest[1].SearchId);
         }

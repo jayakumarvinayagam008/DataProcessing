@@ -11,6 +11,7 @@ namespace DataProcessing.Core.Web
         public string SampleDownloadPath { get; set; }
         public string NumberLookup { get; set; }
         public string SearchExport { get; set; }
+        public string DownLoadPath { get; set; }
         public int RowRange { get; set; }
         public string[] Samples { get; set; }
         public int ZipFileRange { get; set; }

@@ -91,7 +91,7 @@ namespace DataProcessing.Core.Web.Controllers
         public ActionResult DownLoadAsExcel(string searchId)
         {
             var fileName = $"{searchId}";
-            var rootPath = _appSettings.Value.SearchExport;
+            var rootPath = _appSettings.Value.DownLoadPath;
             var filePath = $"{rootPath}{fileName}.xlsx";            
             var sampleTempate = new GetFileContent().GetFile(filePath);
             var templateName = "B2B";
@@ -102,7 +102,7 @@ namespace DataProcessing.Core.Web.Controllers
         public ActionResult DownLoadAsCsv(string searchId)
         {
             var fileName = $"{searchId}";
-            var rootPath = _appSettings.Value.SearchExport;
+            var rootPath = _appSettings.Value.DownLoadPath;
             var filePath = $"{rootPath}{fileName}.csv";
             var sampleTempate = new GetFileContent().GetFile(filePath);
             var templateName = "B2B";
@@ -113,7 +113,7 @@ namespace DataProcessing.Core.Web.Controllers
         public ActionResult CheckSearchFileAvailable(SearchRequestCheck searchRequestCheck)
         {
             var fileName = $"{searchRequestCheck.SearchId}";
-            var rootPath = _appSettings.Value.SearchExport;
+            var rootPath = _appSettings.Value.DownLoadPath;
             var filePath = $"{rootPath}{fileName}.{ searchRequestCheck.Type} ";
             var fileType = GetFileType(searchRequestCheck.Type);
             var fileStatus = _getSearchedFileStatuscs.FileExist(searchRequestCheck.SearchId, fileType, filePath);
