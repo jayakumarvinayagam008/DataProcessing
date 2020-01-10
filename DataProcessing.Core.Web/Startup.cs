@@ -9,6 +9,7 @@ using DataProcessing.Application.CustomerDate.Query;
 using DataProcessing.Application.Home.Queries;
 using DataProcessing.Application.NumberLookup.Command;
 using DataProcessing.Application.NumberLookup.Query;
+using DataProcessing.Application.RedisRepository;
 using DataProcessing.Persistence;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -135,6 +136,9 @@ namespace DataProcessing.Core.Web
             services.AddScoped<INumberLookupResultRepository, NumberLookupResultRepository>();
             services.AddScoped<ISaveNumberLookupResult, SaveNumberLookupResult>();
             services.AddScoped<IGetPhoneNetwork, GetPhoneNetwork>();
+
+            services.AddScoped<IIndustryRepository, IndustryRepository>();
+            services.AddScoped<IRedisRepository, RedisRepository>();
             
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

@@ -13,5 +13,8 @@ namespace DataProcessing.CommonModels
         public IEnumerable<SelectListItem> CustomerName { get; set; }
         public int DataQualityId { get; set; }
         public IEnumerable<SelectListItem> DataQuality { get; set; }
+
+        public int IndustryId { get; set; }
+        public IEnumerable<SelectListItem> Industries { get; set; }
     }
 }

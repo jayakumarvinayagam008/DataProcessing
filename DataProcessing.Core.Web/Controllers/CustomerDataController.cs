@@ -1,15 +1,18 @@
 ﻿using DataProcessing.Application.Common;
 using DataProcessing.Application.CustomerDate.Command;
 using DataProcessing.Application.CustomerDate.Query;
+using DataProcessing.Application.RedisRepository;
 using DataProcessing.CommonModels;
 using DataProcessing.Core.Web.Actions;
 using DataProcessing.Core.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -23,16 +26,19 @@ namespace DataProcessing.Core.Web.Controllers
         private readonly ICustomerDataSearchBlock _customerDataSearchBlock;
         private readonly ICustomerDataSearchAction _customerDataSearchAction;
         private readonly IGetSearchedFileStatuscs _getSearchedFileStatuscs;
+        private readonly IIndustryRepository _industryRepository;
 
         public CustomerDataController(IOptions<DataProcessingSetting> appSettings,
             ISaveCustomerData saveCustomerData, ICustomerDataSearchBlock customerDataSearchBlock,
-            ICustomerDataSearchAction customerDataSearchAction, IGetSearchedFileStatuscs getSearchedFileStatuscs)
+            ICustomerDataSearchAction customerDataSearchAction, IGetSearchedFileStatuscs getSearchedFileStatuscs
+            , IIndustryRepository industryRepository )
         {
             _appSettings = appSettings;
             _saveCustomerData = saveCustomerData;
             _customerDataSearchBlock = customerDataSearchBlock;
             _customerDataSearchAction = customerDataSearchAction;
             _getSearchedFileStatuscs = getSearchedFileStatuscs;
+            _industryRepository = industryRepository;
         }
 
         // GET: /<controller>/
@@ -44,6 +50,15 @@ namespace DataProcessing.Core.Web.Controllers
         public IActionResult Search()
         {
             var bindResult = _customerDataSearchBlock.BindSearchBlock();
+            
+            //var hashsubIndustryKey = "hashSubIndustry";
+            //bindResult.Industries = _industryRepository.Get(hashsubIndustryKey)
+            //    .Select(x => new SelectListItem()
+            //            {
+            //                Value = x.Key,
+            //                Text = x.Value
+            //            }).AsEnumerable();
+
             return View(bindResult);
         }
 

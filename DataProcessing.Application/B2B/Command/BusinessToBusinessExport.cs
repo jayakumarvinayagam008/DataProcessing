@@ -109,12 +109,12 @@ namespace DataProcessing.Application.B2B.Command
 
 
             //var watch = new System.Diagnostics.Stopwatch();
-            var jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(businessToBusinessModels);
+            // ->>var jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(businessToBusinessModels);
             //JsonConvert.SerializeObject(movie)
-            File.WriteAllText($"{fileRootPath}{fileName}.json", jsonString);
+            // ->>File.WriteAllText($"{fileRootPath}{fileName}.json", jsonString);
             //watch.Stop();
             //Console.WriteLine($"Execution Time: {watch.ElapsedMilliseconds} ms");
-            /*
+            
             if (businessToBusinessModels.Count() > zipFileRange)
             {
                 var folderPath = $"{fileRootPath}{fileName}";
@@ -153,7 +153,7 @@ namespace DataProcessing.Application.B2B.Command
                 _downloadRequestRepository.CreateAsync(searchRequest).Wait();
                 Task.Run(() => _createExcel.Create(businessToBusinessModels, filePath, range, searchRequest[0]));
                 Task.Run(() => _createCsv.Create(businessToBusinessModels, fileCsvPath, searchRequest[1]));
-            }*/
+            }
 
             return new Tuple<string, string>(searchRequest[0].SearchId, searchRequest[1].SearchId);
         }
